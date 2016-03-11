@@ -1,0 +1,56 @@
+---
+
+- name: fetch ngi_pipline from github 
+  git: repo={{ ngi_pipeline_repo }} 
+       dest={{ ngi_pipeline_dest }}
+       version={{ ngi_pipeline_version }}
+  tags: ngi_pipeline 
+
+- name: check if ngi virtual env exists 
+  shell: conda env list | awk '{print $1}' | egrep -e "^NGI$"
+  register: ngi_venv_exists
+  ignore_errors: true
+  tags: ngi_pipeline
+
+- name: setup virtual env and install dependencies 
+  shell: conda create -n NGI pip sqlalchemy 
+  when: not ngi_venv_exists.stdout 
+  tags: ngi_pipeline
+
+- name: install ngi_pipeline requirements
+  pip:
+      requirements: "{{ ngi_pipeline_dest }}/requirements.txt"
+      chdir: "{{ ngi_pipeline_dest }}"
+      virtualenv: "{{ ngi_pipeline_venv }}"
+      state: present
+      executable: "{{ ngi_pipeline_venv }}/bin/pip"
+  tags: ngi_pipeline
+
+- name: install ngi_pipeline
+  pip:
+      name: .
+      chdir: "{{ ngi_pipeline_dest }}"
+      virtualenv: "{{ ngi_pipeline_venv }}"
+      state: present
+      executable: "{{ ngi_pipeline_venv }}/bin/pip"
+  tags: ngi_pipeline
+
+# TODO: Consider the destination of conf files  
+- name: deploy irma ngi_pipeline config
+  template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/irma_ngi_config.yaml"
+  tags: ngi_pipeline 
+
+- name: deploy bash environment variables 
+  template: src="{{ bash_env_script }}.j2" dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
+  tags: ngi_pipeline  
+
+# TODO: Add step that sources this file in development user's local bash init files. 
+
+- name: deploy fastqc conf for irma 
+  copy: src="fastq_screen.irma.conf" dest="{{ ngi_pipeline_conf }}" 
+  tags: ngi_pipeline 
+
+# TODO: We should download this from somewhere
+- name: deploy human_g1k_v37.fasta for human reference  
+  copy: src="human_g1k_v37.fasta" dest="{{ ngi_pipeline_db }}"
+  tags: ngi_pipeline 

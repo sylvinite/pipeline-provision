@@ -1,0 +1,37 @@
+---
+
+- name: create java destination folder 
+  file: path={{ java_dest }} state=directory
+  tags: ngi_piper 
+
+- name: download oracle jdk archive
+  get_url:
+    url: "{{ java_url }}/{{ java_file }}"
+    headers: 'Cookie:oraclelicense=accept-securebackup-cookie'
+    dest: "{{ java_dest }}/{{ java_file }}"
+  tags: ngi_piper
+
+- name: unpack oracle jdk to destination 
+  unarchive: src={{ java_dest }}/{{ java_file }} dest={{ java_dest }}/ copy=no creates={{ java_path }}/LICENSE
+  tags: ngi_piper
+
+- name: create maven destination folder
+  file: path={{ maven_dest }} state=directory
+  tags: ngi_piper
+
+- name: download maven archive
+  get_url: 
+    url: "{{ maven_url }}"
+    dest: "{{ maven_dest }}/{{ maven_file }}"
+  tags: ngi_piper
+
+- name: unpack maven to destination
+  unarchive: src={{ maven_dest }}/{{ maven_file }} dest={{ maven_dest }}/ copy=no creates={{ maven_path }}/LICENSE
+  tags: ngi_piper
+
+- name: add java and maven to the user's path via sourceme script 
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export PATH={{ java_path }}/bin:{{ maven_path }}/bin:$PATH'
+              backup=yes
+  tags: ngi_piper 
+

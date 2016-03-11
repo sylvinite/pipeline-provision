@@ -1,0 +1,103 @@
+# This file should be placed under $HOME/.ngiconfig/ngi_config.yaml
+# or its path exported as the environment variable NGI_CONFIG
+
+# Pretty fat chance ngi cant write to my user dir; we'll see.
+
+#Setup by "user"
+database:
+    record_tracking_db_path: {{ ngi_pipeline_db }}/isaks_db.sql
+    #record_tracking_db_path: /proj/a2014205/nobackup/sylvin/db.sql
+
+environment:
+    project_id: {{ ngi_pipeline_slurm_project }}
+    #project_id: a2014205
+#Needs to refer to install
+    ngi_scripts_dir: {{ ngi_pipeline_dest }}/scripts 
+    #ngi_scripts_dir: /home/isak/software/ngi_pipeline/scripts
+    conda_env: NGI
+slurm:
+    extra_params:
+        "--qos": "seqver"
+piper:
+    # Also can be set as an environmental variable $PIPER_QSCRIPTS_DIR
+    #Needs to refer to install
+    path_to_piper_qscripts: {{ ngi_piper_bin_dest }}/qscripts
+    #path_to_piper_qscripts: /proj/a2010002/software/piper/qscripts
+    sample:
+        required_autosomal_coverage: 28.4
+    load_modules:
+        - java/sun_jdk1.7.0_25
+        - R/3.2.3
+
+supported_genomes:
+    #"GRCh37": "/apus/data/uppnex/reference/Homo_sapiens/GRCh37/concat/Homo_sapiens.GRCh37.57.dna.concat.fa"
+#Not sure where they come from
+    "GRCh37": "{{ ngi_pipeline_db }}/human_g1k_v37.fasta"
+# TODO: We might want to have this configurable as well, e.g. when developing somewhere else
+    "GRCm38": "/sw/data/uppnex/reference/Mus_musculus/GRCm38/concat/Mus_musculus.GRCm38.69.dna.concat.fa"
+    "rn4": None
+    "saccer2": None
+    "dm3": None
+    "tair9": None
+    "xentro2": None
+    "ws210": None
+    "canfam3": None
+
+analysis:
+    workflows:
+        NGI:
+            analysis_engine: ngi_pipeline.engines.piper_ngi
+        mate_pair:
+            analysis_engine: ngi_pipeline.engines.de_novo_pipeline
+        RNA:
+            analysis_engine: ngi_pipeline.engines.bcbio_ngi
+    best_practice_analysis:
+        whole_genome_reseq:
+            analysis_engine: ngi_pipeline.engines.piper_ngi
+        IGN:
+            analysis_engine: ngi_pipeline.engines.piper_ngi
+        qc:
+            analysis_engine: ngi_pipeline.engines.qc_ngi
+#Setup by user
+    top_dir: nobackup/NGI/
+    #top_dir: nobackup/sylvin/topdir
+#New project numbers for irma
+    sthlm_root: {{ ngi_pipeline_sthlm_delivery }}
+    upps_root: {{ ngi_pipeline_upps_delivery }}
+    #sthlm_root: a2014205
+    #upps_root: 2015001
+    base_root: /proj
+
+qc:
+    load_modules:
+        - bioinfo-tools
+    fastqc:
+        load_modules:
+            - FastQC
+        threads: 16
+    fastq_screen:
+    #Setup by user
+        config_path: "{{ ngi_pipeline_conf }}/fastq_screen.irma.conf"
+        #config_path: "/proj/a2014205/ngi_resources/fastq_screen.nestor.conf"
+        load_modules:
+            - bowtie2
+            - fastq_screen
+        subsample_reads: 200000
+        threads: 1
+
+paths: # Hard code paths here if you are that kind of a person
+    binaries:
+        #bowtie2:
+        #fastqc:
+        #fastq_screen:
+    references:
+
+# FIXME: The purpose of this needs to be investigated further. 
+#
+#Setup by "user"
+#project:
+#    INBOX: /home/isak/software/mailbox
+
+#Setup by user
+#    log: /home/isak/software/mailbox/log
+#    store_dir: /home/isak/software/mailbox/store

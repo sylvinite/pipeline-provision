@@ -1,0 +1,73 @@
+---
+
+- include: prereqs.yml 
+- include: dependencies.yml
+
+- name: fetch piper from github 
+  git: repo={{ ngi_piper_repo }} 
+       dest={{ ngi_piper_src_dest }}
+       version={{ ngi_piper_version }}
+       force=yes
+  tags: ngi_piper
+
+- name: create piper's destination folder 
+  file: name={{ ngi_piper_bin_dest }} state=directory
+  tags: ngi_piper
+
+
+# TODO: This is not needed for developers, so we should only run it for production, 
+# where we do not have a home directory at the moment on irma3. 
+- name: set mvn command line args in piper's setup.sh 
+  lineinfile: 
+    dest: "{{ ngi_piper_src_dest }}/setup.sh"
+    regexp: "mvn package"
+    line: "mvn package {{ maven_args }}"
+# if the user sets home_path then this check is not necessary 
+#  when: ansible_hostname == '127.0.0.1'
+  tags: ngi_piper
+
+- name: set sbt command line args in piper's setup.sh
+  replace: 
+    dest: "{{ ngi_piper_src_dest }}/setup.sh"
+    regexp: "^sbt/bin/sbt pack"
+    replace: "sbt/bin/sbt pack {{ sbt_args }}"
+  tags: ngi_piper
+
+# FIXME: kompilera inte piper varje gång, tar evigheter. 
+# FIXME: Varför hamnar gatk-protected under playbooks-foldern? <-- antagligen pga att jag saknade en cd nedan. 
+# FIXME: sbt-kommandot i ngi_pipeline funkade inte <-- pga saknade args.  
+# FIXME: kör manuellt igenom mvn-kommandot nu, får se om det funkar bättre än via ansible. <-- saknade args och hade fel java. 
+
+# This could be uploaded as a wrapper script if one would prefer that... 
+- name: run piper's setup script 
+  shell: source {{ ngi_pipeline_conf }}/{{ bash_env_script }} && sbt/bin/sbt clean {{ sbt_args }} && ./setup.sh {{ ngi_piper_bin_dest }}
+  args: 
+    chdir: "{{ ngi_piper_src_dest }}"
+    creates: "{{ ngi_piper_bin_dest }}/bin/piper"
+  tags: ngi_piper
+
+- name: add piper path variable to sourceme script 
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export PATH={{ ngi_piper_bin_dest }}/bin:{{ ngi_piper_bin_dest }}/workflows:$PATH'
+              backup=yes
+  tags: ngi_piper 
+
+- name: add piper ld_library_path variable to sourceme script                                       
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export LD_LIBRARY_PATH={{ slurm_drmaa_path }}:$LD_LIBRARY_PATH'
+              backup=yes
+  tags: ngi_piper
+
+- name: add piper sh config variable to sourceme script
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export PIPER_GLOB_CONF={{ ngi_piper_bin_dest }}/workflows/globalConfig.sh'
+              backup=yes
+  tags: ngi_piper
+
+- name: add piper xml config variable to sourceme script
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export PIPER_GLOB_CONF_XML={{ ngi_piper_bin_dest }}/workflows/uppmax_global_config.xml'
+              backup=yes
+  tags: ngi_piper
+
+
