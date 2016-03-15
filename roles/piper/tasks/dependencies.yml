@@ -14,13 +14,12 @@
   unarchive: src="{{ qualimap_dest }}/{{ qualimap_file }}" dest={{ qualimap_dest }}/ copy=no creates={{ qualimap_path }}/LICENSE
   tags: ngi_piper
 
-# TODO: piper's setup seems to download this for us
-#- name: copy FixEmptyReads.pl from piper src to destination 
-#  copy:
-#    src: "{{ sync_cutadapt_src }}"
-#    remote_src: yes
-#    dest: "{{ sync_cutadapt_dest }}" 
-#  tags: ngi_piper
+- name: copy FixEmptyReads.pl from piper src to destination 
+  copy:
+    src: "{{ sync_cutadapt_src }}"
+    remote_src: yes
+    dest: "{{ sync_cutadapt_dest }}" 
+  tags: ngi_piper
 
 - name: download rna-seqc jar file
   get_url: 
@@ -28,4 +27,3 @@
     dest: "{{ rna_seqc_dest }}"
   tags: ngi_piper
 
-# TODO: Download GATK-Bundle as well? 
