@@ -11,7 +11,7 @@ sbt_args: "-sbt-dir {{ home_path }}/.sbt/ -sbt-boot {{ home_path }}/.sbt/boot/ -
 root_path: /lupus/ngi/
 
 
-## Prereqs to install Piper
+## Prereqs to install Piper ##
 
 java_file: jdk-7u25-linux-x64.tar.gz
 java_url: http://download.oracle.com/otn-pub/java/jdk/7u25-b15
@@ -23,8 +23,7 @@ maven_url: "http://apache.mirrors.spacedump.net/maven/maven-3/3.3.9/binaries/{{ 
 maven_dest: "{{ root_path }}/sw/maven/"
 maven_path: "{{ maven_dest }}/apache-maven-3.3.9"
 
-## Dependencies required to use Piper (many are provided via UPPMAX module system) 
-# TODO: Make sure that we do not download and unpack all the time 
+## Dependencies required to use Piper (many are provided via UPPMAX module system) ##
 
 qualimap_file: qualimap_v2.2.zip
 qualimap_url: "https://bitbucket.org/kokonech/qualimap/downloads/{{ qualimap_file }}"
@@ -40,4 +39,14 @@ rna_seqc_dest: "{{ root_path }}/piper_resources/programs/"
 slurm_drmaa_path: /sw/apps/build/slurm-drmaa/default/lib
 
 # TODO: Might want to download GATK-bundle from https://www.broadinstitute.org/gatk/guide/article.php?id=1215
-# Though unclear what versions we need. Use those referenced already in globalConfig.sh?  
+# Though unclear what versions we need. Use those referenced already in globalConfig.sh? 
+# Manually downloading gatk_bundle/2.8/ from proj/a2009002/ on nestor for now, and 
+# putting directly on the path that needs syncing. 
+# Many of those are symlinks to /data/uppnex/reference though... 
+
+# FIXME: hg19 was empty though. Needs to fetch from somewhere else. 
+# Only downloaded b37 from nestor. Got permission denied on some files though. E.g. 
+# /proj/a2009002/piper_references/gatk_bundle/2.8/b37/human_g1k_v37.fasta.1.bt2
+gatk_bundle_b37: "{{ root_path }}/piper_resources/gatk_bundle/2.8/b37"
+gatk_bundle_hg19: "{{ root_path }}/piper_references/gatk_bundle/2.8/hg19"
+

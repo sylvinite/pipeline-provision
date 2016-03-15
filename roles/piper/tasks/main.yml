@@ -33,11 +33,6 @@
     replace: "sbt/bin/sbt pack {{ sbt_args }}"
   tags: ngi_piper
 
-# FIXME: kompilera inte piper varje gång, tar evigheter. 
-# FIXME: Varför hamnar gatk-protected under playbooks-foldern? <-- antagligen pga att jag saknade en cd nedan. 
-# FIXME: sbt-kommandot i ngi_pipeline funkade inte <-- pga saknade args.  
-# FIXME: kör manuellt igenom mvn-kommandot nu, får se om det funkar bättre än via ansible. <-- saknade args och hade fel java. 
-
 # This could be uploaded as a wrapper script if one would prefer that... 
 - name: run piper's setup script 
   shell: source {{ ngi_pipeline_conf }}/{{ bash_env_script }} && sbt/bin/sbt clean {{ sbt_args }} && ./setup.sh {{ ngi_piper_bin_dest }}
@@ -69,5 +64,19 @@
               line='export PIPER_GLOB_CONF_XML={{ ngi_piper_bin_dest }}/workflows/uppmax_global_config.xml'
               backup=yes
   tags: ngi_piper
+
+# FIXME: Do we want the piper confs under workflows dir or in the global ngi_pipeline conf folder? 
+- name: deploy piper config globalConfig.xml
+  template: src="globalConfig.xml.j2" dest="{{ ngi_piper_bin_dest }}/workflows/globalConfig.xml"
+  tags: ngi_piper
+
+- name: deploy piper config globalConfig.sh
+  template: src="globalConfig.sh.j2" dest="{{ ngi_piper_bin_dest }}/workflows/globalConfig.sh"
+  tags: ngi_piper 
+
+- name: deploy piper config uppmax_global_config.xml
+  template: src="uppmax_global_config.xml.j2" dest="{{ ngi_piper_bin_dest }}/workflows/uppmax_global_config.xml"
+  tags: ngi_piper 
+
 
 
