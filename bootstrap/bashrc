@@ -1,0 +1,19 @@
+#export PS1='\u@\h \w '
+
+# We need a writeable place when running Ansible for tmp files
+export HOME=/tmp 
+
+export PATH=/lupus/ngi/ansible/2.0.1.0/bin:$PATH
+
+# We're using Anaconda when setting up the NGI pipeline environment. 
+# Perhaps not necessary. 
+export PATH=$PATH:/lupus/ngi/sw/anaconda2/bin
+
+# We need the Ansible env for running ansible commands 
+
+alias ansibleenv='source /lupus/ngi/ansible-env/bin/activate'
+
+alias ngienv='source activate NGI'
+
+# sourcme includes NGI and Piper config variables 
+alias sourceme='source /lupus/ngi/conf/sourceme.sh'
