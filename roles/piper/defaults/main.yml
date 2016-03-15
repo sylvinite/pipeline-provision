@@ -1,6 +1,7 @@
 ---
 
-# Arguments that is required when running mvn and sbt commands  
+# Arguments that is required when running mvn and sbt commands if you do not have
+# a home directory on irma3.  
 maven_args: "-Dmaven.repo.local={{ home_path }}/.m2/repository"
 sbt_args: "-sbt-dir {{ home_path }}/.sbt/ -sbt-boot {{ home_path }}/.sbt/boot/ -ivy {{ home_path }}/.ivy2"
 
@@ -37,16 +38,4 @@ rna_seqc_url: http://www.broadinstitute.org/cancer/cga/tools/rnaseqc/RNA-SeQC_v1
 rna_seqc_dest: "{{ root_path }}/piper_resources/programs/"
 
 slurm_drmaa_path: /sw/apps/build/slurm-drmaa/default/lib
-
-# TODO: Might want to download GATK-bundle from https://www.broadinstitute.org/gatk/guide/article.php?id=1215
-# Though unclear what versions we need. Use those referenced already in globalConfig.sh? 
-# Manually downloading gatk_bundle/2.8/ from proj/a2009002/ on nestor for now, and 
-# putting directly on the path that needs syncing. 
-# Many of those are symlinks to /data/uppnex/reference though... 
-
-# FIXME: hg19 was empty though. Needs to fetch from somewhere else. 
-# Only downloaded b37 from nestor. Got permission denied on some files though. E.g. 
-# /proj/a2009002/piper_references/gatk_bundle/2.8/b37/human_g1k_v37.fasta.1.bt2
-gatk_bundle_b37: "{{ root_path }}/piper_resources/gatk_bundle/2.8/b37"
-gatk_bundle_hg19: "{{ root_path }}/piper_references/gatk_bundle/2.8/hg19"
 

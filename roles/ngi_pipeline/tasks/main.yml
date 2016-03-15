@@ -35,7 +35,6 @@
       executable: "{{ ngi_pipeline_venv }}/bin/pip"
   tags: ngi_pipeline
 
-# TODO: Consider the destination of conf files  
 - name: deploy irma ngi_pipeline config
   template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/irma_ngi_config.yaml"
   tags: ngi_pipeline 
@@ -50,7 +49,7 @@
   copy: src="fastq_screen.irma.conf" dest="{{ ngi_pipeline_conf }}" 
   tags: ngi_pipeline 
 
-# TODO: We should download this from somewhere
-- name: deploy human_g1k_v37.fasta for human reference  
-  copy: src="human_g1k_v37.fasta" dest="{{ ngi_pipeline_db }}"
-  tags: ngi_pipeline 
+- name: create ngi_pipeline log dir 
+  file: {{ ngi_pipeline_logs }} state=directory
+  tags: ngi_pipeline
+

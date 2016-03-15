@@ -25,6 +25,7 @@ ngi_pipeline_venv: "{{ root_path }}/sw/anaconda2/envs/NGI"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
 ngi_pipeline_db: "{{ root_path }}/db/"
+ngi_pipeline_logs: "{{ root_path }}/log/"
 
 ngi_pipeline_slurm_project: ngi2016000
 ngi_pipeline_sthlm_delivery: ngi2016003
@@ -38,5 +39,18 @@ ngi_piper_version: 62cd6ea85ace05060312befd50dba0bf63aec765
 # TODO: Where to store API token? How to reach charon-dev, if necessary? 
 charon_api_token: FOOBAR 
 charon_base_url: http://nestor1:4242
+
+
+# TODO: Might want to download GATK-bundle from https://www.broadinstitute.org/gatk/guide/article.php?id=1215
+# Though unclear what versions we need. Use those referenced already in globalConfig.sh? 
+# Manually downloading gatk_bundle/2.8/ from proj/a2009002/ on nestor for now, and 
+# putting directly on the path that needs syncing. 
+# Many of those are symlinks to /data/uppnex/reference though... 
+
+# FIXME: hg19 was empty though. Needs to fetch from somewhere else. 
+# Only downloaded b37 from nestor. Got permission denied on some files though. E.g. 
+# /proj/a2009002/piper_references/gatk_bundle/2.8/b37/human_g1k_v37.fasta.1.bt2
+gatk_bundle_b37: "{{ root_path }}/piper_resources/gatk_bundle/2.8/b37"
+gatk_bundle_hg19: "{{ root_path }}/piper_references/gatk_bundle/2.8/hg19"
 
 
