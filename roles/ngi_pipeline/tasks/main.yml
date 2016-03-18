@@ -49,7 +49,13 @@
   copy: src="fastq_screen.irma.conf" dest="{{ ngi_pipeline_conf }}" 
   tags: ngi_pipeline 
 
-- name: create ngi_pipeline log dir 
-  file: {{ ngi_pipeline_logs }} state=directory
+- name: create ngi_pipeline log dir
+  file: name={{ ngi_pipeline_logs }} state=directory
+  tags: ngi_pipeline
+
+- name: add anaconda path to sourceme script
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export PATH={{ anaconda_path }}/bin:$PATH'
+              backup=yes
   tags: ngi_pipeline
 
