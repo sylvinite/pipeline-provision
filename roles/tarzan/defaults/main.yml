@@ -1,0 +1,21 @@
+---
+
+## Paths for all sw to download and later build 
+
+kong_url: https://github.com/Mashape/kong/archive/0.7.0.tar.gz
+
+# kong depends on the lua eco system
+lua_jit_url: http://luajit.org/download/LuaJIT-2.1.0-beta2.tar.gz
+luarocks_url: http://keplerproject.github.io/luarocks/releases/luarocks-2.3.0.tar.gz
+
+# kong depends on cassandra as backend 
+http://apache.mirrors.spacedump.net/cassandra/2.2.x/apache-cassandra-2.2.x-bin.tar.gz
+
+# kong depends on the openresty nginx "clone"
+openresty_url: https://openresty.org/download/openresty-1.9.7.3.tar.gz
+
+# openresty depends on pcre
+pcre_url: ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.gz
+
+
+## Settings for relevant sw 
