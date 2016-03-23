@@ -29,4 +29,8 @@ Quick steps:
 
 On irma login node, make sure that we have a Caddyfile with appropriate proxy settings. Running the binary `caddy` will load the configs and start proxying traffic between the two port numbers mentioned in the config file. 
 
-For this to we also have to have an SSH tunnel up and running from nestor to irma. Something like `ssh johanhe@irma1 -R *:4242:charon-dev.scilifelab.se:80` on nestor will portforward 4242 on irma1 to charon-dev:80. 
+For this to we also have to have an SSH tunnel up and running from nestor to irma. Something like `ssh johanhe@irma1 -R *:4242:charon-dev.scilifelab.se:80` on nestor will portforward 4242 on irma1 to charon-dev:80.
+
+## Note on re-compiling software
+
+Need to remove the file that is specified in the task's `creates=` field. Otherwise the compile step will be ignored.  
