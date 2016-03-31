@@ -19,9 +19,9 @@ bash_env_script: sourceme.sh
 
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
-ngi_pipeline_version: 2a0beec9acef479274fad89d7adfe701deb3472f
+ngi_pipeline_version: 8ef4d3632c0d7130aa2766ac62b009c0b834b81b
 #ngi_venv: "{{ root_path }}/sw/ngi_pipeline-env"
-ngi_pipeline_venv: "{{ root_path }}/sw/anaconda2/envs/NGI"
+ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/NGI"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
 ngi_pipeline_db: "{{ root_path }}/db/"
@@ -53,4 +53,4 @@ charon_base_url: http://nestor1:4242
 gatk_bundle_b37: "{{ root_path }}/piper_resources/gatk_bundle/2.8/b37"
 gatk_bundle_hg19: "{{ root_path }}/piper_references/gatk_bundle/2.8/hg19"
 
-
+gatk_key: pontus.larsson_medsci.uu.se.key
