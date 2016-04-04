@@ -3,12 +3,15 @@
 
 # TODO: Deploy the correct version of the database. 
 database:
-    record_tracking_db_path: {{ ngi_pipeline_db }}/isaks_db.sql
+    record_tracking_db_path: {{ ngi_pipeline_db }}/records_db.sql
 
 environment:
     project_id: {{ ngi_pipeline_slurm_project }}
     ngi_scripts_dir: {{ ngi_pipeline_dest }}/scripts 
     conda_env: NGI
+    flowcell_inbox:
+            - /proj/{{ ngi_pipeline_sthlm_delivery }}/archive
+            - /proj/{{ ngi_pipeline_upps_delivery }}/archive
 # TODO: This QOS flag is probably not used/needed any longer. 
 #       Enable later in the future if required. 
 #slurm:
