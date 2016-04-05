@@ -1,0 +1,7 @@
+--- 
+
+- name: create tarzan main directory 
+  file: name={{ tarzan_dest }} type=directory
+  tags: tarzan 
+
+- include: dependencies.yml tags=tarzan

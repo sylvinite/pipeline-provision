@@ -1,0 +1,28 @@
+---
+
+# kong demands: 
+# luajit
+# luarocks
+# openresty
+# cassandra
+
+# openresty demands: 
+# pcre 
+
+# use a loop a la http://stackoverflow.com/questions/30785281/one-loop-over-multiple-ansible-tasks
+
+- name: create luajit destination directory 
+  file: path={{ luajit_dest }} state=directory
+  tags: tarzan 
+
+- name: download luajit archive
+  get_url:
+    url: "{{ luajit_url }}"
+    dest: "{{ luajit_dest }}/{{ luajit_file }}"
+  tags: tarzan
+
+- name: unpack luajit to destination
+  unarchive: src="{{ luajit_dest }}/{{ luajit_file }}" dest={{ luajit_dest }}/ copy=no creates={{ luajit_path }}/LICENSE
+  tags: tarzan
+
+

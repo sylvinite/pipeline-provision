@@ -53,7 +53,7 @@
   tags: ngi_pipeline
 
 - name: deploy irma ngi_pipeline config for uppsala 
-  template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/irma_ngi_config_upps.yaml"
+  template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ upps_config }}"
   tags: ngi_pipeline 
 
 # Set Stockholm specific variables
@@ -64,7 +64,7 @@
   tags: ngi_pipeline
 
 - name: deploy irma ngi_pipeline config for stockholm
-  template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/irma_ngi_config_sthlm.yaml"
+  template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ sthlm_config }}"
   tags: ngi_pipeline
 
 - name: deploy common bash environment variables 
