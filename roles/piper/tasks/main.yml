@@ -79,5 +79,5 @@
   tags: ngi_piper 
 
 - name: deploy script (gen_GATK_ref.sh) for manual GATK reference generation
-  template: src="gen_GATK_ref.sh" dest="{{ ngi_piper_bin_dest }}/gen_GATK_ref.sh"
+  template: src="gen_GATK_ref.sh.j2" dest="{{ ngi_piper_bin_dest }}/gen_GATK_ref.sh"
   tags: ngi_piper
