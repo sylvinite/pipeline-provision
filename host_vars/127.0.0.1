@@ -14,13 +14,12 @@ root_path: /lupus/ngi/
 home_path: /tmp 
 
 # Name of the script that should be sourced from the user to get the 
-# relevant environment variables setup. 
-bash_env_script: sourceme.sh
+# relevant environment variables setup. Perhaps move this to defaults vars.  
+bash_env_script: sourceme_common.sh
 
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
 ngi_pipeline_version: 8ef4d3632c0d7130aa2766ac62b009c0b834b81b
-#ngi_venv: "{{ root_path }}/sw/ngi_pipeline-env"
 ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/NGI"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
@@ -37,7 +36,8 @@ ngi_piper_bin_dest: "{{ root_path }}/sw/piper"
 ngi_piper_version: 051ca55f20949279b68fc1c96ce071b117f57a05
 
 # TODO: Where to store API token? How to reach charon-dev, if necessary? 
-charon_api_token: FOOBAR 
+charon_api_token_sthlm: FOOBAR 
+charon_api_token_upps: FOOBAR
 charon_base_url: http://nestor1:4242
 
 
