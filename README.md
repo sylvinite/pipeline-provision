@@ -24,6 +24,7 @@ At the moment there has also been manual steps involved when downloading the tes
 
 - Requires the data record SQL database to be setup. Using `/lupus/ngi//db//isaks_db.sql` at the moment. 
 - Requires a working connection to `charon` or `charon-dev` with suitable API token. For now we're using a reverse SSH tunnel + header-rewriting HTTP proxy for reaching charon-dev. 
+- Requires a valid GATK key placed under `roles/piper/files`, and that the filename is specified in the `gatk_key` variable in `host_vars/127.0.0.1`. 
 
 Quick steps: 
 
