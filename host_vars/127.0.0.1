@@ -20,7 +20,6 @@ bash_env_script: sourceme.sh
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
 ngi_pipeline_version: 8ef4d3632c0d7130aa2766ac62b009c0b834b81b
-#ngi_venv: "{{ root_path }}/sw/ngi_pipeline-env"
 ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/NGI"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
@@ -38,20 +37,13 @@ ngi_piper_version: 051ca55f20949279b68fc1c96ce071b117f57a05
 
 # TODO: Where to store API token? How to reach charon-dev, if necessary? 
 charon_api_token: FOOBAR 
-charon_base_url: http://nestor1:4242
+#Referring to dev instance for safety purposes
+charon_base_url: http://charon-dev.scilifelab.se/
 
-
-# TODO: Might want to download GATK-bundle from https://www.broadinstitute.org/gatk/guide/article.php?id=1215
-# Though unclear what versions we need. Use those referenced already in globalConfig.sh? 
-# Manually downloading gatk_bundle/2.8/ from proj/a2009002/ on nestor for now, and 
-# putting directly on the path that needs syncing. 
-# Many of those are symlinks to /data/uppnex/reference though... 
-
-# FIXME: hg19 was empty though. Needs to fetch from somewhere else. 
-# Only downloaded b37 from nestor. Got permission denied on some files though. E.g. 
-# /proj/a2009002/piper_references/gatk_bundle/2.8/b37/human_g1k_v37.fasta.1.bt2
 gatk_bundle_b37_origin = "/sw/data/uppnex/reference/biodata/GATK/ftp.broadinstitute.org/bundle/2.8/b37/"
 gatk_bundle_b37: "{{ root_path }}/piper_resources/gatk_bundle/2.8/b37"
 gatk_bundle_hg19: "{{ root_path }}/piper_references/gatk_bundle/2.8/hg19"
 
 gatk_key: pontus.larsson_medsci.uu.se.key
+
+recipient_mail: ngi_pipeline_operators@scilifelab.se
