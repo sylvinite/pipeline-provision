@@ -84,7 +84,7 @@
 
 - name: deploy gatk license key 
   copy:
-    src: "pontus.larsson_medsci.uu.se.key"
+    src: "{{ gatk_key }}"
     dest: "{{ root_path }}/piper_resources/{{ gatk_key }}" 
   tags: ngi_piper
  
