@@ -24,14 +24,9 @@ At the moment there has also been manual steps involved when downloading the tes
 
 - Requires the data record SQL database to be setup. Using `/lupus/ngi//db//isaks_db.sql` at the moment. 
 - Requires a working connection to `charon` or `charon-dev` with suitable API token. For now we're using a reverse SSH tunnel + header-rewriting HTTP proxy for reaching charon-dev. 
-- Requires a valid GATK key placed under `roles/piper/files`, and that the filename is specified in the `gatk_key` variable in `host_vars/127.0.0.1`. 
-
-Quick steps: 
-
-On irma login node, make sure that we have a Caddyfile with appropriate proxy settings. Running the binary `caddy` will load the configs and start proxying traffic between the two port numbers mentioned in the config file. 
-
-For this to we also have to have an SSH tunnel up and running from nestor to irma. Something like `ssh johanhe@irma1 -R *:4242:charon-dev.scilifelab.se:80` on nestor will portforward 4242 on irma1 to charon-dev:80.
+- Requires a valid GATK key placed under `playbooks/files`, and that the filename is specified in the `gatk_key` variable in `host_vars/127.0.0.1/main.yml`. 
+- Requires a `charon_credentials.yml` to be placed under `host_vars/127.0.0.1/` with appropriate values set for the variables `charon_base_url`, `charon_api_token_upps` and `charon_api_token_sthlm`. (TODO: Contemplate whether this should be structured otherwise) 
 
 ## Note on re-compiling software
 
-Need to remove the file that is specified in the task's `creates=` field. Otherwise the compile step will be ignored.  
+FIXME: Need to remove the file that is specified in the task's `creates=` field. Otherwise the compile step will be ignored.  
