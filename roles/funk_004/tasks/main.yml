@@ -9,7 +9,7 @@
   tags: funk_004
 
 - name: deploy supervisord.conf for funk_004
-  template: src="supervisord_funk_004.conf.j2" dest="{{ ngi_resources }}/supervisord_funk_004.conf"
+  template: src="supervisord_funk_004.conf.j2" dest="{{ ngi_pipeline_conf }}/supervisord_funk_004.conf"
   tags: funk_004
 
 - name: deploy start supervisord start script for funk_004
