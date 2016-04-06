@@ -84,7 +84,7 @@
 
 - name: deploy gatk license key 
   copy:
-    src: "{{ gatk_key }}"
+    src: "files/{{ gatk_key }}"
     dest: "{{ root_path }}/piper_resources/{{ gatk_key }}" 
   tags: ngi_piper
  

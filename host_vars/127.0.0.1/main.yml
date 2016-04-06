@@ -33,7 +33,8 @@ ngi_piper_bin_dest: "{{ root_path }}/sw/piper"
 ngi_piper_version: 051ca55f20949279b68fc1c96ce071b117f57a05
 
 # TODO: Where to store API token? How to reach charon-dev, if necessary? 
-# charon settings are fetched from roles/ngi_pipeline/defaults/charon_credentials.yml for now. 
+# charon settings are fetched from charon_credentials.yml for now, 
+# that is not checked into repo.  
 
 # TODO: Move these settings to somewhere else? 
 gatk_bundle_b37_origin: "/sw/data/uppnex/reference/biodata/GATK/ftp.broadinstitute.org/bundle/2.8/b37/"
