@@ -1,0 +1,9 @@
+# This file should be sourced from the user's local bash init files 
+
+# Unique settings per site 
+export NGI_CONFIG={{ ngi_pipeline_conf }}/{{ site_config }} 
+export CHARON_API_TOKEN={{ charon_api_token }}
+
+# Common settings shared for both sites
+source {{ ngi_pipeline_conf }}/{{ bash_env_script }}
+

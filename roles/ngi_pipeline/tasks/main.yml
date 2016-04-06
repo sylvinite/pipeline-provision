@@ -4,6 +4,7 @@
   git: repo={{ ngi_pipeline_repo }} 
        dest={{ ngi_pipeline_dest }}
        version={{ ngi_pipeline_version }}
+       force=yes
   tags: ngi_pipeline 
 
 
@@ -44,41 +45,57 @@
 #      executable: "{{ ngi_pipeline_venv }}/bin/pip"
 #  tags: ngi_pipeline
 
-- name: deploy irma ngi_pipeline config
-  template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/irma_ngi_config.yaml"
+# Set Uppsala specific variables
+- set_fact:
+    records_db: "{{ records_db_upps }}"
+    ngi_pipeline_slurm_project: "{{ ngi_pipeline_upps_delivery }}"
+    ngi_pipeline_log: "{{ ngi_pipeline_log_upps }}"
+  tags: ngi_pipeline
+
+- name: deploy irma ngi_pipeline config for uppsala 
+  template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ upps_config }}"
   tags: ngi_pipeline 
 
-- name: deploy bash environment variables 
+# Set Stockholm specific variables
+- set_fact:
+    records_db: "{{ records_db_sthlm }}"
+    ngi_pipeline_slurm_project: "{{ ngi_pipeline_sthlm_delivery }}"
+    ngi_pipeline_log: "{{ ngi_pipeline_log_sthlm }}"
+  tags: ngi_pipeline
+
+- name: deploy irma ngi_pipeline config for stockholm
+  template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ sthlm_config }}"
+  tags: ngi_pipeline
+
+- name: deploy common bash environment variables 
   template: src="{{ bash_env_script }}.j2" dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
   tags: ngi_pipeline  
+
+# Set Uppsala specific variables 
+- set_fact: 
+    site_config: "{{ upps_config }}"
+    charon_api_token: "{{ charon_api_token_upps }}"
+  tags: ngi_pipeline
+
+- name: deploy uppsala site bash environment variables 
+  template: src="{{ bash_env_site_script }}" dest="{{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}"
+  tags: ngi_pipeline 
+
+# Set Stockholm specific variables
+- set_fact: 
+    site_config: "{{ sthlm_config }}"
+    charon_api_token: "{{ charon_api_token_sthlm }}"
+  tags: ngi_pipeline
+
+- name: deploy stockholm site bash environment variables
+  template: src="{{ bash_env_site_script }}" dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
+  tags: ngi_pipeline
 
 # TODO: Add step that sources this file in development user's local bash init files. 
 
 - name: deploy fastqc conf for irma 
   copy: src="fastq_screen.irma.conf" dest="{{ ngi_pipeline_conf }}" 
   tags: ngi_pipeline 
-
-# gatk_key_base64 under vars is an encrypted base64'd copy of the gatk license key. 
-- name: put uncrypted base64'd gatk license key in a file 
-  copy: content="{{ gatk_key_base64 }}" dest="/tmp/.ngi_decrypted_gatk_key_base64"
-  tags: ngi_pipeline
-#  shell: echo '{{ gatk_key_base64 }}' > /tmp/.ngi_decrypted_gatk_key
-
-- name: convert the key to binary format 
-  shell: base64 -d /tmp/.ngi_decrypted_gatk_key_base64 > /tmp/.ngi_decrypted_gatk_key_bin
-  tags: ngi_pipeline
-
-- name: deploy the unencrypted and converted gatk key 
-  copy: src="/tmp/.ngi_decrypted_gatk_key_bin" dest="{{ ngi_pipeline_conf }}/{{ gatk_key }}"
-  tags: ngi_pipeline
-
-- name: remove the temporary encoded key created while converting
-  file: path="/tmp/.ngi_decrypted_gatk_key_base64" state=absent
-  tags: ngi_pipeline
-
-- name: remove the temporary binary key created while converting
-  file: path="/tmp/.ngi_decrypted_gatk_key_bin" state=absent
-  tags: ngi_pipeline
 
 - name: create ngi_pipeline log dir
   file: name={{ ngi_pipeline_logs }} state=directory
