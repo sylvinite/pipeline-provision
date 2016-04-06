@@ -20,6 +20,8 @@ The deployment environment was basically setup by using the file `bootstrap/bash
 
 At the moment there has also been manual steps involved when downloading the test data under `/lupus/ngi/test_data`, as well as the gatk-bundle under `/lupus/ngi/piper_resources/gatk_bundle`. There is also a manually copied version of the NGI db copied into `/lupus/ngi/db/`. These things should probably be streamlined/changed in the future.  
 
+To sync over data to the cluster we need the pexpect Python module. Load the ansible-env Python environment and then do a `pip install pexpect`. 
+
 ## Some operational dependencies
 
 - Requires the data record SQL database to be setup. Using `/lupus/ngi//db//isaks_db.sql` at the moment. 
