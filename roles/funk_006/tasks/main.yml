@@ -1,0 +1,18 @@
+---
+
+- name: deploy crontab file for ngi2016003
+  template: src="crontab_ngi2016003.j2" dest="{{ ngi_pipeline_conf }}/crontab_ngi2016003"
+  tags: funk_006
+
+- name: create ngi_resources folder 
+  file: name={{ ngi_resources }} state=directory
+  tags: funk_006
+
+- name: deploy supervisord.conf for funk_006
+  template: src="supervisord_funk_006.conf.j2" dest="{{ ngi_resources }}/supervisord_funk_006.conf"
+  tags: funk_006
+
+- name: deploy start supervisord start script for funk_006
+  template: src="start_supervisord_funk_006.sh.j2" dest="{{ ngi_resources }}/start_supervisord_funk_006.sh"
+  tags: funk_006
+  
