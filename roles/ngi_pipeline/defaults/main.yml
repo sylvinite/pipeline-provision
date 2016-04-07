@@ -1,6 +1,6 @@
 --- 
 
-anaconda_path: /lupus/ngi/sw/anaconda2
+anaconda_path: /lupus/ngi/sw/anaconda
 upps_config: irma_ngi_config_upps.yaml
 sthlm_config: irma_ngi_config_sthlm.yaml
 
