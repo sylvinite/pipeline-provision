@@ -105,8 +105,8 @@ if isinstance(perm_output, str):
 		print "All right, will sync anyway."
 		wrong_perm = True
         else: 
-                print "All right, aborting."
-                sys.exit()
+		print "All right, aborting."
+		sys.exit()
 
 else: 
         print "Everything looks OK. Continuing with rsync."
