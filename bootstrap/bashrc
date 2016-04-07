@@ -22,9 +22,6 @@ alias ansibleenv='source /lupus/ngi/ansible-env/bin/activate'
 export PATH="/lupus/ngi/sw/anaconda/bin:$PATH"
 alias ngienv='source activate NGI'
 
-# sourceme includes NGI and Piper config variables 
-alias sourceme='source /lupus/ngi/conf/sourceme.sh'
-
 # Force the user to have ngi-sw as gid (inherits the parent environment)
 # This needs to be the last thing to run 
 newgrp ngi-sw 
