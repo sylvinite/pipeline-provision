@@ -1,7 +1,6 @@
 ---
 
 - include: prereqs.yml 
-- include: dependencies.yml
 
 - name: fetch piper from github 
   git: repo={{ ngi_piper_repo }} 
@@ -87,4 +86,7 @@
     src: "files/{{ gatk_key }}"
     dest: "{{ root_path }}/piper_resources/{{ gatk_key }}" 
   tags: ngi_piper
- 
+
+# 3rd party programs that Piper needs should be installed when Piper has been put in 
+# place due to dependency on e.g. piper_src.  
+- include: dependencies.yml
