@@ -1,19 +1,27 @@
-#export PS1='\u@\h \w '
+export PS1='\u@\h \w '
+
+# Just in case, when we're sharing stuff... 
+#umask 0
+# Group ngi-sw MUST have rw or else all hell breaks loose! 
+umask 0002
 
 # We need a writeable place when running Ansible for tmp files
-export HOME=/tmp 
+export HOME=/tmp/ngi-sw-`whoami`
+#export HOME=/tmp/ngi-sw-home/
+mkdir -p $HOME 
 
-export PATH=/lupus/ngi/ansible/2.0.1.0/bin:$PATH
+# Bootstrap a log directory 
+mkdir -p /lupus/ngi/irma3/log
+
+# We need the Ansible env for running ansible commands 
+alias ansibleenv='source /lupus/ngi/ansible-env/bin/activate'
 
 # We're using Anaconda when setting up the NGI pipeline environment. 
 # Perhaps not necessary. 
-export PATH=$PATH:/lupus/ngi/sw/anaconda2/bin
-
-# We need the Ansible env for running ansible commands 
-
-alias ansibleenv='source /lupus/ngi/ansible-env/bin/activate'
-
+#export PATH=/lupus/ngi/sw/anaconda2/bin:$PATH
+export PATH="/lupus/ngi/sw/anaconda/bin:$PATH"
 alias ngienv='source activate NGI'
 
-# sourcme includes NGI and Piper config variables 
-alias sourceme='source /lupus/ngi/conf/sourceme.sh'
+# Force the user to have ngi-sw as gid (inherits the parent environment)
+# This needs to be the last thing to run 
+newgrp ngi-sw 
