@@ -46,7 +46,7 @@
 #  tags: ngi_pipeline
 
 - name: create ngi pipeline conf directory 
-  file: src="{{ ngi_pipeline_conf }}" state=directory
+  file: path="{{ ngi_pipeline_conf }}" state=directory
   tags: ngi_pipeline
 
 # Set Uppsala specific variables
