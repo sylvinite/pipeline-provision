@@ -45,6 +45,10 @@
 #      executable: "{{ ngi_pipeline_venv }}/bin/pip"
 #  tags: ngi_pipeline
 
+- name: create ngi pipeline conf directory 
+  file: src="{{ ngi_pipeline_conf }}" state=directory
+  tags: ngi_pipeline
+
 # Set Uppsala specific variables
 - set_fact:
     records_db: "{{ records_db_upps }}"
