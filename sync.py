@@ -1,11 +1,21 @@
 #!/usr/bin/env python
 
-# Script to sync data from irma3 into the cluster. 
+# Script to sync data from irma3 into the cluster.
 #
-# Assumes that all files to be pupulated are owned by group ngi-sw
-# and with appropriate file permissions (group read/write, world read). 
-# This should be the case if the deployment bash init file have been 
-# sourced before installing sw. 
+# Will sync everything under /lupus/ngi on irma3 (except the irma3
+# subdir) to /lupus/ngi on irma1. An other dest path can be given as arg1.  
+#
+# Note that: 
+# 
+# 1. This script assumes that all files to be pupulated are owned by group ngi-sw
+# and with appropriate file permissions (group read/write, world read). This should
+# be the case if the deployment bash init file have been sourced before installing sw. 
+#
+# 2. This script will atm NOT run rsync with the --delete flag, as it causes troubles
+# with the /lupus/ngi/db/ folder that gets created on irma3, but populated on the
+# cluster. It might also be that someone decides to populate /lupus/ngi/ on the cluster
+# with other subdirs (like tmp, uppsala, stockholm, data, whatever), and using the 
+# --delete flag then risks removing all this. 
 
 import pexpect 
 import sys
@@ -73,7 +83,7 @@ elif recv == 1:
 #         - readable by world 
 # Prompt the user if (s)he wants to continue anyway. 
 print('Searching for files that are 1) not owned by group ngi-sw, 2) group readable/writable, 3) world readable')
-find_cmd = "/bin/bash -c 'find {0} ! -perm /g+rw -ls -or ! -perm /o+r -ls -or ! -group ngi-sw -ls | egrep -v \"\.git/|swp\"'".format(src_root_path)
+find_cmd = "/bin/bash -c 'find {0} ! -perm /g+rw -ls -or ! -perm /o+r -ls -or ! -group ngi-sw -ls | egrep -v \"\.git/|swp|/lupus/ngi/irma3/\"'".format(src_root_path)
 
 def yes_or_no(question):
 	reply = str(raw_input(question+' (y/n): ')).lower().strip()
@@ -113,9 +123,15 @@ else:
 
 
 # Step 5. Sync our destignated folders.
-rsync_cmd = 	"/bin/rsync --delete -avzP --exclude '*.swp,.git/' --log-file={0} {1} {2} {3} {4} {5} {6} {7}@{8}:{9}".format(rsync_log_path, 
-		src_root_path + "/conf", src_root_path + "/log", src_root_path + "/db", src_root_path + "/ngi_resources", src_root_path + "/piper_resources", 
-		src_root_path + "/sw", user, host, dest)
+
+# Old rsync command. Keep this for a while... 
+#rsync_cmd = 	"/bin/rsync --delete -avzP --exclude '*.swp,.git/' --log-file={0} {1} {2} {3} {4} {5} {6} {7}@{8}:{9}".format(rsync_log_path, 
+#		src_root_path + "/conf", src_root_path + "/log", src_root_path + "/db", src_root_path + "/ngi_resources", src_root_path + "/piper_resources", 
+#		src_root_path + "/sw", user, host, dest)
+
+rsync_cmd =     "/bin/rsync -avzP --exclude=*.swp --exclude=.git/ --exclude=irma3/ --log-file={0} {1} {2}@{3}:{4}".format(rsync_log_path, 
+		src_root_path, user, host, dest)
+
 print "Running", rsync_cmd
 
 with open(rsync_log_path, 'a') as rsync_log: 
