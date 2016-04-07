@@ -101,8 +101,8 @@ if isinstance(perm_output, str):
 
         choice = yes_or_no("Do you want to continue syncing anyway? ")
 
-        if choice: 
-                print "All right, will sync anyway."
+	if choice:
+		print "All right, will sync anyway."
 		wrong_perm = True
         else: 
                 print "All right, aborting."
