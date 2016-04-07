@@ -85,6 +85,10 @@
   file: path="{{ gatk_bundle_b37 }}" state=directory
   tags: ngi_piper 
 
+- name: create piper_resources directory 
+  file: path="{{ root_path }}/piper_resources" state=directory
+  tags: ngi_piper
+
 - name: deploy gatk license key 
   copy:
     src: "files/{{ gatk_key }}"
