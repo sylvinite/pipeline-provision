@@ -7,7 +7,9 @@
 root_path: /lupus/ngi/
 
 # TODO: This variable has to be set to something more suitable when 
-# deploying as a real user with a real home directory 
+# deploying as a real user with a real home directory. This is 
+# only used when building Piper atm, and will not be necessary 
+# when Piper soon is available in the module system. 
 home_path: /tmp 
 
 # Name of the script that should be sourced from the user to get the 
@@ -16,7 +18,7 @@ bash_env_script: sourceme_common.sh
 
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
-ngi_pipeline_version: 8ef4d3632c0d7130aa2766ac62b009c0b834b81b
+ngi_pipeline_version: 33d180be2b98feb90838c57f4dbbd75440308c69 
 ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/NGI"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
