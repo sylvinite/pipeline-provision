@@ -16,6 +16,8 @@ When the software has been setup locally under `/lupus/ngi/` on irma3 we can syn
 
 Log files of software installed by Ansible ends up under `/lupus/ngi/irma3/log/ansible.log`, and for the sync under `/lupus/ngi/irma3/log/rsync.log`. 
 
+A manual step is required for generating the GATK indices. After everything has been deployed on the cluster the script `/lupus/ngi/sw/piper/gen_GATK_ref.sh` has to be run. 
+
 ## Bootstrapping the playbook environment 
 
 This repo should be checked out to e.g. `/lupus/ngi/irma3/deploy`. Then the file `bootstrap/bashrc` should be copied to `/lupus/ngi/irma3/bashrc` and sourced every time a user wants to work. 

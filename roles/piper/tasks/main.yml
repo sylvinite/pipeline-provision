@@ -81,6 +81,10 @@
   template: src="gen_GATK_ref.sh.j2" dest="{{ ngi_piper_bin_dest }}/gen_GATK_ref.sh"
   tags: ngi_piper
 
+- name: create gatk_bundle directory 
+  file: path="{{ gatk_bundle_b37 }}" state=directory
+  tags: ngi_piper 
+
 - name: deploy gatk license key 
   copy:
     src: "files/{{ gatk_key }}"
