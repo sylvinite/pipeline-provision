@@ -76,46 +76,46 @@ print('Searching for files that are 1) not owned by group ngi-sw, 2) group reada
 find_cmd = "/bin/bash -c 'find {0} ! -perm /g+rw -ls -or ! -perm /o+r -ls -or ! -group ngi-sw -ls | egrep -v \"\.git/|swp\"'".format(src_root_path)
 
 def yes_or_no(question):
-    reply = str(raw_input(question+' (y/n): ')).lower().strip()
+	reply = str(raw_input(question+' (y/n): ')).lower().strip()
 
-    if reply[0] == 'y':
-        return True
-    if reply[0] == 'n':
-        return False
-    else:
-        return yes_or_no("Please enter ")
+	if reply[0] == 'y':
+		return True
+	if reply[0] == 'n':
+		return False
+	else:
+		return yes_or_no("Please enter ")
 
 perm_output = 0
 wrong_perm = False
 
 try: 
-        perm_output = subprocess.check_output(find_cmd, shell=True, stderr=subprocess.STDOUT)
+	perm_output = subprocess.check_output(find_cmd, shell=True, stderr=subprocess.STDOUT)
 except subprocess.CalledProcessError as e: 
-        print "An error occured with the find subprocess!"
-        print "returncode", e.returncode
-        print "perm_output", e.output
+	print "An error occured with the find subprocess!"
+	print "returncode", e.returncode
+	print "perm_output", e.output
 
 if isinstance(perm_output, str):
-        print "Some files have wrong permissions:"
-        print perm_output
+	print "Some files have wrong permissions:"
+	print perm_output
 
-        choice = yes_or_no("Do you want to continue syncing anyway? ")
+	choice = yes_or_no("Do you want to continue syncing anyway? ")
 
 	if choice:
 		print "All right, will sync anyway."
 		wrong_perm = True
-        else: 
+	else: 
 		print "All right, aborting."
 		sys.exit()
 
 else: 
-        print "Everything looks OK. Continuing with rsync."
+	print "Everything looks OK. Continuing with rsync."
 
 
 # Step 5. Sync our destignated folders.
-rsync_cmd = "/bin/rsync --delete -avzP --exclude '*.swp,.git/' --log-file={0} {1} {2} {3} {4} {5} {6} {7}@{8}:{9}".format(rsync_log_path, 
-            src_root_path + "/conf", src_root_path + "/log", src_root_path + "/db", src_root_path + "/ngi_resources", src_root_path + "/piper_resources", 
-            src_root_path + "/sw", user, host, dest)
+rsync_cmd = 	"/bin/rsync --delete -avzP --exclude '*.swp,.git/' --log-file={0} {1} {2} {3} {4} {5} {6} {7}@{8}:{9}".format(rsync_log_path, 
+		src_root_path + "/conf", src_root_path + "/log", src_root_path + "/db", src_root_path + "/ngi_resources", src_root_path + "/piper_resources", 
+		src_root_path + "/sw", user, host, dest)
 print "Running", rsync_cmd
 
 with open(rsync_log_path, 'a') as rsync_log: 
