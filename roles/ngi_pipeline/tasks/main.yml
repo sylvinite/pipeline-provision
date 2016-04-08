@@ -20,11 +20,11 @@
   tags: ngi_pipeline
 
 - name: install ngi_pipeline reqs
-  shell: /lupus/ngi//sw/anaconda/envs/NGI/bin/pip install -r /lupus/ngi//sw/ngi_pipeline/requirements.txt
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_pipeline_dest }}/requirements.txt"
   tags: ngi_pipeline
 
 - name: install ngi_pipeline
-  shell: cd {{ ngi_pipeline_dest }} && /lupus/ngi//sw/anaconda/envs/NGI/bin/pip install .
+  shell: "cd {{ ngi_pipeline_dest }} && {{ ngi_pipeline_venv }}/bin/pip install ."
   tags: ngi_pipeline
  
 - name: create ngi pipeline conf directory 

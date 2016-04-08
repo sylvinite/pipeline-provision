@@ -77,7 +77,7 @@ elif recv == 1:
 #         - readable by world 
 # Prompt the user if (s)he wants to continue anyway. 
 print('Searching for files that are 1) not owned by group ngi-sw, 2) group readable/writable, 3) world readable')
-find_cmd = "/bin/bash -c 'find {0} ! -perm /g+rw -ls -or ! -perm /o+r -ls -or ! -group ngi-sw -ls | egrep -v \"\.git/|swp|/lupus/ngi/irma3/\"'".format(src_root_path)
+find_cmd = "/bin/bash -c 'find {0} ! -perm /g+rw -ls -or ! -perm /o+r -ls -or ! -group ngi-sw -ls | egrep -v \"\.git/|\.swp|/lupus/ngi/irma3/\"'".format(src_root_path)
 
 def yes_or_no(question):
 	reply = str(raw_input(question+' (y/n): ')).lower().strip()
