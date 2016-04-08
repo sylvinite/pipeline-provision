@@ -43,25 +43,25 @@
 - name: add piper path variable to sourceme script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ ngi_piper_bin_dest }}/bin:{{ ngi_piper_bin_dest }}/workflows:$PATH'
-              backup=yes
+              backup=no
   tags: ngi_piper 
 
 - name: add piper ld_library_path variable to sourceme script                                       
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export LD_LIBRARY_PATH={{ slurm_drmaa_path }}:$LD_LIBRARY_PATH'
-              backup=yes
+              backup=no
   tags: ngi_piper
 
 - name: add piper sh config variable to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PIPER_GLOB_CONF={{ ngi_piper_bin_dest }}/workflows/globalConfig.sh'
-              backup=yes
+              backup=no
   tags: ngi_piper
 
 - name: add piper xml config variable to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PIPER_GLOB_CONF_XML={{ ngi_piper_bin_dest }}/workflows/uppmax_global_config.xml'
-              backup=yes
+              backup=no
   tags: ngi_piper
 
 # FIXME: Do we want the piper confs under workflows dir or in the global ngi_pipeline conf folder? 
