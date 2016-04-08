@@ -10,7 +10,7 @@
   tags: ngi_piper
 
 - name: create piper's destination folder 
-  file: name={{ ngi_piper_bin_dest }} state=directory
+  file: name={{ ngi_piper_bin_dest }} state=directory mode=g+s
   tags: ngi_piper
 
 
@@ -82,15 +82,15 @@
   tags: ngi_piper
 
 - name: create ngi_resources folder 
-  file: name={{ ngi_resources }} state=directory
+  file: name={{ ngi_resources }} state=directory mode=g+s
   tags: ngi_piper
 
 - name: create gatk_bundle directory 
-  file: path="{{ gatk_bundle_b37 }}" state=directory
+  file: path="{{ gatk_bundle_b37 }}" state=directory mode=g+s
   tags: ngi_piper 
 
 - name: create piper_resources directory 
-  file: path="{{ ngi_resources }}/piper" state=directory
+  file: path="{{ ngi_resources }}/piper" state=directory mode=g+s
   tags: ngi_piper
 
 - name: deploy gatk license key 

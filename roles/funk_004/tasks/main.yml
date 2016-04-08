@@ -5,7 +5,7 @@
   tags: funk_004
 
 - name: create ngi_resources folder 
-  file: name={{ ngi_resources }} state=directory
+  file: name={{ ngi_resources }} state=directory mode=g+s
   tags: funk_004
 
 - name: deploy supervisord.conf for uppsala
@@ -16,4 +16,3 @@
   template: src="start_supervisord_upps.sh.j2" dest="{{ ngi_resources }}/start_supervisord_upps.sh"
   tags: funk_004
 
-  
