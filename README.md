@@ -33,7 +33,7 @@ Anaconda was downloaded manually (**TODO: do this in the playbook instead?**) an
 To sync over data to the cluster the pexpect Python module is required. Load the ansible-env Python environment and then run `pip install pexpect`. 
 
 ## Operational dependencies
-
+- When developing roles make sure that directories are created with the setgid flag `mode=g+s`, as it will act as an extra insurance that the new files created in the dirs (`ngi-sw` or `ngi`) recieve the correct owner. This extra step is necessary as setgid can't be set for the root folder `/lupus/ngi` (as it is owned by `ngi-sw` and the deployment require subdirs owned by `ngi`). 
 - A working connection to `charon` or `charon-dev` as well as a suitable API token. 
 - A valid GATK key placed under `deploy/files`. The filename must be specified in the `gatk_key` variable in `host_vars/127.0.0.1/main.yml`. 
 - A `charon_credentials.yml` file under `host_vars/127.0.0.1/` with appropriate values set for the variables `charon_base_url`, `charon_api_token_upps` and `charon_api_token_sthlm`. (TODO: Contemplate whether this should be structured otherwise) 
