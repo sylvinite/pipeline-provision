@@ -5,7 +5,7 @@
   tags: funk_006
 
 - name: create ngi_resources folder 
-  file: name={{ ngi_resources }} state=directory
+  file: name={{ ngi_resources }} state=directory mode=g+s
   tags: funk_006
 
 - name: deploy supervisord.conf for stockholm
