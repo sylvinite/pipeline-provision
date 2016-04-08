@@ -22,13 +22,15 @@ A manual step is required for generating the GATK indices. After everything has 
 
 This repo should be checked out to e.g. `/lupus/ngi/irma3/deploy`. Then the file `bootstrap/bashrc` should be copied to `/lupus/ngi/irma3/bashrc` and sourced every time a user wants to work. 
 
-The latest version of virtualenv was downloaded and then locally run to setup a virtual Python environment: `/lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py -p /usr/bin/python2.7 /lupus/ngi/irma3/ansible-env`. 
+The latest version of virtualenv was downloaded and then locally run to setup a virtual Python environment: `/lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py -p /usr/bin/python2.7 /lupus/ngi/irma3/ansible-env`.  
 
 After activating the environment with `source /lupus/ngi/irma3/ansible-env/bin/activate` Ansible was installed with `pip install ansible`.
  
-Then anaconda was downloaded manually (**TODO: do this in the playbook instead?**) and installed via the interactive guide under `/lupus/ngi/sw/anaconda` (some Ansible roles later uses anaconda to setup the NGI virtual environment.)
+Then anaconda was downloaded manually (**TODO: do this in the playbook instead?**) and installed via the interactive guide under `/lupus/ngi/sw/anaconda` (some Ansible roles later uses anaconda to setup the NGI virtual environment.). 
 
 To sync over data to the cluster we need the pexpect Python module. Load the ansible-env Python environment and then do a `pip install pexpect`. 
+
+Finnally the setgid flag was set by running `chmod -R g+s /lupus/ngi/sw/ /lupus/ngi/irma3/`.
 
 ## Some operational dependencies
 

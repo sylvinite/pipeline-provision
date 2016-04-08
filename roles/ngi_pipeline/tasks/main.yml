@@ -94,6 +94,6 @@
 - name: add anaconda path to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ anaconda_path }}/bin:$PATH'
-              backup=yes
+              backup=no
   tags: ngi_pipeline
 
