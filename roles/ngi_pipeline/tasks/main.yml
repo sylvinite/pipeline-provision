@@ -33,7 +33,7 @@
 
 # Set Uppsala specific variables
 - set_fact:
-    records_db: "{{ records_db_upps }}"
+    ngi_pipeline_db: "{{ ngi_pipeline_db_upps }}"
     ngi_pipeline_slurm_project: "{{ ngi_pipeline_upps_delivery }}"
     ngi_pipeline_log: "{{ ngi_pipeline_log_upps }}"
   tags: ngi_pipeline
@@ -44,7 +44,7 @@
 
 # Set Stockholm specific variables
 - set_fact:
-    records_db: "{{ records_db_sthlm }}"
+    ngi_pipeline_db: "{{ ngi_pipeline_db_sthlm }}"
     ngi_pipeline_slurm_project: "{{ ngi_pipeline_sthlm_delivery }}"
     ngi_pipeline_log: "{{ ngi_pipeline_log_sthlm }}"
   tags: ngi_pipeline
@@ -83,12 +83,8 @@
   copy: src="fastq_screen.irma.conf" dest="{{ ngi_pipeline_conf }}" 
   tags: ngi_pipeline 
 
-- name: create ngi_pipeline log dir
-  file: name={{ ngi_pipeline_logs }} state=directory group=ngi mode=g+s
-  tags: ngi_pipeline
-
-- name: create db dir for ngi_pipeline
-  file: name={{ ngi_pipeline_db }} state=directory group=ngi mode=g+s
+- name: deploy script for creating site specific ngi_pipeline dirs for logs and db
+  copy: src=create_ngi_pipeline_dirs.sh dest={{ ngi_resources }}
   tags: ngi_pipeline
 
 - name: add anaconda path to sourceme script

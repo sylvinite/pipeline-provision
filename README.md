@@ -40,7 +40,7 @@ Finnally the setgid flag was set by running `chmod -R g+s /lupus/ngi/sw/ /lupus/
 - Requires a `charon_credentials.yml` to be placed under `host_vars/127.0.0.1/` with appropriate values set for the variables `charon_base_url`, `charon_api_token_upps` and `charon_api_token_sthlm`. (TODO: Contemplate whether this should be structured otherwise) 
 - For deploying sw the user needs to be in both the `ngi-sw` and the `ngi` groups. Everything under `/lupus/ngi` will be owned by `ngi-sw`, except the `db` and `log` dirs that will be owned by `ngi`. That way a select few people can write new programs and configs, but all NGI functional accounts (`funk_004`, `funk_006` etc) can write log files, to the SQL database, etc. 
 
-Two manual steps are also needed for each func account. In respective `~/.bashrc` the following snippet needs to be added: 
+Three manual steps are also needed for each func account. In respective `~/.bashrc` the following snippet needs to be added: 
 
 	# Enter the ngi_pipeline working environment
 	source /lupus/ngi/conf/sourceme_<site>.sh
@@ -49,6 +49,8 @@ Two manual steps are also needed for each func account. In respective `~/.bashrc
 where `<site>` should be `upps` for `funk_004', and `sthlm` for `funk_006`. 
 
 Then to get the crontab for each func account loaded a manual `crontab /lupus/ngi/conf/crontab_<site>` needs to be run. The crontab files includes an autoreload, so next time a new versoin of the crontab is deployed the crontab for the func account should after a while be appropriately reloaded. 
+
+Finally each func account needs to create the ngi_pipeline dirs for logs and dbs in respective project area. The `funk_004` user should e.g run `/lupus/ngi/resources/create_ngi_pipeline_dirs.sh ngi2016001`.
 
 ## Note on re-compiling software
 

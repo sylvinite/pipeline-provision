@@ -18,23 +18,30 @@ bash_env_script: sourceme_common.sh
 
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
-ngi_pipeline_version: 33d180be2b98feb90838c57f4dbbd75440308c69 
+ngi_pipeline_version: 3cd78a2b58b0dc0b9ae2bd193c2038744a07e73a
 ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/NGI"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
-ngi_pipeline_db: "{{ root_path }}/db/"
-ngi_pipeline_logs: "{{ root_path }}/log/"
 ngi_resources: "{{ root_path }}/resources/"
 
 ngi_pipeline_sthlm_delivery: ngi2016003
 ngi_pipeline_upps_delivery: ngi2016001
+
+ngi_pipeline_sthlm_path: "/proj/{{ ngi_pipeline_sthlm_delivery }}/private/ngi_pipeline/"
+ngi_pipeline_upps_path: "/proj/{{ ngi_pipeline_upps_delivery }}/private/ngi_pipeline/"
+
+ngi_pipeline_log_sthlm: "{{ ngi_pipeline_sthlm_path }}/ngi_pipeline.log"
+ngi_pipeline_log_upps: "{{ ngi_pipeline_upps_path }}/ngi_pipeline.log"
+
+ngi_pipeline_db_upps: "{{ ngi_pipeline_upps_path }}/db/records_db_upps.sql"
+ngi_pipeline_db_sthlm: "{{ ngi_pipeline_sthlm_path }}/db/records_db_sthlm.sql"
+
 
 ngi_piper_repo: https://github.com/NationalGenomicsInfrastructure/piper.git
 ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
 ngi_piper_bin_dest: "{{ root_path }}/sw/piper"
 ngi_piper_version: 051ca55f20949279b68fc1c96ce071b117f57a05
 
-# TODO: Where to store API token? How to reach charon-dev, if necessary? 
 # charon settings are fetched from charon_credentials.yml for now, 
 # that is not checked into repo.  
 
