@@ -11,6 +11,7 @@ sbt_args: "-sbt-dir {{ home_path }}/.sbt/ -sbt-boot {{ home_path }}/.sbt/boot/ -
 # is default for production. 
 root_path: /lupus/ngi/
 
+piper_resources: "{{ ngi_resources }}/piper/"
 
 ## Prereqs to install Piper ##
 
@@ -28,14 +29,14 @@ maven_path: "{{ maven_dest }}/apache-maven-3.3.9"
 
 qualimap_file: qualimap_v2.2.zip
 qualimap_url: "https://bitbucket.org/kokonech/qualimap/downloads/{{ qualimap_file }}"
-qualimap_dest: "{{ root_path }}/piper_resources/programs/qualimap/"
+qualimap_dest: "{{ piper_resources }}/programs/qualimap/"
 qualimap_path: "{{ qualimap_dest }}/qualimap_v2.2"
 
 sync_cutadapt_src: "{{ ngi_piper_src_dest }}/resources/FixEmptyReads.pl"
-sync_cutadapt_dest: "{{ root_path }}/piper_resources/programs/"
+sync_cutadapt_dest: "{{ piper_resources }}/programs/"
 
 rna_seqc_url: http://www.broadinstitute.org/cancer/cga/tools/rnaseqc/RNA-SeQC_v1.1.7.jar
-rna_seqc_dest: "{{ root_path }}/piper_resources/programs/"
+rna_seqc_dest: "{{ piper_resources }}/programs/"
 
 slurm_drmaa_path: /sw/apps/build/slurm-drmaa/default/lib
 
