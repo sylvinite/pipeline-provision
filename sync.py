@@ -10,12 +10,6 @@
 # 1. This script assumes that all files to be pupulated are owned by group ngi-sw
 # and with appropriate file permissions (group read/write, world read). This should
 # be the case if the deployment bash init file have been sourced before installing sw. 
-#
-# 2. This script will atm NOT run rsync with the --delete flag, as it causes troubles
-# with the /lupus/ngi/db/ folder that gets created on irma3, but populated on the
-# cluster. It might also be that someone decides to populate /lupus/ngi/ on the cluster
-# with other subdirs (like tmp, uppsala, stockholm, data, whatever), and using the 
-# --delete flag then risks removing all this. 
 
 import pexpect 
 import sys
@@ -100,10 +94,15 @@ wrong_perm = False
 
 try: 
 	perm_output = subprocess.check_output(find_cmd, shell=True, stderr=subprocess.STDOUT)
-except subprocess.CalledProcessError as e: 
-	print "An error occured with the find subprocess!"
-	print "returncode", e.returncode
-	print "perm_output", e.output
+except subprocess.CalledProcessError as e:
+	# FIXME: grep returns 1 when it doesn't find any matches, so this will 
+	# have to do for now if we want to ignore the error. Could cause problems 
+	# if the find process itself would return an error code > 0 though. 
+	# So a better solution is probably suitable later. 
+	if e.returncode != 1:   
+		print "An error occured with the find subprocess!"
+		print "returncode", e.returncode
+		print "output", e.output
 
 if isinstance(perm_output, str):
 	print "Some files have wrong permissions:"
@@ -129,7 +128,7 @@ else:
 #		src_root_path + "/conf", src_root_path + "/log", src_root_path + "/db", src_root_path + "/ngi_resources", src_root_path + "/piper_resources", 
 #		src_root_path + "/sw", user, host, dest)
 
-rsync_cmd =     "/bin/rsync -avzP --exclude=*.swp --exclude=.git/ --exclude=irma3/ --log-file={0} {1} {2}@{3}:{4}".format(rsync_log_path, 
+rsync_cmd =     "/bin/rsync -avzP --delete --exclude=*.swp --exclude=.git/ --exclude=irma3/ --log-file={0} {1} {2}@{3}:{4}".format(rsync_log_path, 
 		src_root_path, user, host, dest)
 
 print "Running", rsync_cmd
