@@ -1,22 +1,18 @@
 ---
 
-- name: deploy crontab file for ngi2016001
-  template: src="crontab_ngi2016001.j2" dest="{{ ngi_pipeline_conf }}/crontab_ngi2016001"
+- name: deploy crontab file for uppsala
+  template: src="crontab_upps.j2" dest="{{ ngi_pipeline_conf }}/crontab_upps"
   tags: funk_004
 
 - name: create ngi_resources folder 
-  file: name={{ ngi_resources }} state=directory
+  file: name={{ ngi_resources }} state=directory mode=g+s
   tags: funk_004
 
-- name: deploy supervisord.conf for funk_004
-  template: src="supervisord_funk_004.conf.j2" dest="{{ ngi_pipeline_conf }}/supervisord_funk_004.conf"
+- name: deploy supervisord.conf for uppsala
+  template: src="supervisord_upps.conf.j2" dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
   tags: funk_004
 
-- name: deploy start supervisord start script for funk_004
-  template: src="start_supervisord_funk_004.sh.j2" dest="{{ ngi_resources }}/start_supervisord_funk_004.sh"
+- name: deploy start supervisord start script for uppsala
+  template: src="start_supervisord_upps.sh.j2" dest="{{ ngi_resources }}/start_supervisord_upps.sh"
   tags: funk_004
 
-#- name: touch a file for test of gid
-#  file: name="/tmp/gid-test" state=touch
-#  tags: misc
-  

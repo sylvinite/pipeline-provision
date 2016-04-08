@@ -1,7 +1,7 @@
 --- 
 
 - name: create qualimap destination directory 
-  file: path={{ qualimap_dest }} state=directory
+  file: path={{ qualimap_dest }} state=directory mode=g+s
   tags: ngi_piper  
 
 - name: download qualimap archive

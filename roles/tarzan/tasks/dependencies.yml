@@ -12,7 +12,7 @@
 # use a loop a la http://stackoverflow.com/questions/30785281/one-loop-over-multiple-ansible-tasks
 
 - name: create luajit destination directory 
-  file: path={{ luajit_dest }} state=directory
+  file: path={{ luajit_dest }} state=directory mode=g+s
   tags: tarzan 
 
 - name: download luajit archive

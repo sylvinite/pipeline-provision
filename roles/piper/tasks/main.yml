@@ -10,7 +10,7 @@
   tags: ngi_piper
 
 - name: create piper's destination folder 
-  file: name={{ ngi_piper_bin_dest }} state=directory
+  file: name={{ ngi_piper_bin_dest }} state=directory mode=g+s
   tags: ngi_piper
 
 
@@ -43,25 +43,25 @@
 - name: add piper path variable to sourceme script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ ngi_piper_bin_dest }}/bin:{{ ngi_piper_bin_dest }}/workflows:$PATH'
-              backup=yes
+              backup=no
   tags: ngi_piper 
 
 - name: add piper ld_library_path variable to sourceme script                                       
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export LD_LIBRARY_PATH={{ slurm_drmaa_path }}:$LD_LIBRARY_PATH'
-              backup=yes
+              backup=no
   tags: ngi_piper
 
 - name: add piper sh config variable to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PIPER_GLOB_CONF={{ ngi_piper_bin_dest }}/workflows/globalConfig.sh'
-              backup=yes
+              backup=no
   tags: ngi_piper
 
 - name: add piper xml config variable to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PIPER_GLOB_CONF_XML={{ ngi_piper_bin_dest }}/workflows/uppmax_global_config.xml'
-              backup=yes
+              backup=no
   tags: ngi_piper
 
 # FIXME: Do we want the piper confs under workflows dir or in the global ngi_pipeline conf folder? 
@@ -81,18 +81,22 @@
   template: src="gen_GATK_ref.sh.j2" dest="{{ ngi_piper_bin_dest }}/gen_GATK_ref.sh"
   tags: ngi_piper
 
+- name: create ngi_resources folder 
+  file: name={{ ngi_resources }} state=directory mode=g+s
+  tags: ngi_piper
+
 - name: create gatk_bundle directory 
-  file: path="{{ gatk_bundle_b37 }}" state=directory
+  file: path="{{ gatk_bundle_b37 }}" state=directory mode=g+s
   tags: ngi_piper 
 
 - name: create piper_resources directory 
-  file: path="{{ root_path }}/piper_resources" state=directory
+  file: path="{{ ngi_resources }}/piper" state=directory mode=g+s
   tags: ngi_piper
 
 - name: deploy gatk license key 
   copy:
     src: "files/{{ gatk_key }}"
-    dest: "{{ root_path }}/piper_resources/{{ gatk_key }}" 
+    dest: "{{ ngi_resources }}/piper/{{ gatk_key }}" 
   tags: ngi_piper
 
 # 3rd party programs that Piper needs should be installed when Piper has been put in 

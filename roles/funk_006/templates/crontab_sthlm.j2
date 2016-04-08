@@ -1,11 +1,11 @@
 SHELL=/bin/bash
-@reboot source $HOME/.bash_profile && supervisord -c $HOME/config/supervisord.conf
+@reboot source $HOME/.bash_profile && supervisord -c {{ ngi_pipeline_conf }}/supervisord_sthlm.conf
 
 # updates charon with locally stored run info
 0 * * * * source $HOME/.bashrc &> /dev/null && update_charon_with_local_jobs_status.py -e piper &> /dev/null
 
 # restart supervisord if it has died for some reason
-11 * * * *      bash {{ ngi_resources }}/start_supervisord.sh &> /dev/null
+11 * * * *      bash {{ ngi_resources }}/start_supervisord_sthlm.sh &> /dev/null
 
 # meta crontab: load itself all the time so we do not have to manually load the rules when updated 
-/10 * * * * /usr/bin/crontab {{ ngi_pipeline_conf }}/crontab_ngi2016003
+/10 * * * * /usr/bin/crontab {{ ngi_pipeline_conf }}/crontab_sthlm

@@ -1,5 +1,5 @@
 ---
 
-ngi_resources: /lupus/ngi/ngi_resources/
+ngi_resources: /lupus/ngi/resources/
 supervisord_log_dest: /home/funk_004/log/ 
 ngi_pipeline_web_port: 6666
