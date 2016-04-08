@@ -32,6 +32,7 @@ To sync over data to the cluster we need the pexpect Python module. Load the ans
 
 ## Some operational dependencies
 
+- When developing roles make sure that directories are created with the setgid flag `mode=g+s`, as that will act as an extra insurance that the correct group owner gets set on new files created in the dirs (`ngi-sw` or `ngi`). This is needed as we can't have a setgid on the root folder `/lupus/ngi` (as that one is owned by `ngi-sw` and we need subdirs owned by `ngi`). 
 - Requires a working connection to `charon` or `charon-dev` with suitable API token. 
 - Requires a valid GATK key placed under `playbooks/files`, and that the filename is specified in the `gatk_key` variable in `host_vars/127.0.0.1/main.yml`. 
 - Requires a `charon_credentials.yml` to be placed under `host_vars/127.0.0.1/` with appropriate values set for the variables `charon_base_url`, `charon_api_token_upps` and `charon_api_token_sthlm`. (TODO: Contemplate whether this should be structured otherwise) 
