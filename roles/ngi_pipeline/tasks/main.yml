@@ -84,11 +84,11 @@
   tags: ngi_pipeline 
 
 - name: create ngi_pipeline log dir
-  file: name={{ ngi_pipeline_logs }} state=directory
+  file: name={{ ngi_pipeline_logs }} state=directory group=ngi
   tags: ngi_pipeline
 
 - name: create db dir for ngi_pipeline
-  file: name={{ ngi_pipeline_db }} state=directory
+  file: name={{ ngi_pipeline_db }} state=directory group=ngi
   tags: ngi_pipeline
 
 - name: add anaconda path to sourceme script
