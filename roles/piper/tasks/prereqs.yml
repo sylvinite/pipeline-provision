@@ -32,6 +32,6 @@
 - name: add java and maven to the user's path via sourceme script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ java_path }}/bin:{{ maven_path }}/bin:$PATH'
-              backup=yes
+              backup=no
   tags: ngi_piper 
 
