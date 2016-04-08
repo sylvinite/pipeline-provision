@@ -35,7 +35,7 @@ To sync over data to the cluster the pexpect Python module is required. Load the
 ## Operational dependencies
 
 - A working connection to `charon` or `charon-dev` as well as a suitable API token. 
-- A valid GATK key placed under `playbooks/files`. The filename must be specified in the `gatk_key` variable in `host_vars/127.0.0.1/main.yml`. 
+- A valid GATK key placed under `deploy/files`. The filename must be specified in the `gatk_key` variable in `host_vars/127.0.0.1/main.yml`. 
 - A `charon_credentials.yml` file under `host_vars/127.0.0.1/` with appropriate values set for the variables `charon_base_url`, `charon_api_token_upps` and `charon_api_token_sthlm`. (TODO: Contemplate whether this should be structured otherwise) 
 - If the deployer needs to deploy to sw the deployer needs to be in both the `ngi-sw` and the `ngi` groups. Everything under `/lupus/ngi` will be owned by `ngi-sw`, except the `/db` and `/log` dirs which are owned by `ngi`. Only deployers can write new programs and configs, but all NGI functional accounts (`funk_004`, `funk_006` etc) can write log files, to the SQL databases, etc. 
 
