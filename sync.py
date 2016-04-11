@@ -17,8 +17,6 @@ import getpass
 import subprocess 
 #import argparse 
 
-# TODO: Redo the include/exclude so that we exclude everything to be 
-#       kept on irma3, and implicitely sync everything else.  
 # TODO: Need to catch wrong token or wrong password. 
 # TODO: Lots of errors that can go wrong.
 
@@ -128,8 +126,8 @@ else:
 #		src_root_path + "/conf", src_root_path + "/log", src_root_path + "/db", src_root_path + "/ngi_resources", src_root_path + "/piper_resources", 
 #		src_root_path + "/sw", user, host, dest)
 
-rsync_cmd =     "/bin/rsync -avzP --delete --exclude=*.swp --exclude=.git/ --exclude=irma3/ --log-file={0} {1} {2}@{3}:{4}".format(rsync_log_path, 
-		src_root_path, user, host, dest)
+excludes = "--exclude=*.swp --exclude=.git/ --exclude=irma3/ --exclude=resources/piper/gatk_bundle/2.8/b37/"
+rsync_cmd = "/bin/rsync -avzP --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest)
 
 print "Running", rsync_cmd
 
