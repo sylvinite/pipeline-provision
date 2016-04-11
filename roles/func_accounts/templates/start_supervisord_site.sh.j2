@@ -9,6 +9,6 @@ fi
 
 # otherwise, let's start it up
 source ${HOME}/.bash_profile &> /dev/null
-supervisord -c {{ ngi_pipeline_conf}}/supervisord_upps.conf &> /dev/null
+supervisord -c {{ ngi_pipeline_conf}}/supervisord_{{ site }}.conf &> /dev/null
 exit $?
 
