@@ -1,7 +1,7 @@
 ---
 
 - name: create java destination folder 
-  file: path={{ java_dest }} state=directory
+  file: path={{ java_dest }} state=directory mode=g+s
   tags: ngi_piper 
 
 - name: download oracle jdk archive
@@ -16,7 +16,7 @@
   tags: ngi_piper
 
 - name: create maven destination folder
-  file: path={{ maven_dest }} state=directory
+  file: path={{ maven_dest }} state=directory mode=g+s
   tags: ngi_piper
 
 - name: download maven archive
@@ -32,6 +32,6 @@
 - name: add java and maven to the user's path via sourceme script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ java_path }}/bin:{{ maven_path }}/bin:$PATH'
-              backup=yes
+              backup=no
   tags: ngi_piper 
 

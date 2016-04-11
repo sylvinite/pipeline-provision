@@ -1,0 +1,19 @@
+SHELL=/bin/bash
+@reboot source $HOME/.bash_profile && supervisord -c {{ ngi_pipeline_conf }}/supervisord_upps.conf
+
+# TODO: Shall this still be here?? 
+0 * * * * source $HOME/.bashrc &> /dev/null && update_charon_with_local_jobs_status.py -e piper &> /dev/null
+
+# (SNP&SEQ) dump the size of project directories
+22 7,19 * * *   bash {{ ngi_resources }}/project_sizes.sh &> /dev/null
+
+# (SNP&SEQ) copy the aggregate reports 
+42 22 * * *     find /proj/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/analysis_ready/ANALYSIS/*/piper_ngi/delivery/reports/ -name "*_aggregate_report.csv" -exec cp {} /proj/{{ ngi_pipeline_upps_delivery }}/logs/ \;
+# (SNP&SEQ) copy the version reports
+45 22 * * *     find /proj/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/analysis_ready/ANALYSIS/*/piper_ngi/logs/ -name "version_report.txt" |while read f; do p=`echo "$f" |sed -re 's/^.*ANALYSIS\/([^\/]+)\/.*$/\1/'`; rsync -ac "$f" "/proj/{{ ngi_pipeline_upps_delivery }}/logs/${p}_version_report.txt"; done
+
+# restart supervisord if it has died for some reason
+11 * * * *      bash {{ ngi_resources }}/start_supervisord_upps.sh &> /dev/null
+
+# meta crontab: load itself all the time so we do not have to manually load the rules when updated 
+/10 * * * * /usr/bin/crontab {{ ngi_pipeline_conf }}/crontab_upps

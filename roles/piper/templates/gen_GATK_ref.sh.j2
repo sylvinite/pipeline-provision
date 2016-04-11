@@ -1,0 +1,27 @@
+#!/bin/bash 
+
+# This script should be manually run by a user in the ngi-sw group inside the cluster
+# to generate the indices for the GATK bundle, as well as symlink in the data files. 
+#
+# The gatk_bundle_b37 dir will for now be excluded from the rsync irma3 -> cluster, 
+# so that the manually generated data is not removed at the next sync. 
+
+module load bioinfo-tools
+module load bwa
+
+# FIXME: Make sure tabix is added to module system instead.
+#module load tabix
+export PATH=/sw/apps/bioinfo/tabix/0.2.6/nestor/bin/:$PATH
+
+
+mkdir -p {{ gatk_bundle_b37 }}
+cd {{ gatk_bundle_b37 }}
+
+ln -s {{ gatk_bundle_b37_origin }}/* .
+
+bwa index {{ gatk_bundle_b37 }}/human_g1k_v37.fasta
+tabix -p vcf 1000G_phase1.snps.high_confidence.b37.vcf
+tabix -p vcf dbsnp_138.b37.vcf
+
+
+
