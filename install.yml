@@ -6,6 +6,5 @@
   roles: 
     - ngi_pipeline
     - piper
-    - funk_004
-    - funk_006
+    - func_accounts
 
