@@ -17,8 +17,8 @@
   tags: func_accounts
 
 - set_fact: 
-    supervisord_log_dest: supervisord_log_dest_upps
-    ngi_pipeline_web_port: ngi_pipeline_web_port_upps
+    supervisord_log_dest: "{{ supervisord_log_dest_upps }}"
+    ngi_pipeline_web_port: "{{ ngi_pipeline_web_port_upps }}"
   tags: func_accounts 
 
 - name: deploy supervisord.conf for uppsala
@@ -26,8 +26,8 @@
   tags: func_accounts
 
 - set_fact: 
-    supervisord_log_dest: supervisord_log_dest_sthlm
-    ngi_pipeline_web_port: ngi_pipeline_web_port_sthlm
+    supervisord_log_dest: "{{ supervisord_log_dest_sthlm }}"
+    ngi_pipeline_web_port: "{{ ngi_pipeline_web_port_sthlm }}"
   tags: func_accounts 
 
 - name: deploy supervisord.conf for stockholm
@@ -35,7 +35,7 @@
   tags: func_accounts
 
 - set_fact: 
-    site: upps
+    site: "upps"
   tags: func_accounts
 
 - name: deploy start supervisord start script for uppsala
@@ -43,7 +43,7 @@
   tags: func_accounts
 
 - set_fact: 
-    site: sthlm
+    site: "sthlm"
   tags: func_accounts 
 
 - name: deploy start supervisord start script for stockholm
