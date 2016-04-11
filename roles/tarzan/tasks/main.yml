@@ -1,7 +1,7 @@
 --- 
 
 - name: create tarzan main directory 
-  file: name={{ tarzan_dest }} type=directory mode=g+s
+  file: name={{ tarzan_dest }} state=directory mode=g+s
   tags: tarzan 
 
 - include: dependencies.yml tags=tarzan

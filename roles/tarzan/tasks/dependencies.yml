@@ -1,5 +1,4 @@
 ---
-
 # kong demands: 
 # luajit
 # luarocks
@@ -22,7 +21,66 @@
   tags: tarzan
 
 - name: unpack luajit to destination
-  unarchive: src="{{ luajit_dest }}/{{ luajit_file }}" dest={{ luajit_dest }}/ copy=no creates={{ luajit_path }}/LICENSE
+  unarchive: src="{{ luajit_dest }}/{{ luajit_file }}" dest={{ luajit_dest }}/ copy=no creates={{ luajit_dest }}/LICENSE
   tags: tarzan
 
+- name: set luajits install path
+  lineinfile: dest="{{ luajit_dest }}/LuaJIT-{{ luajit_version }}/Makefile"
+              regexp="^export PREFIX=./usr/local"
+              line='export PREFIX={{ luajit_dest }}/{{ luajit_version }}'
+              backup=no
+  tags: tarzan 
 
+- name: compile luajit 
+  shell: "cd {{ luajit_dest }}/LuaJIT-{{ luajit_version }} && make && make install"
+  tags: tarzan 
+
+- name: symlink luajit binary
+  file: src="{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}" path="{{ luajit_dest }}/{{ luajit_version }}/bin/lua" state=link
+  tags: tarzan
+
+# add luajit to path 
+#- name: add anaconda path to sourceme script
+#  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+#              line='export PATH={{ anaconda_path }}/bin:$PATH'
+#              backup=no
+#  tags: ngi_pipeline
+
+- name: create luarocks destination directory
+  file: path={{ luarocks_dest }} state=directory mode=g+s
+  tags: tarzan
+
+- name: download luarocks archive
+  get_url:
+    url: "{{ luarocks_url }}"
+    dest: "{{ luarocks_dest }}/{{ luarocks_file }}"
+  tags: tarzan
+
+- name: unpack luarocks to destination
+  unarchive: src="{{ luarocks_dest }}/{{ luarocks_file }}" dest={{ luarocks_dest }}/ copy=no creates={{ luarocks_dest }}/LICENSE
+  tags: tarzan
+
+- name: configure luarocks
+  shell: "cd {{ luarocks_dest }}/luarocks-{{ luarocks_version }} && ./configure --with-lua={{ luajit_dest }}/{{ luajit_version }} --with-lua-include={{ luajit_dest }}/{{ luajit_version }}/include/luajit-2.1 --prefix={{ luarocks_dest }}/{{ luarocks_version }}"
+  tags: tarzan
+
+- name: compile luarocks 
+  shell: "cd {{ luarocks_dest }}/luarocks-{{ luarocks_version }} && make && make install"
+  tags: tarzan 
+
+# Add luarocks to path (see .bashrc @ tarzan vm)
+
+- name: create openresty destination directory
+  file: path={{ openresty_dest }} state=directory mode=g+s
+  tags: tarzan
+
+- name: download openresty archive
+  get_url:
+    url: "{{ openresty_url }}"
+    dest: "{{ openresty_dest }}/{{ openresty_file }}"
+  tags: tarzan
+
+- name: unpack openresty to destination
+  unarchive: src="{{ openresty_dest }}/{{ openresty_file }}" dest={{ openresty_dest }}/ copy=no creates={{ openresty_dest }}/LICENSE
+  tags: tarzan
+ 
