@@ -32,7 +32,7 @@ Anaconda was downloaded manually (**TODO: do this in the playbook instead?**) an
 
 To sync over data to the cluster the pexpect Python module is required. Load the ansible-env Python environment and then run `pip install pexpect`. 
 
-Finnally the setgid flag was set by running `chmod -R g+s /lupus/ngi/sw/ /lupus/ngi/irma3/`.
+Note that in general we want all our directories to be setgid the ngi-sw group, but when the files under `/lupus/ngi/sw/anaconda` has this flag set it will break the virtual environment. 
 
 ## Operational dependencies
 - When developing roles make sure that directories are created with the setgid flag `mode=g+s`, as it will act as an extra insurance that the new files created in the dirs (`ngi-sw` or `ngi`) recieve the correct owner. This extra step is necessary as setgid can't be set for the root folder `/lupus/ngi` (as it is owned by `ngi-sw` and the deployment require subdirs owned by `ngi`). 
