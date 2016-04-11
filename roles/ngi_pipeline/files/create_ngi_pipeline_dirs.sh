@@ -16,4 +16,5 @@ fi
 
 mkdir -p /proj/$1/private/ngi_pipeline/log
 mkdir -p /proj/$1/private/ngi_pipeline/db
+mkdir -p /proj/$1/private/ngi_pipeline/log/supervisord
 find /proj/$1/private/ngi_pipeline -ls
