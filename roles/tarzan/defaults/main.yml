@@ -6,6 +6,7 @@ tarzan_dest: "{{ root_path }}/sw/tarzan/"
 
 kong_url: https://github.com/Mashape/kong/archive/0.7.0.tar.gz
 kong_file: 0.7.0.tar.gz
+kong_version: 0.7.0
 kong_dest: "{{ tarzan_dest }}/kong/"
 
 # kong depends on the lua eco system
@@ -20,7 +21,10 @@ luarocks_version: 2.3.0
 luarocks_dest: "{{ tarzan_dest }}/luarocks/"
 
 # kong depends on cassandra as backend 
-cassandra_url: http://apache.mirrors.spacedump.net/cassandra/2.2.x/apache-cassandra-2.2.x-bin.tar.gz
+cassandra_url: http://apache.mirrors.spacedump.net/cassandra/2.2.5/apache-cassandra-2.2.5-bin.tar.gz
+cassandra_file: apache-cassandra-2.2.5-bin.tar.gz
+cassandra_version: 2.2.5
+cassandra_dest: "{{ tarzan_dest }}/cassandra/"
 
 # kong depends on the openresty nginx clone
 openresty_url: https://openresty.org/download/openresty-1.9.7.3.tar.gz

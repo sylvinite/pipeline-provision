@@ -5,3 +5,33 @@
   tags: tarzan 
 
 - include: dependencies.yml tags=tarzan
+
+- name: create kong destination directory
+  file: path={{ kong_dest }} state=directory mode=g+s
+  tags: tarzan
+
+- name: download kong archive
+  get_url:
+    url: "{{ kong_url }}"
+    dest: "{{ kong_dest }}/{{ kong_file }}"
+  tags: tarzan
+
+- name: unpack kong to destination
+  unarchive: src="{{ kong_dest }}/{{ kong_file }}" dest={{ kong_dest }}/ copy=no creates={{ kong_dest }}/{{ kong_version }}/bin/kong
+  tags: tarzan
+
+- set_fact: 
+    my_path: "{{ luajit_dest }}/{{ luajit_version }}/bin:{{ luarocks_dest }}/{{ luarocks_version }}/bin:{{ openresty_dest }}/{{ openresty_version }}/bin:{{ cassandra_dest }}/{{ cassandra_version }}/bin/"
+  tags: tarzan 
+
+- name: compile kong 
+  shell: "export PATH={{ my_path }}:$PATH && luarocks make kong-*.rockspec"
+  args: 
+    chdir: "{{ kong_dest }}/kong-{{ kong_version }}"
+    creates: "{{ kong_dest }}/{{ kong_version }}/bin/kong"
+  tags: tarzan 
+
+- name: create symlink to kong install dir
+  file: src="{{ kong_dest }}/kong-{{ kong_version }}" path="{{ kong_dest }}/{{ kong_version }}" state=link
+  tags: tarzan
+ 
