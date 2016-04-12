@@ -4,10 +4,11 @@ tarzan_dest: "{{ root_path }}/sw/tarzan/"
 
 ## Paths for all sw to download and later build 
 
-kong_url: https://github.com/Mashape/kong/archive/0.7.0.tar.gz
-kong_file: 0.7.0.tar.gz
 kong_version: 0.7.0
-kong_dest: "{{ tarzan_dest }}/kong/"
+# Not needed anymore. 
+#kong_url: https://github.com/Mashape/kong/archive/0.7.0.tar.gz
+#kong_file: 0.7.0.tar.gz
+#kong_dest: "{{ tarzan_dest }}/kong/"
 
 # kong depends on the lua eco system
 luajit_url: http://luajit.org/download/LuaJIT-2.1.0-beta2.tar.gz
@@ -35,6 +36,9 @@ openresty_dest: "{{ tarzan_dest }}/openresty/"
 # openresty depends on pcre
 pcre_url: ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.gz
 
-
 ## Settings for relevant sw
+
+tarzan_env_path: "{{ luajit_dest }}/{{ luajit_version }}/bin:{{ luarocks_dest }}/{{ luarocks_version }}/bin:{{ openresty_dest }}/{{ openresty_version }}/bin:{{ cassandra_dest }}/{{ cassandra_version }}/bin/"
+
+tarzan_log_dest: "{{ ngi_pipeline_upps_path }}/log/tarzan/"
  

@@ -46,13 +46,6 @@
   file: src="{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}" path="{{ luajit_dest }}/{{ luajit_version }}/bin/luajit" state=link
   tags: tarzan
 
-# add luajit to path 
-#- name: add anaconda path to sourceme script
-#  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-#              line='export PATH={{ anaconda_path }}/bin:$PATH'
-#              backup=no
-#  tags: ngi_pipeline
-
 - name: create luarocks destination directory
   file: path={{ luarocks_dest }} state=directory mode=g+s
   tags: tarzan
