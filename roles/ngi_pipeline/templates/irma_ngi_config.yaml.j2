@@ -10,8 +10,8 @@ environment:
     ngi_scripts_dir: {{ ngi_pipeline_dest }}/scripts 
     conda_env: NGI
     flowcell_inbox:
-            - /proj/{{ ngi_pipeline_sthlm_delivery }}/archive
-            - /proj/{{ ngi_pipeline_upps_delivery }}/archive
+            - /proj/{{ ngi_pipeline_sthlm_delivery }}/incoming
+            - /proj/{{ ngi_pipeline_upps_delivery }}/incoming
 # TODO: This QOS flag is probably not used/needed any longer. 
 #       Enable later in the future if required. 
 #slurm:
@@ -28,7 +28,7 @@ piper:
     gatk_key: "{{ ngi_pipeline_conf }}/{{ gatk_key }}"
 
 supported_genomes:
-    #"GRCh37": "/apus/data/uppnex/reference/Homo_sapiens/GRCh37/concat/Homo_sapiens.GRCh37.57.dna.concat.fa"
+    # GRCh37: Indexed version of "/lupus/data/uppnex/reference/Homo_sapiens/GRCh37/concat/Homo_sapiens.GRCh37.57.dna.concat.fa"
     "GRCh37": "{{ gatk_bundle_b37 }}/human_g1k_v37.fasta"
     # GRMc38 is currently not used.  
     #"GRCm38": "/sw/data/uppnex/reference/Mus_musculus/GRCm38/concat/Mus_musculus.GRCm38.69.dna.concat.fa"
