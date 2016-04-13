@@ -1,58 +1,70 @@
-# Playbooks and scripts for deploying NGI pipeline and Piper. 
+# Playbooks and scripts for deploying NGI pipeline and related software (Piper, TACA, tarzan etc.). 
 
 Ansible playbooks to deploy production instances on Irma from irma3. 
 
-## Usage 
+## To enable the functionality of this repo
 
-Run `source /lupus/ngi/irma3/bashrc` to setup environment variables for the virtual Ansible environment.
-This will force a suitable umask and set your GID to ngi-sw, which makes sure all files installed are setup so that they are properly group readable/writeable, and readable for world. 
+Checkout this repo to `/lupus/ngi/irma3/deploy`
 
-Issue the command `source /lupus/ngi/irma3/ansible-env/bin/activate` to load the Python environment for Ansible and `sync.py`.
-Navigate to `/lupus/ngi/irma3/deploy` and install (i.e. download, setup/compile and provision set configs) for required the software under `/lupus/ngi/`. 
+Copy the file `bootstrap/bashrc` to `/lupus/ngi/irma3/bashrc`. This file has to be sourced every time a user wants to work. 
 
-The simplest example of this is the command `ansible-playbook install.yml`. 
+Setup a virtual enviroment, i.e. : `/lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py -p /usr/bin/python2.7 /lupus/ngi/irma3/ansible-env`
 
-Universal configuration values set in `host_vars/127.0.0.1/main.yml` (global values), and each respective role's in `<role>/defaults/main.yml` file. 
+Activate the environment `source /lupus/ngi/irma3/ansible-env/bin/activate` 
 
-When the software has been setup locally under `/lupus/ngi/` on irma3, sync it over to the irma cluster by having the ansible-env loaded and then run `python sync.py <remote dest>` (if no `remote dest` is supplied it will go under `/lupus/ngi`). The script will prompt you for your UPPMAX password and then your SNIC-SENSE factor, and then initiate the rsync of all files residing under `/lupus/ngi` on irma3 (except the `irma3` subdirectory). 
+Install ansible `pip install ansible`
 
-Log files of software installed by Ansible ends up under `/lupus/ngi/irma3/log/ansible.log`, and for the sync under `/lupus/ngi/irma3/log/rsync.log`. 
+Download Anaconda and install it to `/lupus/ngi/sw/anaconda`
 
-A manual step is required for generating the GATK indices. After everything has been deployed on the cluster run the script `/lupus/ngi/sw/piper/gen_GATK_ref.sh`. 
+Enable rsync functionality `pip install pexpect`
 
-## Bootstrapping the playbook environment 
+## Developing new deployment scripts
+### Irma 3
+`source /lupus/ngi/irma3/bashrc` loads environment variables and sets GID to ngi-sw
+`source /lupus/ngi/irma3/ansible-env/bin/activate` loads python enviroment, for ansible and `sync.py`
 
-Check out this repo to e.g. `/lupus/ngi/irma3/deploy`. Then copy the file `bootstrap/bashrc` to `/lupus/ngi/irma3/bashrc`. This file has to be sourced every time a user wants to work. 
+Write deployment scripts under `/lupus/ngi/irma3/deploy`. Make sure the target is somewhere under `/lupus/ngi/`. Some folders (such as `/lupus/ngi/irma3/`) should not be used as targets as they are never rsynced.
 
-The latest version of virtualenv was downloaded and then locally run to setup the virtual Python environment. The command used was: `/lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py -p /usr/bin/python2.7 /lupus/ngi/irma3/ansible-env`. 
+Run the deployment script, for instance `ansible-playbook install.yml`
 
-After activating the environment with `source /lupus/ngi/irma3/ansible-env/bin/activate` Ansible was installed with `pip install ansible`.
- 
-Anaconda was downloaded manually (**TODO: do this in the playbook instead?**) and installed via the interactive guide under `/lupus/ngi/sw/anaconda` (some Ansible roles later uses anaconda to setup the NGI virtual environment.)
+Place any additional files that need to be synced over under `/lupus/ngi/`
 
-To sync over data to the cluster the pexpect Python module is required. Load the ansible-env Python environment and then run `pip install pexpect`. 
+`python sync.py <remote dest>` rsyncs all files under `/lupus/ngi` on irma3 to irma1. Default directory is `/lupus/ngi`
 
-Note that in general we want all our directories to be setgid the ngi-sw group, but when the files under `/lupus/ngi/sw/anaconda` has this flag set it will break the virtual environment. 
 
-## Operational dependencies
-- When developing roles make sure that directories are created with the setgid flag `mode=g+s`, as it will act as an extra insurance that the new files created in the dirs (`ngi-sw` or `ngi`) recieve the correct owner. This extra step is necessary as setgid can't be set for the root folder `/lupus/ngi` (as it is owned by `ngi-sw` and the deployment require subdirs owned by `ngi`). 
-- A working connection to `charon` or `charon-dev` as well as a suitable API token. 
-- A valid GATK key placed under `deploy/files`. The filename must be specified in the `gatk_key` variable in `host_vars/127.0.0.1/main.yml`. 
-- A `charon_credentials.yml` file under `host_vars/127.0.0.1/` with appropriate values set for the variables `charon_base_url`, `charon_api_token_upps` and `charon_api_token_sthlm`. (TODO: Contemplate whether this should be structured otherwise) 
-- If the deployer needs to deploy to sw the deployer needs to be in both the `ngi-sw` and the `ngi` groups. Everything under `/lupus/ngi` will be owned by `ngi-sw`, except the `/db` and `/log` dirs which are owned by `ngi`. Only deployers can write new programs and configs, but all NGI functional accounts (`funk_004`, `funk_006` etc) can write log files, to the SQL databases, etc. 
+## Running the supported tools
 
-Three manual steps are also needed for each func account. In respective `~/.bashrc` the following snippet needs to be added: 
+### Irma 1
+`source /lupus/ngi/conf/sourceme_<SITE>.sh` where `<site>` is `upps` for `funk_004`, and `sthlm` for `funk_006` respectively.
+`source activate NGI` to start the enviroment.
 
-	# Enter the ngi_pipeline working environment
-	source /lupus/ngi/conf/sourceme_<site>.sh
-	source activate NGI
+The run software in accordance with how it is typically is used.
 
-where `<site>` should be `upps` for `funk_004', and `sthlm` for `funk_006`. 
+#### Single use commands
+`crontab /lupus/ngi/conf/crontab_<site>` (user) initializes the first instance of cron for the user. No posterior loading is required.
+`/lupus/ngi/resources/create_ngi_pipeline_dirs.sh <project_name>` (project) creates the log and db directories for <project_name>.
+`/lupus/ngi/sw/piper/gen_GATK_ref.sh` (global) generates the required GATK indexes to run piper.
 
-Then to get the crontab for each func account loaded a manual `crontab /lupus/ngi/conf/crontab_<site>` needs to be run. The crontab files includes an autoreload, so next time a new version of the crontab is deployed the crontab for the func account should after a while be appropriately reloaded. 
+## Pipeline run-time dependecies
 
-Finally each func account needs to create the ngi_pipeline dirs for logs and dbs in respective project area. The `funk_004` user should e.g run `/lupus/ngi/resources/create_ngi_pipeline_dirs.sh ngi2016001`.
+- A working connection to `charon` or `charon-dev` as well as a generated API token. 
 
-## Note on re-compiling software
+- A valid GATK key placed under `/lupus/ngi/irma3/deploy/files`. The filename must be specified in the `gatk_key` variable in `host_vars/127.0.0.1/main.yml`. 
 
-FIXME: Need to remove the file that is specified in the task's `creates=` field. Otherwise the compile step will be ignored.  
+- A `charon_credentials.yml` file placed under `/lupus/ngi/irma3/host_vars/127.0.0.1/` to set the variables `charon_base_url`, `charon_api_token_upps` and `charon_api_token_sthlm`.
+
+## File details
+
+Global configuration values set in `host_vars/127.0.0.1/main.yml`, and each respective role's in the `<role>/defaults/main.yml` file. 
+
+`/lupus/ngi/irma3/log/ansible.log` logs the files installed by ansible
+
+`/lupus/ngi/irma3/log/rsync.log` logs the rsync history
+
+All directories need to be set to setgid=ngi-sw, with the exception of the files under `/lupus/ngi/sw/anaconda` as it breaks the enviroment.
+
+When developing roles make sure that directories must have the setgid flag `mode=g+s`; this makes sure the files in the dirs (`ngi-sw` or `ngi`) recieve their correct owner.
+
+Deploying to sw requires the deployer needs to be in both the `ngi-sw` and the `ngi` groups. Everything under `/lupus/ngi` is owned by `ngi-sw`, except the `/db/` and `/log/` dirs which are owned by `ngi`.
+
+Only deployers can write new programs and configs, but all NGI functional accounts (`funk_004`, `funk_006` etc) can write log files, to the SQL databases, etc. 
