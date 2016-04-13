@@ -128,7 +128,7 @@ else:
 
 excludes = "--exclude=*.swp --exclude=.git/ --exclude=irma3/ --exclude=resources/piper/gatk_bundle/2.8/b37/"
 rsync_cmd = "/bin/rsync -avzP --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest) 
-# Do this cleaner 
+# TODO: Do this cleaner 
 dry_cmd = "/bin/rsync --dry-run -avzP --delete {0} {1} {2}@{3}:{4}".format(excludes, src_root_path, user, host, dest) 
 
 # First doing a dry-run to confirm sync. 
@@ -140,7 +140,7 @@ child.sendline(password)
 child.interact()
 child.close()
 
-choice = yes_or_no("Do you want to do this sync for real? ")
+choice = yes_or_no("Dry run finished. Do you wish to perform an actual sync of these files? ")
 
 if choice:
 	print "All right, will continue to sync."
