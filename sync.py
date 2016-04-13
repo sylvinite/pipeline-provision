@@ -127,7 +127,26 @@ else:
 #		src_root_path + "/sw", user, host, dest)
 
 excludes = "--exclude=*.swp --exclude=.git/ --exclude=irma3/ --exclude=resources/piper/gatk_bundle/2.8/b37/"
-rsync_cmd = "/bin/rsync -avzP --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest)
+rsync_cmd = "/bin/rsync -avzP --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest) 
+# Do this cleaner 
+dry_cmd = "/bin/rsync --dry-run -avzP --delete {0} {1} {2}@{3}:{4}".format(excludes, src_root_path, user, host, dest) 
+
+# First doing a dry-run to confirm sync. 
+print('Initiating a rsync dry-run')
+child = pexpect.spawn(dry_cmd)
+child.expect(exp_pass) 
+print('Sending dry-run password')
+child.sendline(password)
+child.interact()
+child.close()
+
+choice = yes_or_no("Do you want to do this sync for real? ")
+
+if choice:
+	print "All right, will continue to sync."
+else:
+	print "All right, aborting."
+	sys.exit()
 
 print "Running", rsync_cmd
 
