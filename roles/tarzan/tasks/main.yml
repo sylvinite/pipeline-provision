@@ -1,7 +1,35 @@
 --- 
 
 - name: create tarzan main directory 
-  file: name={{ tarzan_dest }} type=directory mode=g+s
+  file: name={{ tarzan_dest }} state=directory mode=g+s
   tags: tarzan 
 
 - include: dependencies.yml tags=tarzan
+
+- name: install kong via luarocks
+  shell: "export PATH={{ tarzan_env_path }}:$PATH && luarocks install kong {{ kong_version }}-0"
+  tags: tarzan
+
+- name: add the kong paths to the user's environment via the sourceme script 
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export PATH={{ tarzan_env_path }}:$PATH'
+              backup=no
+  tags: tarzan
+
+# TODO: have a subdir for all tarzan confs? 
+
+# TODO: Deploy/Config a kong.yml
+- name: deploy config for kong
+  template: src="kong.yml.j2" dest="{{ ngi_pipeline_conf }}/webproxy.yml"
+  tags: tarzan
+
+# TODO: Deploy a script that launches the kong and cassandra service with the correct conf file (supervisord)
+
+# TODO: Adjust the existing supervisord script instead? 
+- name: deploy supervisord script for kong
+  template: src="supervisord_kong.conf.j2" dest="{{ ngi_pipeline_conf }}/supervisord_webproxy.conf"
+  tags: tarzan
+
+# TODO: Update crontab so that it launches the tarzan supervisord
+# TODO: Update the cassandra config 
+ 
