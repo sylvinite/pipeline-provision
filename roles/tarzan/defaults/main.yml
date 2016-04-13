@@ -33,12 +33,16 @@ openresty_file: openresty-1.9.7.3.tar.gz
 openresty_version: 1.9.7.3
 openresty_dest: "{{ tarzan_dest }}/openresty/"
 
-# openresty depends on pcre
-pcre_url: ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.gz
+# kong depends on serf for service/cluster discovery 
+serf_url: https://releases.hashicorp.com/serf/0.7.0/serf_0.7.0_linux_amd64.zip
+serf_file: serf_0.7.0_linux_amd64.zip
+serf_version: 0.7.0
+serf_dest: "{{ tarzan_dest }}/serf"
 
 ## Settings for relevant sw
 
-tarzan_env_path: "{{ luajit_dest }}/{{ luajit_version }}/bin:{{ luarocks_dest }}/{{ luarocks_version }}/bin:{{ openresty_dest }}/{{ openresty_version }}/bin:{{ cassandra_dest }}/{{ cassandra_version }}/bin/"
+tarzan_env_path: "{{ luajit_dest }}/{{ luajit_version }}/bin:{{ luarocks_dest }}/{{ luarocks_version }}/bin:{{ openresty_dest }}/{{ openresty_version }}/bin:{{ cassandra_dest }}/{{ cassandra_version }}/bin/:{{ serf_dest }}/:{{ openresty_dest }}/{{ openresty_version }}/nginx/sbin"
 
 tarzan_log_dest: "{{ ngi_pipeline_upps_path }}/log/tarzan/"
- 
+tarzan_db_dest: "{{ ngi_pipeline_upps_path }}/db/tarzan/"
+cassandra_db_dest: "{{ tarzan_db_dest }}/cassandra" 
