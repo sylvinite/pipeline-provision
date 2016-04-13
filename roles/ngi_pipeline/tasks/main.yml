@@ -93,3 +93,8 @@
               backup=no
   tags: ngi_pipeline
 
+# Ugly fix for now for some easy_install files that loses their permission under anaconda
+- name: manually fix group permissions for anaconda 
+  shell: "chmod -R g+rwX {{ anaconda_path }}"
+  tags: ngi_pipeline 
+

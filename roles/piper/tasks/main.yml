@@ -13,7 +13,6 @@
   file: name={{ ngi_piper_bin_dest }} state=directory mode=g+s
   tags: ngi_piper
 
-
 # TODO: This is not needed for developers, so we should only run it for production, 
 # where we do not have a home directory at the moment on irma3. 
 - name: set mvn command line args in piper's setup.sh 
@@ -30,6 +29,15 @@
     dest: "{{ ngi_piper_src_dest }}/setup.sh"
     regexp: "^sbt/bin/sbt pack"
     replace: "sbt/bin/sbt pack {{ sbt_args }}"
+  tags: ngi_piper
+
+- name: force umask 0002 for setup.sh's git clone command
+  replace: 
+    dest: "{{ ngi_piper_src_dest }}/setup.sh"
+    regexp: "^#!/bin/bash -l"
+    replace: "#!/bin/bash"
+#    regexp: "git clone https://github.com/broadgsa/gatk-protected.git $GATK_INSTALL_DIR"
+#    replace: "umask 0002 && git clone https://github.com/broadgsa/gatk-protected.git $GATK_INSTALL_DIR"
   tags: ngi_piper
 
 # This could be uploaded as a wrapper script if one would prefer that... 
@@ -102,3 +110,10 @@
 # 3rd party programs that Piper needs should be installed when Piper has been put in 
 # place due to dependency on e.g. piper_src.  
 - include: dependencies.yml
+
+# Ugly fix for now for some piper folders gets the wrong group perm after installation
+# Will have to do, as we're gonna use Piper from the module system later anyway.  
+- name: manually fix group permissions for Piper 
+  shell: "chmod -R g+rwX {{ ngi_piper_bin_dest }}"
+  tags: ngi_piper
+
