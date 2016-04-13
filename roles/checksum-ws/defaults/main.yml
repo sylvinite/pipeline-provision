@@ -1,0 +1,18 @@
+---
+
+arteria_checksum_monitored_path: /needs/to/be/set #TODO
+
+arteria_checksum_env_root: /needs/to/be/set #TODO
+arteria_checksum_virtual_env_command: /needs/to/be/set #TODO
+
+arteria_checksum_install_location: /needs/to/be/set #TODO
+arteria_checksum_config_root: /needs/to/be/set #TODO
+
+
+arteria_checksum_cores_to_use: 8
+arteria_checksum_md5sum_log_dir: /needs/to/be/set #TODO
+arteria_checksum_service_log: /needs/to/be/set #TODO
+
+arteria_checksum_repo: https://github.com/arteria-project/arteria-checksum.git
+arteria_checksum_version: v1.0.0
+

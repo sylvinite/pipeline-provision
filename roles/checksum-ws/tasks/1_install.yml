@@ -1,0 +1,29 @@
+---
+
+- name: get arteria-checksum from git
+  git:
+    repo: "{{ arteria_checksum_repo }}"
+    dest: "{{ arteria_checksum_install_location }}"
+    version: "{{ arteria_checksum_version }}"
+
+- name: install arteria-checksum requirements
+  pip:
+      requirements: "{{ arteria_checksum_sources_path }}/requirements/dev"
+      chdir: "{{ arteria_checksum_sources_path }}"
+      virtualenv: "{{ arteria_checksum_env_root }}"
+      virtualenv_command: "{{ arteria_checksum_virtual_env_command }}"
+      state: present
+      executable: "{{ arteria_checksum_env_root }}/bin/pip"
+      extra_args: "-U"
+
+- name: install arteria-checksum
+  pip:
+      name: .
+      chdir: "{{ arteria_checksum_sources_path }}"
+      virtualenv: "{{ arteria_checksum_env_root }}"
+      virtualenv_command: /usr/local/bin/virtualenv
+      state: present
+      executable: "{{ arteria_checksum_env_root }}/bin/pip"
+      extra_args: "-U"
+
+
