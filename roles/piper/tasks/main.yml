@@ -36,8 +36,6 @@
     dest: "{{ ngi_piper_src_dest }}/setup.sh"
     regexp: "^#!/bin/bash -l"
     replace: "#!/bin/bash"
-#    regexp: "git clone https://github.com/broadgsa/gatk-protected.git $GATK_INSTALL_DIR"
-#    replace: "umask 0002 && git clone https://github.com/broadgsa/gatk-protected.git $GATK_INSTALL_DIR"
   tags: ngi_piper
 
 # This could be uploaded as a wrapper script if one would prefer that... 
