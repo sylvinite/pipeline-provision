@@ -1,8 +1,9 @@
 # Playbooks and scripts for deploying NGI pipeline and related software (Piper, TACA, tarzan etc.). 
 
+
 Ansible playbooks to deploy production instances on Irma from irma3. 
 
-## To enable the functionality of this repo
+## Enabling the functionality of this repo
 
 Checkout this repo to `/lupus/ngi/irma3/deploy`
 
@@ -21,6 +22,7 @@ Enable rsync functionality `pip install pexpect`
 ## Developing new deployment scripts
 ### Irma 3
 `source /lupus/ngi/irma3/bashrc` loads environment variables and sets GID to ngi-sw
+
 `source /lupus/ngi/irma3/ansible-env/bin/activate` loads python enviroment, for ansible and `sync.py`
 
 Write deployment scripts under `/lupus/ngi/irma3/deploy`. Make sure the target is somewhere under `/lupus/ngi/`. Some folders (such as `/lupus/ngi/irma3/`) should not be used as targets as they are never rsynced.
@@ -36,14 +38,28 @@ Place any additional files that need to be synced over under `/lupus/ngi/`
 
 ### Irma 1
 `source /lupus/ngi/conf/sourceme_<SITE>.sh` where `<site>` is `upps` for `funk_004`, and `sthlm` for `funk_006` respectively.
+
 `source activate NGI` to start the enviroment.
 
 The run software in accordance with how it is typically is used.
 
 #### Single use commands
 `crontab /lupus/ngi/conf/crontab_<site>` (user) initializes the first instance of cron for the user. No posterior loading is required.
+
 `/lupus/ngi/resources/create_ngi_pipeline_dirs.sh <project_name>` (project) creates the log and db directories for <project_name>.
+
 `/lupus/ngi/sw/piper/gen_GATK_ref.sh` (global) generates the required GATK indexes to run piper.
+
+## Pipeline integrity verification
+
+`source /lupus/ngi/conf/sourceme_<SITE>.sh` where `<site>` is `upps` for `funk_004`, and `sthlm` for `funk_006` respectively.
+
+`source activate NGI` to start the enviroment.
+
+
+`NGI_pipeline_test.py create --fastq1 <R1.fastq.gz> --fastq2 <R2.fastq.gz> --FC 1`
+
+Run `ngi_pipeline_start.py` with the commands `organize flowcell`, `analyze project` and `qc project` to organize, analyze and qc the generated data respectively.
 
 ## Pipeline run-time dependecies
 
