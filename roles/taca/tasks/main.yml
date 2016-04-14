@@ -6,33 +6,41 @@
   tags: taca
 
 - name: Install TACA-ngi-pipeline requirements
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install" -r "{{ taca_ngi_dest }}/requirements.txt"
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ taca_ngi_dest }}/requirements.txt"
   tags: taca
 
 - name: Install TACA-ngi-pipeline
-  shell: cd "{{ taca_ngi_dest }}" && "{{ ngi_pipeline_venv }}/bin/pip" install .
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  args: 
+    chdir: {{ taca_ngi_dest }}
   tags: taca
 
 -name: Create TACA delivery configs directory
-  file: path="{{ ngi_resources }}/TACA" state=directory mode=g+s
-  tags: taca
+ file: path="{{ ngi_pipeline_conf }}/TACA" state=directory mode=g+s
+ tags: taca
 
 - set_fact: 
     site: "upps"
+    site_full: "uppsala"
+    ngi_pipeline_site_path: {{ ngi_pipeline_upps_path }}
+    ngi_pipeline_site_delivery: {{ ngi_pipeline_upps_path }}
   tags: taca
 
-- name: Deploy upps_taca_delivery.yml config
-  template: src="upps_taca_delivery.yml.j2" dest="{{ ngi_resources }}/TACA/{{ site }}_taca_delivery.yml"
+- name: Deploy site_taca_delivery.yml config
+  template: src="{{ site }}_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_delivery.yml"
   tags: taca
 
 - set_fact: 
     site: "sthlm"
+    site_full: "stockholm"
+    ngi_pipeline_site_path: {{ ngi_pipeline_sthlm_path }}
+    ngi_pipeline_site_delivery: {{ ngi_pipeline_sthlm_delivery }}
   tags: taca
 
-- name: Deploy sthlm_taca_delivery.yml config
-  template: src="sthlm_taca_delivery.yml.j2" dest="{{ ngi_resources }}/TACA/{{ site }}_taca_delivery.yml"
+- name: Deploy site_taca_delivery.yml config
+  template: src="{{ site }}_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_delivery.yml"
   tags: taca
 
 - name: Deploy sthlm_fastq_taca_delivery.yml config
-  template: src="sthlm_fastq_taca_delivery.yml" dest="{{ ngi_resources }}/TACA/sthlm_taca_fastq_delivery.yml"
+  template: src="sthlm_fastq_taca_delivery.yml".j2 dest="{{ ngi_pipeline_conf }}/TACA/sthlm_taca_fastq_delivery.yml"
   tags: taca

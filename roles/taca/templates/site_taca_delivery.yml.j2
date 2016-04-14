@@ -1,14 +1,14 @@
 log:
-    file: "{{ ngi_pipeline_{{site}}_path }}/log/taca.log"
+    file: "{{ ngi_pipeline_site_path }}/log/taca.log"
 
 deliver:
-    rootpath: "/proj/{{ ngi_pipeline_{{site}}_delivery }}/nobackup/NGI"
+    rootpath: "/proj/{{ ngi_pipeline_site_delivery }}/nobackup/NGI"
     analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
     datapath: <ROOTPATH>/DATA/<PROJECTID>
     stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
     deliverypath: /proj/<UPPNEXID>/INBOX/<PROJECTID>
-    report_aggregate: ngi_reports ign_aggregate_report -n stockholm --pandoc_binary
-    report_sample: ngi_reports ign_sample_report -n stockholm --pandoc_binary
+    report_aggregate: "ngi_reports ign_aggregate_report -n {{ site_full }} --pandoc_binary"
+    report_sample: "ngi_reports ign_sample_report -n {{ site_full }} --pandoc_binary"
     reportpath: <ANALYSISPATH>/piper_ngi
     logpath: <REPORTPATH>/logs
     deliverystatuspath: <REPORTPATH>/08_misc
