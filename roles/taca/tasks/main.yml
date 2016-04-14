@@ -6,11 +6,11 @@
   tags: taca
 
 - name: Install TACA-ngi-pipeline requirements
-  shell: /lupus/ngi//sw/anaconda/envs/NGI/bin/pip install -r /lupus/ngi/sw/taca-ngi-pipeline/requirements.txt
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install" -r "{{ taca_ngi_dest }}/requirements.txt"
   tags: taca
 
 - name: Install TACA-ngi-pipeline
-  shell: cd {{ taca_ngi_dest }} && /lupus/ngi/sw/anaconda/envs/NGI/bin/pip install .
+  shell: cd "{{ taca_ngi_dest }}" && "{{ ngi_pipeline_venv }}/bin/pip" install .
   tags: taca
 
 -name: Create TACA delivery configs directory
@@ -18,11 +18,11 @@
   tags: taca
 
 - name: Deploy sthlm_taca_delivery.yml config
-  template: src="sthlm_taca_delivery.yml.j2" dest="{{ ngi_resources }}/TACA/sthlm_taca_delivery.yml"
+  template: src="sthlm_taca_delivery.yml.j2" dest="{{ ngi_resources }}/TACA/{{ site }}_taca_delivery.yml"
   tags: taca
 
 - name: Deploy upps_taca_delivery.yml config
-  template: src="upps_taca_delivery.yml.j2" dest="{{ ngi_resources }}/TACA/upps_taca_delivery.yml"
+  template: src="upps_taca_delivery.yml.j2" dest="{{ ngi_resources }}/TACA/{{ site }}_taca_delivery.yml"
   tags: taca
 
 - name: Deploy sthlm_fastq_taca_delivery.yml config
