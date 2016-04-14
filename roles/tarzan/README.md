@@ -8,3 +8,4 @@ TODO: Backup of Cassandra db somehow? Or perhaps unnecessary if we think we can 
 TODO: Authentication to Cassandra? Or is it enough that we're running on a secure system? 
 TODO: Have serf traffic encrypted? 
 TODO: Kong and Serf file perms
+TODO: Permissions to the admin interface? 
