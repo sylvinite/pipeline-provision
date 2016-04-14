@@ -17,12 +17,20 @@
   file: path="{{ ngi_resources }}/TACA" state=directory mode=g+s
   tags: taca
 
-- name: Deploy sthlm_taca_delivery.yml config
-  template: src="sthlm_taca_delivery.yml.j2" dest="{{ ngi_resources }}/TACA/{{ site }}_taca_delivery.yml"
+- set_fact: 
+    site: "upps"
   tags: taca
 
 - name: Deploy upps_taca_delivery.yml config
   template: src="upps_taca_delivery.yml.j2" dest="{{ ngi_resources }}/TACA/{{ site }}_taca_delivery.yml"
+  tags: taca
+
+- set_fact: 
+    site: "sthlm"
+  tags: taca
+
+- name: Deploy sthlm_taca_delivery.yml config
+  template: src="sthlm_taca_delivery.yml.j2" dest="{{ ngi_resources }}/TACA/{{ site }}_taca_delivery.yml"
   tags: taca
 
 - name: Deploy sthlm_fastq_taca_delivery.yml config
