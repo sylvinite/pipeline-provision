@@ -8,10 +8,10 @@
 - name: deploy arteria-checksum app config
   template:
     src: checksum_app.config.j2
-    dest: "{{ arteria_checksum_app_config }}"
+    dest: "{{ arteria_checksum_config_root }}/app.config"
 
 - name: deploy arteria-checksum logger config
   template:
     src: checksum_logger.config.j2
-    dest: "{{ arteria_checksum_logger_config }}"
+    dest: "{{ arteria_checksum_config_root }}/logger.config"
 
