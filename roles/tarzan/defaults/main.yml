@@ -34,7 +34,7 @@ openresty_version: 1.9.7.3
 openresty_dest: "{{ tarzan_dest }}/openresty/"
 
 # openresty depends on a newer version of openssl
-openssl_url: https://www.openssl.org/source/openssl-1.0.2f.tar.gz
+openssl_url: https://www.openssl.org/source/old/1.0.2/openssl-1.0.2f.tar.gz
 openssl_file: openssl-1.0.2f.tar.gz
 openssl_version: 1.0.2f
 openssl_dest: "{{ tarzan_dest }}/openssl/"
