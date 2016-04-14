@@ -42,7 +42,11 @@ ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
 ngi_piper_bin_dest: "{{ root_path }}/sw/piper"
 ngi_piper_version: 051ca55f20949279b68fc1c96ce071b117f57a05
 
-taca_ngi_repo: https://github.com/NationalGenomicsInfrastructure/taca-ngi-pipeline.git
+taca_repo: https://github.com/SciLifeLab/TACA.git
+taca_dest: "{{ root_path }}/sw/TACA"
+taca_version: a53849e659247bdc89096c29cfe8c78e954f27a5
+
+taca_ngi_repo: https://github.com/SciLifeLab/taca-ngi-pipeline.git
 taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"
 taca_ngi_version: 35db8a3fe031c3a69cb7422fcc55d74506a04998
 

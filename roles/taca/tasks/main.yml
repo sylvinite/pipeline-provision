@@ -1,3 +1,20 @@
+- name: Fetch TACA from GitHub
+  git: repo={{ taca_repo }}
+       dest={{ taca_dest }}
+       version={{ taca_version }}
+       force=yes
+  tags: taca
+
+- name: Install TACA requirements
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ taca_dest }}/requirements.txt"
+  tags: taca
+
+- name: Install TACA
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  args:
+    chdir: "{{ taca_dest }}"
+  tags: taca
+
 - name: Fetch TACA-ngi-pipeline from GitHub
   git: repo={{ taca_ngi_repo }}
        dest={{ taca_ngi_dest }}
@@ -12,18 +29,18 @@
 - name: Install TACA-ngi-pipeline
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args: 
-    chdir: {{ taca_ngi_dest }}
+    chdir: "{{ taca_ngi_dest }}"
   tags: taca
 
--name: Create TACA delivery configs directory
- file: path="{{ ngi_pipeline_conf }}/TACA" state=directory mode=g+s
- tags: taca
+- name: Create TACA delivery configs directory
+  file: path="{{ ngi_pipeline_conf }}/TACA" state=directory mode=g+s
+  tags: taca
 
 - set_fact: 
     site: "upps"
     site_full: "uppsala"
-    ngi_pipeline_site_path: {{ ngi_pipeline_upps_path }}
-    ngi_pipeline_site_delivery: {{ ngi_pipeline_upps_path }}
+    ngi_pipeline_site_path: "{{ ngi_pipeline_upps_path }}"
+    ngi_pipeline_site_delivery: "{{ ngi_pipeline_upps_path }}"
   tags: taca
 
 - name: Deploy site_taca_delivery.yml config
@@ -33,8 +50,8 @@
 - set_fact: 
     site: "sthlm"
     site_full: "stockholm"
-    ngi_pipeline_site_path: {{ ngi_pipeline_sthlm_path }}
-    ngi_pipeline_site_delivery: {{ ngi_pipeline_sthlm_delivery }}
+    ngi_pipeline_site_path: "{{ ngi_pipeline_sthlm_path }}"
+    ngi_pipeline_site_delivery: "{{ ngi_pipeline_sthlm_delivery }}"
   tags: taca
 
 - name: Deploy site_taca_delivery.yml config
