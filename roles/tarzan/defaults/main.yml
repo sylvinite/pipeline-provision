@@ -33,6 +33,12 @@ openresty_file: openresty-1.9.7.3.tar.gz
 openresty_version: 1.9.7.3
 openresty_dest: "{{ tarzan_dest }}/openresty/"
 
+# openresty depends on a newer version of openssl
+openssl_url: https://www.openssl.org/source/openssl-1.0.2f.tar.gz
+openssl_file: openssl-1.0.2f.tar.gz
+openssl_version: 1.0.2f
+openssl_dest: "{{ tarzan_dest }}/openssl/"
+
 # kong depends on serf for service/cluster discovery 
 serf_url: https://releases.hashicorp.com/serf/0.7.0/serf_0.7.0_linux_amd64.zip
 serf_file: serf_0.7.0_linux_amd64.zip
@@ -46,3 +52,10 @@ tarzan_env_path: "{{ luajit_dest }}/{{ luajit_version }}/bin:{{ luarocks_dest }}
 tarzan_log_dest: "{{ ngi_pipeline_upps_path }}/log/tarzan/"
 tarzan_db_dest: "{{ ngi_pipeline_upps_path }}/db/tarzan/"
 cassandra_db_dest: "{{ tarzan_db_dest }}/cassandra" 
+
+# To get Tarzan to work lua_path and lua_cpath were generated from a working luarocks 
+# installation on the cluster, and then running the command `luarocks path`, 
+# and then substituting some of the values to respective Ansible variables. 
+lua_path: "/home/funk_004/.luarocks/share/lua/5.1/?.lua;/home/funk_004/.luarocks/share/lua/5.1/?/init.lua;{{ luarocks_dest }}/{{ luarocks_version }}/share/lua/5.1/?.lua;{{ luarocks_dest }}/{{ luarocks_version }}/share/lua/5.1/?/init.lua;{{ luarocks_dest }}/{{ luarocks_version }}/share/lua/5.1/*/init.lua"
+lua_cpath: "/home/funk_004/.luarocks/lib/lua/5.1/?.so;{{ luarocks_dest }}/{{ luarocks_version }}/lib/lua/5.1/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;{{ luajit_dest }}/{{ luajit_version }}/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so"
+
