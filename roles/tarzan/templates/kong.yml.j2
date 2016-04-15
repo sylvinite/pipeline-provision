@@ -174,7 +174,7 @@ send_anonymous_reports: false
 ## /!\ BE CAREFUL
 nginx: |
   {{user}}
-  worker_processes auto;
+  worker_processes 4;
   error_log logs/error.log error;
   daemon on;
 
