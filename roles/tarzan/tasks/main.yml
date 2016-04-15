@@ -18,13 +18,13 @@
 
 - name: add the lua_path to funk_004's environment via the sourceme_upps script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}
-              line='export LUA_PATH={{ lua_path }}'
+              line='export LUA_PATH="{{ lua_path }}"'
               backup=no
   tags: tarzan
 
 - name: add the lua_cpath to funk_004's environment via the sourceme_upps script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}
-              line='export LUA_CPATH={{ lua_cpath }}'
+              line='export LUA_CPATH="{{ lua_cpath }}"'
               backup=no
   tags: tarzan
 
