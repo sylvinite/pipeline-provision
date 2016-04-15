@@ -20,8 +20,8 @@ environment:
 piper:
     # Also can be set as an environmental variable $PIPER_QSCRIPTS_DIR
     path_to_piper_qscripts: {{ ngi_piper_bin_dest }}/qscripts
-    sample:
-        required_autosomal_coverage: 28.4
+    #sample:
+    #    required_autosomal_coverage: 28.4
     load_modules:
         - java/sun_jdk1.7.0_25
         - R/3.2.3
@@ -50,13 +50,6 @@ supported_genomes:
     "canfam3": None
 
 analysis:
-    workflows:
-        NGI:
-            analysis_engine: ngi_pipeline.engines.piper_ngi
-        mate_pair:
-            analysis_engine: ngi_pipeline.engines.de_novo_pipeline
-        RNA:
-            analysis_engine: ngi_pipeline.engines.bcbio_ngi
     best_practice_analysis:
         whole_genome_reseq:
             analysis_engine: ngi_pipeline.engines.piper_ngi
