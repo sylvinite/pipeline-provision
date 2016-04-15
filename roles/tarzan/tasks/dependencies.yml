@@ -4,6 +4,7 @@
 # luarocks
 # openresty
 # cassandra
+# serf
 
 # use a loop a la http://stackoverflow.com/questions/30785281/one-loop-over-multiple-ansible-tasks ? 
 
@@ -138,6 +139,38 @@
 - name: deploy customized cassandra main conf 
   template: src="cassandra.yaml.j2" dest="{{ ngi_pipeline_conf }}/cassandra/cassandra.yaml" 
   tags: tarzan 
+
+- name: modify cassandra's environment file for proper logdir
+  lineinfile: dest="{{ ngi_pipeline_conf }}/cassandra/cassandra-env.ps1"
+              regexp=".logdir = ."
+              line='$logdir = "{{ cassandra_log_dest }}"'
+              backup=no
+  tags: tarzan
+
+- name: modify cassandra's startup script for proper logdir
+  replace: dest="{{ cassandra_dest }}/{{ cassandra_version }}/bin/cassandra"
+              regexp=".-Dcassandra.logdir=\$CASSANDRA_HOME/logs"
+              replace=" -Dcassandra.logdir={{ cassandra_log_dest }}"
+              backup=no
+  tags: tarzan
+
+- name: modify uppsala's supervisord conf to start cassandra
+  ini_file:
+    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
+    section=program:cassandra
+    option=command
+    value="cassandra -f"
+    backup=no
+  tags: tarzan
+
+- name: modify uppsala's supervisord conf to autorestart cassandra
+  ini_file:
+    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
+    section=program:cassandra
+    option=autorestart
+    value=true
+    backup=no
+  tags: tarzan
 
 - name: create serf destination directory
   file: path={{ serf_dest }} state=directory mode=g+s

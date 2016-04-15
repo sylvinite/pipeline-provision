@@ -34,12 +34,31 @@
   template: src="kong.yml.j2" dest="{{ ngi_pipeline_conf }}/webproxy.yml"
   tags: tarzan
 
-# TODO: Deploy a script that launches the kong and cassandra service with the correct conf file (supervisord)
-
-# TODO: Adjust the existing supervisord script instead? 
-- name: deploy supervisord script for kong
-  template: src="supervisord_kong.conf.j2" dest="{{ ngi_pipeline_conf }}/supervisord_webproxy.conf"
+- name: modify uppsala's supervisord conf to start kong
+  ini_file:
+    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
+    section=program:kong
+    option=command
+    value="kong start -c {{ ngi_pipeline_conf }}/webproxy.conf"
+    backup=no
   tags: tarzan
 
-# TODO: Update crontab so that it launches the tarzan supervisord
+- name: modify uppsala's supervisord conf to autorestart kong
+  ini_file:
+    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
+    section=program:kong
+    option=autorestart
+    value=true
+    backup=no
+  tags: tarzan
  
+- name: modify uppsala's supervisord conf to send appropriate stop signal to kong child procs
+  ini_file:
+    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
+    section=program:kong
+    option=stopsignal
+    value=INT
+    backup=no
+  tags: tarzan
+
+
