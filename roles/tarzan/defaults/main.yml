@@ -56,6 +56,9 @@ cassandra_db_dest: "{{ tarzan_db_dest }}/cassandra"
 # To get Tarzan to work lua_path and lua_cpath were generated from a working luarocks 
 # installation on the cluster, and then running the command `luarocks path`, 
 # and then substituting some of the values to respective Ansible variables. 
-lua_path: "/home/funk_004/.luarocks/share/lua/5.1/?.lua;/home/funk_004/.luarocks/share/lua/5.1/?/init.lua;{{ luarocks_dest }}/{{ luarocks_version }}/share/lua/5.1/?.lua;{{ luarocks_dest }}/{{ luarocks_version }}/share/lua/5.1/?/init.lua;{{ luarocks_dest }}/{{ luarocks_version }}/share/lua/5.1/*/init.lua"
-lua_cpath: "/home/funk_004/.luarocks/lib/lua/5.1/?.so;{{ luarocks_dest }}/{{ luarocks_version }}/lib/lua/5.1/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;{{ luajit_dest }}/{{ luajit_version }}/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so"
+# The two last paths in both vars seems to be necessary so that we do not 
+# get warnings the module system lmod which is using lua as well. This 
+# might be a future error source.
+lua_path: "/home/funk_004/.luarocks/share/lua/5.1/?.lua;/home/funk_004/.luarocks/share/lua/5.1/?/init.lua;{{ luarocks_dest }}/{{ luarocks_version }}/share/lua/5.1/?.lua;{{ luarocks_dest }}/{{ luarocks_version }}/share/lua/5.1/?/init.lua;{{ luarocks_dest }}/{{ luarocks_version }}/share/lua/5.1/*/init.lua;;/usr/share/lua/5.1/?.lua;/usr/share/lua/5.1/?/init.lua"
+lua_cpath: "/home/funk_004/.luarocks/lib/lua/5.1/?.so;{{ luarocks_dest }}/{{ luarocks_version }}/lib/lua/5.1/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;{{ luajit_dest }}/{{ luajit_version }}/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/lib64/lua/5.1/?.so;/usr/lib64/lua/5.1/loadall.so"
 
