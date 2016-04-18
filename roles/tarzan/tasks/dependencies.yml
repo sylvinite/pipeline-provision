@@ -5,9 +5,6 @@
 # openresty
 # cassandra
 
-# openresty demands: 
-# pcre 
-
 # use a loop a la http://stackoverflow.com/questions/30785281/one-loop-over-multiple-ansible-tasks ? 
 
 - name: create luajit destination directory 
@@ -74,7 +71,19 @@
     creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
   tags: tarzan 
 
-# Add luarocks to path (see .bashrc @ tarzan vm)
+- name: create openssl destination directory
+  file: path={{ openssl_dest }} state=directory mode=g+s
+  tags: tarzan
+
+- name: download openssl archive
+  get_url:
+    url: "{{ openssl_url }}"
+    dest: "{{ openssl_dest }}/{{ openssl_file }}"
+  tags: tarzan
+
+- name: unpack openssl to destination
+  unarchive: src="{{ openssl_dest }}/{{ openssl_file }}" dest={{ openssl_dest }}/ copy=no creates={{ openssl_dest }}/{{ openssl_version }}/bin/openssl
+  tags: tarzan
 
 - name: create openresty destination directory
   file: path={{ openresty_dest }} state=directory mode=g+s
@@ -91,7 +100,7 @@
   tags: tarzan
 
 - name: configure openresty
-  shell: "./configure --with-pcre-jit --with-ipv6 --with-http_realip_module --with-http_ssl_module --with-http_stub_status_module --with-luajit={{ luajit_dest }}/{{ luajit_version }} --prefix={{ openresty_dest }}/{{ openresty_version }}" 
+  shell: "./configure --with-pcre-jit --with-ipv6 --with-http_realip_module --with-http_ssl_module --with-http_stub_status_module --with-luajit={{ luajit_dest }}/{{ luajit_version }} --prefix={{ openresty_dest }}/{{ openresty_version }} --with-openssl={{ openssl_dest }}/openssl-{{ openssl_version }}/" 
   args: 
     chdir: "{{ openresty_dest }}/openresty-{{ openresty_version }}"
     creates: "{{ openresty_dest }}/{{ openresty_version }}/bin/resty"
@@ -103,8 +112,6 @@
     chdir: "{{ openresty_dest}}/openresty-{{ openresty_version }}" 
     creates: "{{ openresty_dest }}/{{ openresty_version }}/bin/resty"
   tags: tarzan 
-
-# Add openresty to path? 
 
 - name: create cassandra destination directory
   file: path={{ cassandra_dest }} state=directory mode=g+s
@@ -124,3 +131,25 @@
   file: src="{{ cassandra_dest }}/apache-cassandra-{{ cassandra_version }}" path="{{ cassandra_dest }}/{{ cassandra_version }}" state=link
   tags: tarzan
 
+- name: symlink the cassandra conf dir to global ngi conf dir
+  file: src="{{ cassandra_dest }}/{{ cassandra_version }}/conf" path="{{ ngi_pipeline_conf }}/cassandra" state=link
+  tags: tarzan
+
+- name: deploy customized cassandra main conf 
+  template: src="cassandra.yaml.j2" dest="{{ ngi_pipeline_conf }}/cassandra/cassandra.yaml" 
+  tags: tarzan 
+
+- name: create serf destination directory
+  file: path={{ serf_dest }} state=directory mode=g+s
+  tags: tarzan
+
+- name: download serf archive
+  get_url:
+    url: "{{ serf_url }}"
+    dest: "{{ serf_dest }}/{{ serf_file }}"
+  tags: tarzan
+
+- name: unpack serf to destination
+  unarchive: src="{{ serf_dest }}/{{ serf_file }}" dest={{ serf_dest }}/ copy=no creates={{ serf_dest }}/{{ serf_version }}/bin/serf
+  tags: tarzan
+ 

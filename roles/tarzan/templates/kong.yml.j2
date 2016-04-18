@@ -32,27 +32,27 @@ nginx_working_dir: [% tarzan_log_dest %]
 
 ######
 ## Address and port on which the server will accept HTTP requests, consumers will make requests on this port.
-# proxy_listen: "0.0.0.0:8000"
+proxy_listen: "0.0.0.0:8888"
 
 ######
 ## Same as proxy_listen, but for HTTPS requests.
-# proxy_listen_ssl: "0.0.0.0:8443"
+proxy_listen_ssl: "0.0.0.0:4444"
 
 ######
 ## Address and port on which the admin API will listen to. The admin API is a private API which lets you
 ## manage your Kong infrastructure. It needs to be secured appropriately.
-# admin_api_listen: "0.0.0.0:8001"
+admin_api_listen: "127.0.0.1:8001"
 
 ######
 ## Address and port used by the node to communicate with other Kong nodes in the cluster with both UDP and
 ## TCP messages. All the nodes in the cluster must be able to communicate with this node on this address.
 ## Only IPv4 addresses are allowed (no hostnames).
-# cluster_listen: "0.0.0.0:7946"
+cluster_listen: "127.0.0.1:7946"
 
 ######
 ## Address and port used by the node to communicate with the local clustering agent (TCP only, and local only).
 ## Used internally by this Kong node. Only IPv4 addresses are allowed (no hostnames).
-# cluster_listen_rpc: "127.0.0.1:7373"
+cluster_listen_rpc: "127.0.0.1:7373"
 
 ######
 ## The path to the SSL certificate and key that Kong will use when listening on the `https` port.
@@ -174,7 +174,7 @@ send_anonymous_reports: false
 ## /!\ BE CAREFUL
 nginx: |
   {{user}}
-  worker_processes auto;
+  worker_processes 4;
   error_log logs/error.log error;
   daemon on;
 

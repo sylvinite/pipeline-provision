@@ -12,7 +12,12 @@
   tags: ngi_piper
 
 - name: unpack oracle jdk to destination 
-  unarchive: src={{ java_dest }}/{{ java_file }} dest={{ java_dest }}/ copy=no creates={{ java_path }}/LICENSE
+  unarchive: 
+    src: "{{ java_dest }}/{{ java_file }}"
+    dest: "{{ java_dest }}/" 
+    copy: no 
+    creates: "{{ java_path }}/LICENSE"
+    mode: g+rw
   tags: ngi_piper
 
 - name: create maven destination folder
@@ -26,7 +31,12 @@
   tags: ngi_piper
 
 - name: unpack maven to destination
-  unarchive: src={{ maven_dest }}/{{ maven_file }} dest={{ maven_dest }}/ copy=no creates={{ maven_path }}/LICENSE
+  unarchive: 
+    src: "{{ maven_dest }}/{{ maven_file }}"
+    dest: "{{ maven_dest }}/"
+    copy: no 
+    creates: "{{ maven_path }}/LICENSE"
+    mode: g+rw
   tags: ngi_piper
 
 - name: add java and maven to the user's path via sourceme script 

@@ -16,9 +16,20 @@
               backup=no
   tags: tarzan
 
+- name: add the lua_path to funk_004's environment via the sourceme_upps script
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}
+              line='export LUA_PATH="{{ lua_path }}"'
+              backup=no
+  tags: tarzan
+
+- name: add the lua_cpath to funk_004's environment via the sourceme_upps script
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}
+              line='export LUA_CPATH="{{ lua_cpath }}"'
+              backup=no
+  tags: tarzan
+
 # TODO: have a subdir for all tarzan confs? 
 
-# TODO: Deploy/Config a kong.yml
 - name: deploy config for kong
   template: src="kong.yml.j2" dest="{{ ngi_pipeline_conf }}/webproxy.yml"
   tags: tarzan
@@ -31,5 +42,4 @@
   tags: tarzan
 
 # TODO: Update crontab so that it launches the tarzan supervisord
-# TODO: Update the cassandra config 
  

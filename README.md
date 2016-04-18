@@ -1,4 +1,5 @@
-# Playbooks and scripts for deploying NGI pipeline and related software (Piper, TACA, tarzan etc.). 
+# Deployment playbooks for NGI-Pipeline and related software (Piper, TACA, Tarzan, etc.) 
+
 
 
 Ansible playbooks to deploy production instances on Irma from irma3. 
@@ -9,7 +10,7 @@ Checkout this repo to `/lupus/ngi/irma3/deploy`
 
 Copy the file `bootstrap/bashrc` to `/lupus/ngi/irma3/bashrc`. This file has to be sourced every time a user wants to work. 
 
-Setup a virtual enviroment, i.e. : `/lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py -p /usr/bin/python2.7 /lupus/ngi/irma3/ansible-env`
+Setup a virtual enviroment, i.e: `/lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py -p /usr/bin/python2.7 /lupus/ngi/irma3/ansible-env`
 
 Activate the environment `source /lupus/ngi/irma3/ansible-env/bin/activate` 
 
@@ -25,7 +26,8 @@ Enable rsync functionality `pip install pexpect`
 
 `source /lupus/ngi/irma3/ansible-env/bin/activate` loads python enviroment, for ansible and `sync.py`
 
-Write deployment scripts under `/lupus/ngi/irma3/deploy`. Make sure the target is somewhere under `/lupus/ngi/`. Some folders (such as `/lupus/ngi/irma3/`) should not be used as targets as they are never rsynced.
+Write deployment scripts under `/lupus/ngi/irma3/deploy`. Make sure the target is somewhere under `/lupus/ngi/`.
+Some folders (such as `/lupus/ngi/irma3/`) should not be used as targets as they are never rsynced.
 
 Run the deployment script, for instance `ansible-playbook install.yml`
 
@@ -56,8 +58,7 @@ The run software in accordance with how it is typically is used.
 
 `source activate NGI` to start the enviroment.
 
-
-`NGI_pipeline_test.py create --fastq1 <R1.fastq.gz> --fastq2 <R2.fastq.gz> --FC 1`
+`python NGI_pipeline_test.py create --fastq1 <R1.fastq.gz> --fastq2 <R2.fastq.gz> --FC 1` creates a simulated flowcell.
 
 Run `ngi_pipeline_start.py` with the commands `organize flowcell`, `analyze project` and `qc project` to organize, analyze and qc the generated data respectively.
 
