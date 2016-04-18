@@ -46,6 +46,3 @@
 - name: Deploy sthlm_fastq_taca_delivery.yml config
   template: src="sthlm_fastq_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/sthlm_taca_fastq_delivery.yml"
   tags: taca
-
-# Also needs conf files for TACA and statusdb.
-# Then deploy and testrun

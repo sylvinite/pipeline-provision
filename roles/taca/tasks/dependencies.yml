@@ -34,7 +34,7 @@
     chdir: "{{ flowcell_parser_dest }}"
   tags: taca
 
-#COMMENT: NO LONGER A REQUIREMENT
+#COMMENT: HOPEFULLY NO LONGER A REQUIREMENT
 #- name: Install cryptography python dependency
 #  shell: "{{ ngi_pipeline_venv }}/bin/pip install cryptography"
 #  tags: taca
