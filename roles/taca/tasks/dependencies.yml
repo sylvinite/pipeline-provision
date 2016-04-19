@@ -15,7 +15,7 @@
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
     chdir: "{{ statusdb_dest }}"
-  tags: ngi_reports
+  tags: taca
 
 - name: Fetch flowcell_parser from GitHub
   git: repo="{{ flowcell_parser_repo }}"
