@@ -70,6 +70,8 @@ Run `ngi_pipeline_start.py` with the commands `organize flowcell`, `analyze proj
 
 - A `charon_credentials.yml` file placed under `/lupus/ngi/irma3/host_vars/127.0.0.1/` to set the variables `charon_base_url`, `charon_api_token_upps` and `charon_api_token_sthlm`.
 
+- (Stockholm) A valid statusdb.yaml credentials file placed under `/lupus/ngi/deploy/files` to let NGI_Reports connect to StatusDB
+
 ## File details
 
 Global configuration values set in `host_vars/127.0.0.1/main.yml`, and each respective role's in the `<role>/defaults/main.yml` file. 

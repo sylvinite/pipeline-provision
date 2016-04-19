@@ -13,7 +13,7 @@
 - name: Unpack TeXLive
   unarchive:
     src: "{{ texLive_dest }}/{{ texLive_file }}"
-    dest: "{{ texLive_dest }}/"
+    dest: "{{ texLive_dest }}"
     copy: no
     creates: "{{ texLive_path }}/LICENSE"
     mode: g+rw

@@ -1,5 +1,0 @@
-statusdb:
-    url: tools.scilifelab.se
-    username: production
-    password: MGVmNjVkNzJlOTU1NmFh
-    port: 5984
