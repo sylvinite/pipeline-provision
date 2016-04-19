@@ -1,0 +1,71 @@
+---
+- name: Create TeXLive destination 
+  file: path={{ texLive_dest }} state=directory mode=g+rwxs
+  tags: ngi_reports
+
+- name: Download TeXLive
+  get_url:
+    url: "{{ texLive_url }}"
+    dest: "{{ texLive_dest }}/{{ texLive_file }}"
+    mode: g+rw
+  tags: ngi_reports
+
+- name: Unpack TeXLive
+  unarchive:
+    src: "{{ texLive_dest }}/{{ texLive_file }}"
+    dest: "{{ texLive_dest }}/"
+    copy: no
+    creates: "{{ texLive_path }}/LICENSE"
+    mode: g+rw
+  tags: ngi_reports
+
+- name: Append TexLive to $PATH via sourceme
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export PATH={{ texLive_path }}:$PATH'
+              backup=no
+  tags: ngi_reports
+
+- name: Fetch ngi_visualizations from GitHub
+  git: repo="{{ ngi_visual_repo }}"
+       dest="{{ ngi_visual_dest }}"
+       version="{{ ngi_visual_version }}"
+       force=yes
+  tags: ngi_reports
+
+- name: Install ngi_visualizations requirements
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_visual_dest }}/requirements.txt"
+  tags: taca
+
+- name: Install ngi_visualizations
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  args:
+    chdir: "{{ ngi_visual_dest }}"
+  tags: ngi_reports
+
+#NOTE: REALLY ONLY NECESSARY FOR STOCKHOLM, NOT UPPSALA
+- name: Install couchDB (minimal version of statusDB)
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install couchdb"
+  tags: ngi_reports
+
+- name: Copy statusDB credentials
+  copy: src=statusdb.yaml dest="{{ statusdb_res }}/statusdb.yaml"
+  tags: ngi_reports
+
+- name: Add statusDB envvar to sourceme 
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export STATUS_DB_CONFIG={{ statusdb_res }}/statusdb.yaml'
+              backup=no
+  tags: ngi_reports
+
+- name: Copy Pandoc fix
+  copy: src=make_report.sh dest="{{ ngi_resources }}/make_report.sh"
+  tags: ngi_reports 
+
+- name: Add Pandoc fix to alias
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line="alias ngi_reports=ngi_reports --pandoc_binary"
+              backup=no
+  tags: ngi_reports
+
+##Plausible TODOs:
+# Install Helvetica Neue and Consolas from ngi_reports/data/pandoc_templates/assets/fonts/

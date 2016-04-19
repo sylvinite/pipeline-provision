@@ -28,6 +28,8 @@
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_upps_path }}"
   tags: taca
 
+##TODO: ADD ANOTHER TACA CONFIG FOR CLEANUP (?)
+
 - name: Deploy site_taca_delivery.yml config
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_delivery.yml"
   tags: taca

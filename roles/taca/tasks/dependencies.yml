@@ -7,7 +7,7 @@
        force=yes
   tags: taca
 
-- name: Install statusdb requirements
+- name: Install statusDB requirements
   shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ statusdb_dest }}/requirements.txt"
   tags: taca
 
@@ -15,7 +15,7 @@
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
     chdir: "{{ statusdb_dest }}"
-  tags: taca
+  tags: ngi_reports
 
 - name: Fetch flowcell_parser from GitHub
   git: repo="{{ flowcell_parser_repo }}"
