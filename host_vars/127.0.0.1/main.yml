@@ -20,7 +20,7 @@ bash_env_sthlm_script: sourceme_sthlm.sh
 
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
-ngi_pipeline_version: 3cd78a2b58b0dc0b9ae2bd193c2038744a07e73a
+ngi_pipeline_version: 5c0a4194584a0577068d06197caa7ae86506904b
 ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/NGI"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
@@ -42,7 +42,7 @@ ngi_pipeline_db_sthlm: "{{ ngi_pipeline_sthlm_path }}/db/records_db_sthlm.sql"
 ngi_piper_repo: https://github.com/NationalGenomicsInfrastructure/piper.git
 ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
 ngi_piper_bin_dest: "{{ root_path }}/sw/piper"
-ngi_piper_version: 051ca55f20949279b68fc1c96ce071b117f57a05
+ngi_piper_version: 70eb84f356352406167dd8a5e6a5f4ce0b12725a
 
 taca_ngi_repo: https://github.com/SciLifeLab/taca-ngi-pipeline.git
 taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"
