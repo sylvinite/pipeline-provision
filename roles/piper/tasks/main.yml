@@ -2,12 +2,12 @@
 
 - include: prereqs.yml 
 
-- name: fetch piper from github 
-  git: repo={{ ngi_piper_repo }} 
-       dest={{ ngi_piper_src_dest }}
-       version={{ ngi_piper_version }}
-       force=yes
-  tags: ngi_piper
+#- name: fetch piper from github 
+#  git: repo={{ ngi_piper_repo }} 
+#       dest={{ ngi_piper_src_dest }}
+#       version={{ ngi_piper_version }}
+#       force=yes
+#  tags: ngi_piper
 
 - name: create piper's destination folder 
   file: name={{ ngi_piper_bin_dest }} state=directory mode=g+s
@@ -15,40 +15,62 @@
 
 # TODO: This is not needed for developers, so we should only run it for production, 
 # where we do not have a home directory at the moment on irma3. 
-- name: set mvn command line args in piper's setup.sh 
-  lineinfile: 
-    dest: "{{ ngi_piper_src_dest }}/setup.sh"
-    regexp: "mvn package"
-    line: "mvn package {{ maven_args }}"
+#- name: set mvn command line args in piper's setup.sh 
+#  lineinfile: 
+#    dest: "{{ ngi_piper_src_dest }}/setup.sh"
+#    regexp: "mvn package"
+#    line: "mvn package {{ maven_args }}"
 # if the user sets home_path then this check is not necessary 
 #  when: ansible_hostname == '127.0.0.1'
-  tags: ngi_piper
+#  tags: ngi_piper
 
-- name: set sbt command line args in piper's setup.sh
-  replace: 
-    dest: "{{ ngi_piper_src_dest }}/setup.sh"
-    regexp: "^sbt/bin/sbt pack"
-    replace: "sbt/bin/sbt pack {{ sbt_args }}"
-  tags: ngi_piper
+#- name: set sbt command line args in piper's setup.sh
+#  replace: 
+#    dest: "{{ ngi_piper_src_dest }}/setup.sh"
+#    regexp: "^sbt/bin/sbt pack"
+#    replace: "sbt/bin/sbt pack {{ sbt_args }}"
+#  tags: ngi_piper
 
-- name: force umask 0002 for setup.sh's git clone command
-  replace: 
-    dest: "{{ ngi_piper_src_dest }}/setup.sh"
-    regexp: "^#!/bin/bash -l"
-    replace: "#!/bin/bash"
-  tags: ngi_piper
+#- name: force umask 0002 for setup.sh's git clone command
+#  replace: 
+#    dest: "{{ ngi_piper_src_dest }}/setup.sh"
+#    regexp: "^#!/bin/bash -l"
+#    replace: "#!/bin/bash"
+#  tags: ngi_piper
 
 # This could be uploaded as a wrapper script if one would prefer that... 
-- name: run piper's setup script 
-  shell: source {{ ngi_pipeline_conf }}/{{ bash_env_script }} && sbt/bin/sbt clean {{ sbt_args }} && ./setup.sh {{ ngi_piper_bin_dest }}
-  args: 
-    chdir: "{{ ngi_piper_src_dest }}"
-    creates: "{{ ngi_piper_bin_dest }}/bin/piper"
+#- name: run piper's setup script 
+#  shell: source {{ ngi_pipeline_conf }}/{{ bash_env_script }} && sbt clean {{ sbt_args }} && sbt universal:packageBin {{ sbt_args }} 
+#  args: 
+#    chdir: "{{ ngi_piper_src_dest }}"
+#    creates: "{{ ngi_piper_src_dest }}/bin/piper"
+#  tags: ngi_piper
+
+- name: unpack piper to destination
+  unarchive: 
+    src: "{{ piper_src_file }}"
+    dest: "{{ ngi_piper_bin_dest }}"
+    copy: no 
+    creates: "{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/bin/piper"
+    mode: g+rw
+  tags: ngi_piper
+
+- name: create setupfilecreator's destination folder
+  file: name="{{ root_path }}/sw/setupfilecreator" state=directory mode=g+s
+  tags: ngi_piper
+
+- name: unpack setupfilecreator to destination
+  unarchive: 
+    src: "{{ setupfilecreator_src_file }}"
+    dest: "{{ root_path }}/sw/setupfilecreator/"
+    copy: no 
+    creates: "{{ root_path }}/sw/setupfilecreator/setupfilecreator-{{ piper_version }}/bin"
+    mode: g+rw
   tags: ngi_piper
 
 - name: add piper path variable to sourceme script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='export PATH={{ ngi_piper_bin_dest }}/bin:{{ ngi_piper_bin_dest }}/workflows:$PATH'
+              line='export PATH={{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/bin:{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows:$PATH'
               backup=no
   tags: ngi_piper 
 
@@ -60,27 +82,27 @@
 
 - name: add piper sh config variable to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='export PIPER_GLOB_CONF={{ ngi_piper_bin_dest }}/workflows/globalConfig.sh'
+              line='export PIPER_GLOB_CONF={{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows/globalConfig.sh'
               backup=no
   tags: ngi_piper
 
 - name: add piper xml config variable to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='export PIPER_GLOB_CONF_XML={{ ngi_piper_bin_dest }}/workflows/uppmax_global_config.xml'
+              line='export PIPER_GLOB_CONF_XML={{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows/uppmax_global_config.xml'
               backup=no
   tags: ngi_piper
 
 # FIXME: Do we want the piper confs under workflows dir or in the global ngi_pipeline conf folder? 
 - name: deploy piper config globalConfig.xml
-  template: src="globalConfig.xml.j2" dest="{{ ngi_piper_bin_dest }}/workflows/globalConfig.xml"
+  template: src="globalConfig.xml.j2" dest="{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows/globalConfig.xml"
   tags: ngi_piper
 
 - name: deploy piper config globalConfig.sh
-  template: src="globalConfig.sh.j2" dest="{{ ngi_piper_bin_dest }}/workflows/globalConfig.sh"
+  template: src="globalConfig.sh.j2" dest="{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows/globalConfig.sh"
   tags: ngi_piper 
 
 - name: deploy piper config uppmax_global_config.xml
-  template: src="uppmax_global_config.xml.j2" dest="{{ ngi_piper_bin_dest }}/workflows/uppmax_global_config.xml"
+  template: src="uppmax_global_config.xml.j2" dest="{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows/uppmax_global_config.xml"
   tags: ngi_piper 
 
 - name: deploy script (gen_GATK_ref.sh) for manual GATK reference generation
@@ -111,7 +133,7 @@
 
 # Ugly fix for now for some piper folders gets the wrong group perm after installation
 # Will have to do, as we're gonna use Piper from the module system later anyway.  
-- name: manually fix group permissions for Piper 
-  shell: "chmod -R g+rwX {{ ngi_piper_bin_dest }}"
-  tags: ngi_piper
+#- name: manually fix group permissions for Piper 
+#  shell: "chmod -R g+rwX {{ ngi_piper_bin_dest }}"
+#  tags: ngi_piper
 
