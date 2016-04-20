@@ -39,10 +39,13 @@ ngi_pipeline_db_upps: "{{ ngi_pipeline_upps_path }}/db/records_db_upps.sql"
 ngi_pipeline_db_sthlm: "{{ ngi_pipeline_sthlm_path }}/db/records_db_sthlm.sql"
 
 
-ngi_piper_repo: https://github.com/NationalGenomicsInfrastructure/piper.git
-ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
-ngi_piper_bin_dest: "{{ root_path }}/sw/piper"
-ngi_piper_version: 70eb84f356352406167dd8a5e6a5f4ce0b12725a
+#ngi_piper_repo: https://github.com/NationalGenomicsInfrastructure/piper.git
+#ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
+piper_version: 1.4.0
+piper_src_file: /lupus/ngi/irma3/piper_src/piper-1.4.0.zip
+setupfilecreator_src_file: /lupus/ngi/irma3/piper_src/setupfilecreator-1.4.0.zip
+ngi_piper_bin_dest: "{{ root_path }}/sw/piper/"
+#ngi_piper_version: 70eb84f356352406167dd8a5e6a5f4ce0b12725a
 
 taca_ngi_repo: https://github.com/SciLifeLab/taca-ngi-pipeline.git
 taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"

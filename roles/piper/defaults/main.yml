@@ -5,7 +5,6 @@
 maven_args: "-Dmaven.repo.local={{ home_path }}/.m2/repository"
 sbt_args: "-sbt-dir {{ home_path }}/.sbt/ -sbt-boot {{ home_path }}/.sbt/boot/ -ivy {{ home_path }}/.ivy2"
 
-
 # root_path should be overriden in e.g. group_vars or host_vars
 # if we want to deploy to a development instance. This value
 # is default for production. 
@@ -24,6 +23,11 @@ maven_file: apache-maven-3.3.9-bin.tar.gz
 maven_url: "http://apache.mirrors.spacedump.net/maven/maven-3/3.3.9/binaries/{{ maven_file }}"
 maven_dest: "{{ root_path }}/sw/maven/"
 maven_path: "{{ maven_dest }}/apache-maven-3.3.9"
+
+sbt_file: sbt-0.13.11.tgz
+sbt_url: "https://dl.bintray.com/sbt/native-packages/sbt/0.13.11/{{ sbt_file }}"
+sbt_dest: "{{ root_path }}/sw/sbt/"
+sbt_path: "{{ sbt_dest }}/sbt"
 
 ## Dependencies required to use Piper (many are provided via UPPMAX module system) ##
 

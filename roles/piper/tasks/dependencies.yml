@@ -20,13 +20,15 @@
     mode: g+rw
   tags: ngi_piper
 
-- name: copy FixEmptyReads.pl from piper src to destination 
-  copy:
-    src: "{{ sync_cutadapt_src }}"
-    remote_src: yes
-    dest: "{{ sync_cutadapt_dest }}"
-    mode: g+rw 
-  tags: ngi_piper
+# FIXME: Not bundled in new version of Piper. 
+# Only needed for RNA-seq though
+#- name: copy FixEmptyReads.pl from piper src to destination 
+#  copy:
+#    src: "{{ sync_cutadapt_src }}"
+#    remote_src: yes
+#    dest: "{{ sync_cutadapt_dest }}"
+#    mode: g+rw 
+#  tags: ngi_piper
 
 - name: download rna-seqc jar file
   get_url: 
