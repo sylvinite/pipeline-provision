@@ -70,7 +70,7 @@
 
 - name: add piper path variable to sourceme script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='export PATH={{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/bin:{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows:$PATH'
+              line='export PATH={{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/bin:{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows:{{ root_path }}/sw/setupfilecreator/setupfilecreator-{{ piper_version }}/bin/:$PATH'
               backup=no
   tags: ngi_piper 
 
