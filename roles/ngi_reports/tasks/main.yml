@@ -36,10 +36,14 @@
     site: "uppsala"
   tags: ngi_reports
 
+- name: Create Uppsala ngi_reports conf file
+  template: src="ngi_reports.conf" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf"
+  tags: ngi_reports
+
 - set_fact:
     site: "stockholm"
   tags: ngi_reports
 
-- name: Create ngi_reports conf file
+- name: Create Stockholm ngi_reports conf file
   template: src="ngi_reports.conf" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf" 
   tags: ngi_reports
