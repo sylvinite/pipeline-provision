@@ -1,4 +1,7 @@
 ---
+##Plausible TODOs:
+# Install Helvetica Neue and Consolas from ngi_reports/data/pandoc_templates/assets/fonts/
+
 - name: Create TeXLive destination 
   file: path={{ texLive_dest }} state=directory mode=g+rwxs
   tags: ngi_reports
@@ -42,7 +45,8 @@
     chdir: "{{ ngi_visual_dest }}"
   tags: ngi_reports
 
-#NOTE: REALLY ONLY NECESSARY FOR STOCKHOLM, NOT UPPSALA
+###NOTE: REALLY ONLY NECESSARY FOR STOCKHOLM
+
 - name: Install couchDB (minimal version of statusDB)
   shell: "{{ ngi_pipeline_venv }}/bin/pip install couchdb"
   tags: ngi_reports
@@ -57,8 +61,7 @@
               backup=no
   tags: ngi_reports
 
-#END STOCKHOLMD SPECIFIX
-###
+###END STOCKHOLM SPECIFIX
 
 #NOTE: WORKAROUND MAY NOT BE REQUIRED, BUT LIKELY SO.
 - name: Copy Pandoc fix
@@ -71,5 +74,3 @@
               backup=no
   tags: ngi_reports
 
-##Plausible TODOs:
-# Install Helvetica Neue and Consolas from ngi_reports/data/pandoc_templates/assets/fonts/
