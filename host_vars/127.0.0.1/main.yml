@@ -51,9 +51,6 @@ taca_ngi_repo: https://github.com/SciLifeLab/taca-ngi-pipeline.git
 taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"
 taca_ngi_version: 35db8a3fe031c3a69cb7422fcc55d74506a04998
 
-# charon settings are fetched from charon_credentials.yml for now, 
-# that is not checked into repo.  
-
 # TODO: Move these settings to somewhere else? 
 gatk_bundle_b37_origin: "/sw/data/uppnex/reference/biodata/GATK/ftp.broadinstitute.org/bundle/2.8/b37/"
 gatk_bundle_b37: "{{ ngi_resources }}/piper/gatk_bundle/2.8/b37"

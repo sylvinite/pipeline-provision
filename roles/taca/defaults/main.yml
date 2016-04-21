@@ -10,4 +10,4 @@ flowcell_parser_version: "587cbfba9179f822a8e85946a13bfcd0b10b5a1b"
 
 taca_repo: "https://github.com/SciLifeLab/TACA.git"
 taca_dest: "{{ root_path }}/sw/TACA"
-taca_version: "a53849e659247bdc89096c29cfe8c78e954f27a5"
+taca_version: 1c32f9f6968b9084df56b1a8e1f8f87de6fa9458

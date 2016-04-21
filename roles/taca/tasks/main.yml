@@ -1,9 +1,9 @@
 - include: dependencies.yml
 
 - name: Fetch TACA-ngi-pipeline from GitHub
-  git: repo={{ taca_ngi_repo }}
-       dest={{ taca_ngi_dest }}
-       version={{ taca_ngi_version }}
+  git: repo="{{ taca_ngi_repo }}"
+       dest="{{ taca_ngi_dest }}"
+       version="{{ taca_ngi_version }}"
        force=yes
   tags: taca
 
@@ -28,7 +28,7 @@
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_upps_path }}"
   tags: taca
 
-- name: Deploy site_taca_delivery.yml config
+- name: Deploy upps_taca_delivery.yml config
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_delivery.yml"
   tags: taca
 
@@ -39,7 +39,7 @@
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_sthlm_delivery }}"
   tags: taca
 
-- name: Deploy site_taca_delivery.yml config
+- name: Deploy sthlm_taca_delivery.yml config
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_delivery.yml"
   tags: taca
 
