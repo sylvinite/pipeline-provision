@@ -56,21 +56,25 @@
   tags: ngi_piper
 
 - name: create setupfilecreator's destination folder
-  file: name="{{ root_path }}/sw/setupfilecreator" state=directory mode=g+s
+  file: name="{{ setupfilecreator_dest }}" state=directory mode=g+s
   tags: ngi_piper
 
 - name: unpack setupfilecreator to destination
   unarchive: 
     src: "{{ setupfilecreator_src_file }}"
-    dest: "{{ root_path }}/sw/setupfilecreator/"
+    dest: "{{ setupfilecreator_dest }}"
     copy: no 
-    creates: "{{ root_path }}/sw/setupfilecreator/setupfilecreator-{{ piper_version }}/bin"
+    creates: "{{ setupfilecreator_dest }}/setupfilecreator-{{ piper_version }}/bin"
     mode: g+rw
+  tags: ngi_piper
+
+- name: symlink setupFileCreator to setupfilecreator
+  file: src="{{ setupfilecreator_dest }}/setupfilecreator-{{ piper_version }}/bin/setupfilecreator" path="{{ setupfilecreator_dest }}/setupfilecreator-{{ piper_version }}/bin/setupFileCreator" state=link
   tags: ngi_piper
 
 - name: add piper path variable to sourceme script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='export PATH={{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/bin:{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows:{{ root_path }}/sw/setupfilecreator/setupfilecreator-{{ piper_version }}/bin/:$PATH'
+              line='export PATH={{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/bin:{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows:{{ setupfilecreator_dest }}/setupfilecreator-{{ piper_version }}/bin/:$PATH'
               backup=no
   tags: ngi_piper 
 
