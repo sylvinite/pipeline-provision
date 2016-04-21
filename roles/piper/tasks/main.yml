@@ -68,10 +68,6 @@
     mode: g+rw
   tags: ngi_piper
 
-- name: symlink setupFileCreator to setupfilecreator
-  file: src="{{ setupfilecreator_dest }}/setupfilecreator-{{ piper_version }}/bin/setupfilecreator" path="{{ setupfilecreator_dest }}/setupfilecreator-{{ piper_version }}/bin/setupFileCreator" state=link
-  tags: ngi_piper
-
 - name: add piper path variable to sourceme script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/bin:{{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/workflows:{{ setupfilecreator_dest }}/setupfilecreator-{{ piper_version }}/bin/:$PATH'
