@@ -20,7 +20,7 @@ bash_env_sthlm_script: sourceme_sthlm.sh
 
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
-ngi_pipeline_version: 3cd78a2b58b0dc0b9ae2bd193c2038744a07e73a
+ngi_pipeline_version: 5c0a4194584a0577068d06197caa7ae86506904b
 ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/NGI"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
@@ -39,15 +39,19 @@ ngi_pipeline_db_upps: "{{ ngi_pipeline_upps_path }}/db/records_db_upps.sql"
 ngi_pipeline_db_sthlm: "{{ ngi_pipeline_sthlm_path }}/db/records_db_sthlm.sql"
 
 
-ngi_piper_repo: https://github.com/NationalGenomicsInfrastructure/piper.git
-ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
-ngi_piper_bin_dest: "{{ root_path }}/sw/piper"
-ngi_piper_version: 051ca55f20949279b68fc1c96ce071b117f57a05
+#ngi_piper_repo: https://github.com/NationalGenomicsInfrastructure/piper.git
+#ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
+piper_version: 1.4.0
+piper_src_file: /lupus/ngi/irma3/piper_src/piper-1.4.0.zip
+setupfilecreator_src_file: /lupus/ngi/irma3/piper_src/setupfilecreator-1.4.0.zip
+ngi_piper_bin_dest: "{{ root_path }}/sw/piper/"
+#ngi_piper_version: 70eb84f356352406167dd8a5e6a5f4ce0b12725a
 
 taca_ngi_repo: https://github.com/SciLifeLab/taca-ngi-pipeline.git
 taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"
 taca_ngi_version: 35db8a3fe031c3a69cb7422fcc55d74506a04998
 
+<<<<<<< HEAD
 ngi_reports_repo: https://github.com/NationalGenomicsInfrastructure/ngi_reports.git
 ngi_reports_dest: "{{ root_path }}/sw/ngi_reports"
 ngi_reports_version: a21b58ade30fa5cd1f98ad88532cc87bf31ffc57
@@ -55,6 +59,8 @@ ngi_reports_version: a21b58ade30fa5cd1f98ad88532cc87bf31ffc57
 # charon settings are fetched from charon_credentials.yml for now, 
 # that is not checked into repo.  
 
+=======
+>>>>>>> 3747265528789c9ab095c6c3c3ffd729bad16249
 # TODO: Move these settings to somewhere else? 
 gatk_bundle_b37_origin: "/sw/data/uppnex/reference/biodata/GATK/ftp.broadinstitute.org/bundle/2.8/b37/"
 gatk_bundle_b37: "{{ ngi_resources }}/piper/gatk_bundle/2.8/b37"

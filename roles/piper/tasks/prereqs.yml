@@ -39,9 +39,28 @@
     mode: g+rw
   tags: ngi_piper
 
-- name: add java and maven to the user's path via sourceme script 
+- name: create sbt destination folder
+  file: path={{ sbt_dest }} state=directory mode=g+s
+  tags: ngi_piper
+
+- name: download sbt archive
+  get_url:
+    url: "{{ sbt_url }}"
+    dest: "{{ sbt_dest }}/{{ sbt_file }}"
+  tags: ngi_piper
+
+- name: unpack sbt to destination
+  unarchive:
+    src: "{{ sbt_dest }}/{{ sbt_file }}"
+    dest: "{{ sbt_dest }}/"
+    copy: no
+    creates: "{{ sbt_path }}/bin/sbt"
+    mode: g+rw
+  tags: ngi_piper
+
+- name: add java, maven and sbt to the user's path via sourceme script 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='export PATH={{ java_path }}/bin:{{ maven_path }}/bin:$PATH'
+              line='export PATH={{ java_path }}/bin:{{ maven_path }}/bin:{{ sbt_path }}/bin:$PATH'
               backup=no
   tags: ngi_piper 
 
