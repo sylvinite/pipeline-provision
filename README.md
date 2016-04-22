@@ -18,7 +18,7 @@ Install ansible with `pip install ansible`
 
 Download Anaconda and install it to `/lupus/ngi/sw/anaconda`
 
-Manually set Anaconda's permissions with `chmod -R g+rwX /lupus/ngi/sw/anaconda/`
+Manually set Anaconda's permissions with `chmod -R g+rwX,o+rX /lupus/ngi/sw/anaconda`
 
 Enable rsync functionality by using `pip install pexpect`
 
