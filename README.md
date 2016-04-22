@@ -50,7 +50,7 @@ Run the deployment script, for instance `ansible-playbook install.yml`
 
 Manually place any additional files that need to be synced over under `/lupus/ngi/`
 
-Remove your own virtual environment.
+If you don't want your environment synced to irma1, remove it.
 
 Run `python sync.py <remote dest>` to rsync all files under `/lupus/ngi/` from irma3 to irma1. If no directory is given the default is `/lupus/ngi/`
 
