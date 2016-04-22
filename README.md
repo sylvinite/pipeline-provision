@@ -6,7 +6,9 @@ The NGI pipeline is deployed on Irma using ansible playbooks. Ansible playbooks 
 
 Clone the repository to `/lupus/ngi/irma3/deploy`
 
-Copy the file from the repository under `bootstrap/bashrc` to `/lupus/ngi/irma3/bashrc.` This file has to be sourced every time a user wants to work. 
+Copy the file from the repository under `bootstrap/bashrc` to `/lupus/ngi/irma3/bashrc` 
+
+Run `source /lupus/ngi/irma3/bashrc` this file has to be sourced for virtually any operation relating to this repository.
 
 Setup a virtual environment, i.e: `/lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py -p /usr/bin/python2.7 /lupus/ngi/irma3/ansible-env`
 
@@ -15,6 +17,8 @@ Activate the environment using source `/lupus/ngi/irma3/ansible-env/bin/activate
 Install ansible with `pip install ansible`
 
 Download Anaconda and install it to `/lupus/ngi/sw/anaconda`
+
+Manually set Anaconda's permissions with `chmod -R g+rwX /lupus/ngi/sw/anaconda/`
 
 Enable rsync functionality by using `pip install pexpect`
 
