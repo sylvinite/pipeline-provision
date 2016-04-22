@@ -62,7 +62,7 @@ Run `ngi_pipeline_start.py` with the commands `organize flowcell`, `analyze proj
 
 ###Other worthwhile information
 
-Deploying to sw requires the deployer to be in both the `ngi-sw` and the `ngi` groups. Everything under `/lupus/ngi/` is owned by `ngi-sw`, except for the `/db/` and `/log/` directories which are owned by `ngi`.
+Deploying to sw requires the deployer to be in both the `ngi-sw` and the `ngi` groups. Everything under `/lupus/ngi/` is owned by `ngi-sw`.
 
 Only deployers can write new programs and configs, but all NGI functional accounts (funk_004, funk_006 etc) can write log files, to the SQL databases, etc.
 
