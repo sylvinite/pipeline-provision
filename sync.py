@@ -127,9 +127,9 @@ else:
 #		src_root_path + "/sw", user, host, dest)
 
 excludes = "--exclude=*.swp --exclude=.git/ --exclude=irma3/ --exclude=resources/piper/gatk_bundle/2.8/b37/"
-rsync_cmd = "/bin/rsync -avzP --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest) 
+rsync_cmd = "/bin/rsync -avzP --omit-dir-times --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest) 
 # TODO: Do this cleaner 
-dry_cmd = "/bin/rsync --dry-run -avzP --delete {0} {1} {2}@{3}:{4}".format(excludes, src_root_path, user, host, dest) 
+dry_cmd = "/bin/rsync --dry-run -avzP --omit-dir-times --delete {0} {1} {2}@{3}:{4}".format(excludes, src_root_path, user, host, dest) 
 
 # First doing a dry-run to confirm sync. 
 print('Initiating a rsync dry-run')
