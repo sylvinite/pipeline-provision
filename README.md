@@ -2,7 +2,7 @@
 
 The NGI pipeline is deployed on Irma using ansible playbooks. Ansible playbooks are scripts written for easily adaptable automated deployment. The ansible playbooks are stored here.
 
-## Deployment of the Ansible enviroment
+## Deployment of the Ansible environment
 
 Clone the repository to `/lupus/ngi/irma3/deploy`
 
@@ -35,7 +35,13 @@ The following files need to be present on irma3 in order to successfully deploy 
 
 ###Typical deployment
 
-Write deployment scripts under `/lupus/ngi/irma3/deploy`
+Clone the repository to `/lupus/ngi/irma3/devel` and develop your scripts.
+
+Create your own virtual environment for developing, i.e: `conda create -n myVenv python=2.7`
+
+Alter `{{ ngi_pipeline_venv }}` under `host_vars/127.0.0.1/main.yml` to match your environment's name.
+
+Once the features have been approved, `git pull` them into `/lupus/ngi/irma3/deploy`
 
 Make sure the target is somewhere under `/lupus/ngi/`. Some folders (currently only `/lupus/ngi/irma3/` and 
 `/lupus/ngi/resources/piper/gatk_bundle`) should not be used as targets as they are set up to be ignored by the rsync.
@@ -43,6 +49,8 @@ Make sure the target is somewhere under `/lupus/ngi/`. Some folders (currently o
 Run the deployment script, for instance `ansible-playbook install.yml`
 
 Manually place any additional files that need to be synced over under `/lupus/ngi/`
+
+Remove your own virtual environment.
 
 Run `python sync.py <remote dest>` to rsync all files under `/lupus/ngi/` from irma3 to irma1. If no directory is given the default is `/lupus/ngi/`
 
@@ -58,7 +66,7 @@ Run `/lupus/ngi/sw/piper/gen_GATK_ref.sh` one time ever to generate the required
 
 Run `source /lupus/ngi/conf/sourceme_<SITE>.sh` where <site> is upps to initialize variables funk_004, and sthlm to initialize funk_006 variables respectively.
 
-Run source activate NGI to start the enviroment.
+Run `source activate NGI` to start the environment.
 
 `python NGI_pipeline_test.py create --fastq1 <R1.fastq.gz> --fastq2 <R2.fastq.gz> --FC 1` creates a simulated flowcell.
 
