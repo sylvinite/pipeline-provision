@@ -176,7 +176,7 @@ nginx: |
   {{user}}
   worker_processes 4;
   error_log logs/error.log error;
-  daemon on;
+  daemon off;
 
   worker_rlimit_nofile {{auto_worker_rlimit_nofile}};
 
