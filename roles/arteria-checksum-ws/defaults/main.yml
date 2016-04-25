@@ -17,3 +17,4 @@ arteria_checksum_service_log: "{{ ngi_pipeline_upps_path }}/log/arteria/checksum
 arteria_checksum_repo: https://github.com/arteria-project/arteria-checksum.git
 arteria_checksum_version: v1.0.2
 
+arteria_checksum_port: 10420
