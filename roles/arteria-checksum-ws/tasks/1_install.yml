@@ -21,7 +21,7 @@
       name: .
       chdir: "{{ arteria_checksum_src_path }}"
       virtualenv: "{{ arteria_checksum_env_root }}"
-      virtualenv_command: /usr/local/bin/virtualenv
+      virtualenv_command: "{{ arteria_checksum_virtual_env_command }}"
       state: present
       executable: "{{ arteria_checksum_env_root }}/bin/pip"
       extra_args: "-U"

@@ -1,6 +1,6 @@
 ---
 
-- name: ensure /etc/arteria/checksum dir exists
+- name: ensure arteria-checksum conf dir exists
   file:
     state: directory
     path: "{{ arteria_checksum_config_root }}"
