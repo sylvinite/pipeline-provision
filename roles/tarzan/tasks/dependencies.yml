@@ -9,7 +9,7 @@
 # use a loop a la http://stackoverflow.com/questions/30785281/one-loop-over-multiple-ansible-tasks ? 
 
 - name: create luajit destination directory 
-  file: path={{ luajit_dest }} state=directory mode=g+s
+  file: path={{ luajit_dest }} state=directory mode=g+rwXs
   tags: tarzan 
 
 - name: download luajit archive
@@ -19,7 +19,12 @@
   tags: tarzan
 
 - name: unpack luajit to destination
-  unarchive: src="{{ luajit_dest }}/{{ luajit_file }}" dest={{ luajit_dest }}/ copy=no creates={{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}
+  unarchive: 
+    src: "{{ luajit_dest }}/{{ luajit_file }}" 
+    dest: "{{ luajit_dest }}"
+    copy: no 
+    creates: "{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}"
+    mode: g+rwX,o+rX
   tags: tarzan
 
 - name: set luajits install path
@@ -45,7 +50,7 @@
   tags: tarzan
 
 - name: create luarocks destination directory
-  file: path={{ luarocks_dest }} state=directory mode=g+s
+  file: path={{ luarocks_dest }} state=directory mode=g+rwXs
   tags: tarzan
 
 - name: download luarocks archive
@@ -55,7 +60,12 @@
   tags: tarzan
 
 - name: unpack luarocks to destination
-  unarchive: src="{{ luarocks_dest }}/{{ luarocks_file }}" dest={{ luarocks_dest }}/ copy=no creates={{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks
+  unarchive: 
+    src: "{{ luarocks_dest }}/{{ luarocks_file }}" 
+    dest: "{{ luarocks_dest }}"
+    copy: no 
+    creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
+    mode: g+rwX,o+rX
   tags: tarzan
 
 - name: configure luarocks
@@ -73,7 +83,7 @@
   tags: tarzan 
 
 - name: create openssl destination directory
-  file: path={{ openssl_dest }} state=directory mode=g+s
+  file: path={{ openssl_dest }} state=directory mode=g+rwXs
   tags: tarzan
 
 - name: download openssl archive
@@ -83,11 +93,16 @@
   tags: tarzan
 
 - name: unpack openssl to destination
-  unarchive: src="{{ openssl_dest }}/{{ openssl_file }}" dest={{ openssl_dest }}/ copy=no creates={{ openssl_dest }}/{{ openssl_version }}/bin/openssl
+  unarchive: 
+    src: "{{ openssl_dest }}/{{ openssl_file }}" 
+    dest: "{{ openssl_dest }}"
+    copy: no 
+    creates: "{{ openssl_dest }}/{{ openssl_version }}/bin/openssl"
+    mode: g+rwX,o+rX
   tags: tarzan
 
 - name: create openresty destination directory
-  file: path={{ openresty_dest }} state=directory mode=g+s
+  file: path={{ openresty_dest }} state=directory mode=g+rwXs
   tags: tarzan
 
 - name: download openresty archive
@@ -97,7 +112,12 @@
   tags: tarzan
 
 - name: unpack openresty to destination
-  unarchive: src="{{ openresty_dest }}/{{ openresty_file }}" dest={{ openresty_dest }}/ copy=no creates={{ openresty_dest }}/{{ openresty_version }}/bin/resty
+  unarchive: 
+    src: "{{ openresty_dest }}/{{ openresty_file }}" 
+    dest: "{{ openresty_dest }}"
+    copy: no 
+    creates: "{{ openresty_dest }}/{{ openresty_version }}/bin/resty"
+    mode: g+rwX,o+rX
   tags: tarzan
 
 - name: configure openresty
@@ -115,7 +135,7 @@
   tags: tarzan 
 
 - name: create cassandra destination directory
-  file: path={{ cassandra_dest }} state=directory mode=g+s
+  file: path={{ cassandra_dest }} state=directory mode=g+rwXs
   tags: tarzan
 
 - name: download cassandra archive
@@ -125,7 +145,12 @@
   tags: tarzan
 
 - name: unpack cassandra to destination
-  unarchive: src="{{ cassandra_dest }}/{{ cassandra_file }}" dest={{ cassandra_dest }}/ copy=no creates={{ cassandra_dest }}/{{ cassandra_version }}/bin/cassandra
+  unarchive: 
+    src: "{{ cassandra_dest }}/{{ cassandra_file }}" 
+    dest: "{{ cassandra_dest }}"
+    copy: no 
+    creates: "{{ cassandra_dest }}/{{ cassandra_version }}/bin/cassandra"
+    mode: g+rwX,o+rX
   tags: tarzan
 
 - name: symlink cassandra to install dir
@@ -173,7 +198,7 @@
   tags: tarzan
 
 - name: create serf destination directory
-  file: path={{ serf_dest }} state=directory mode=g+s
+  file: path={{ serf_dest }} state=directory mode=g+rwXs
   tags: tarzan
 
 - name: download serf archive
@@ -183,6 +208,11 @@
   tags: tarzan
 
 - name: unpack serf to destination
-  unarchive: src="{{ serf_dest }}/{{ serf_file }}" dest={{ serf_dest }}/ copy=no creates={{ serf_dest }}/{{ serf_version }}/bin/serf
+  unarchive: 
+    src: "{{ serf_dest }}/{{ serf_file }}" 
+    dest: "{{ serf_dest }}"
+    copy: no 
+    creates: "{{ serf_dest }}/{{ serf_version }}/bin/serf"
+    mode: g+rwX,o+rX
   tags: tarzan
  

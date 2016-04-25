@@ -1,7 +1,7 @@
 --- 
 
 - name: create tarzan main directory 
-  file: name={{ tarzan_dest }} state=directory mode=g+s
+  file: name={{ tarzan_dest }} state=directory mode=g+rwXs
   tags: tarzan 
 
 - include: dependencies.yml tags=tarzan
@@ -10,8 +10,8 @@
   shell: "export PATH={{ tarzan_env_path }}:$PATH && luarocks install kong {{ kong_version }}-0"
   tags: tarzan
 
-- name: add the kong paths to the user's environment via the sourceme script 
-  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+- name: add the kong paths to funk_004's environment via the sourceme_upps script 
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}
               line='export PATH={{ tarzan_env_path }}:$PATH'
               backup=no
   tags: tarzan
@@ -28,37 +28,43 @@
               backup=no
   tags: tarzan
 
-# TODO: have a subdir for all tarzan confs? 
-
 - name: deploy config for kong
   template: src="kong.yml.j2" dest="{{ ngi_pipeline_conf }}/webproxy.yml"
   tags: tarzan
 
-- name: modify uppsala's supervisord conf to start kong
-  ini_file:
-    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
-    section=program:kong
-    option=command
-    value="kong start -c {{ ngi_pipeline_conf }}/webproxy.conf"
-    backup=no
+# FIXME: Couldn't get this to work properly with supervisord because 
+# it demands that the program under control doesn't daemonize. 
+# (The kong binary itself spawns nginx and self binaries)
+- name: modify uppsala's crontab to start kong
+  lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
+              line='# restart kong if it has died for some reason'
+              backup=no
   tags: tarzan
 
-- name: modify uppsala's supervisord conf to autorestart kong
-  ini_file:
-    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
-    section=program:kong
-    option=autorestart
-    value=true
-    backup=no
-  tags: tarzan
- 
-- name: modify uppsala's supervisord conf to send appropriate stop signal to kong child procs
-  ini_file:
-    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
-    section=program:kong
-    option=stopsignal
-    value=INT
-    backup=no
+- name: modify uppsala's crontab to start kong
+  lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
+              line='@reboot source $HOME/.bash_profile && kong start -c {{ ngi_pipeline_conf }}/webproxy.yml'
+              backup=no
   tags: tarzan
 
+- name: modify uppsala's crontab to start kong
+  lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
+              line='38 * * * *      source $HOME/.bash_profile && kong start -c {{ ngi_pipeline_conf }}/webproxy.yml'
+              backup=no
+  tags: tarzan
 
+# This is an ugly hack that sets the permissions correctly to g+rwX,o+rX
+# for all files that is owned by the current user that is running the playbook. 
+# This is necessary because some of the "luarocks install" and "make install" 
+# commands run in this role doesn't seem to pick up on the correct umask for
+# some weird reason.
+#
+# Note that this by purpose will miss changing the permissions of files
+# owned by an other user, as we do not want to have the playbook cluttered
+# with a lot of errors when the permission change fails.
+#
+# It is therefore expected that this script will always be run when someone is 
+# running the role.
+- name: set correct file permission for everything under sw/tarzan
+  shell: "find /lupus/ngi/sw/tarzan -user `whoami` -exec chmod g+rwX,o+rX {} \\;"
+  tags: tarzan
