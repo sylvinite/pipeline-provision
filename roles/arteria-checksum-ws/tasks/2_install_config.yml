@@ -4,6 +4,7 @@
   file:
     state: directory
     path: "{{ arteria_checksum_config_root }}"
+    mode: g+rwXs
 
 - name: deploy arteria-checksum app config
   template:
