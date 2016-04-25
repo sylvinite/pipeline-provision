@@ -1,7 +1,6 @@
 SHELL=/bin/bash
 @reboot source $HOME/.bash_profile && supervisord -c {{ ngi_pipeline_conf }}/supervisord_upps.conf
 
-# TODO: Shall this still be here?? 
 0 * * * * source $HOME/.bashrc &> /dev/null && update_charon_with_local_jobs_status.py -e piper &> /dev/null
 
 # (SNP&SEQ) dump the size of project directories
