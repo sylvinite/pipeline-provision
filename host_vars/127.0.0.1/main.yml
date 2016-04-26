@@ -44,6 +44,7 @@ ngi_pipeline_db_sthlm: "{{ ngi_pipeline_sthlm_path }}/db/records_db_sthlm.sql"
 piper_version: 1.4.0
 piper_src_file: /lupus/ngi/irma3/piper_src/piper-1.4.0.zip
 setupfilecreator_src_file: /lupus/ngi/irma3/piper_src/setupfilecreator-1.4.0.zip
+setupfilecreator_dest: "{{ root_path }}/sw/setupfilecreator"
 ngi_piper_bin_dest: "{{ root_path }}/sw/piper/"
 #ngi_piper_version: 70eb84f356352406167dd8a5e6a5f4ce0b12725a
 
