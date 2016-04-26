@@ -1,0 +1,8 @@
+--- 
+
+- name: Deploy TACA & NGI_Reports 
+  hosts: 127.0.0.1
+  connection: local
+  roles: 
+   - taca
+   - ngi_reports

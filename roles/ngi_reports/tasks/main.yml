@@ -1,14 +1,14 @@
 ---
-- name: Check if dev_IS virtual env exists 
-  shell: conda env list | awk '{print $1}' | egrep -e "^dev_IS$"
-  register: ngi_venv_exists
-  ignore_errors: true
-  tags: ngi_dev
-
-- name: Setup virtual env and install dependencies 
-  shell: conda create -n dev_IS pip sqlalchemy 
-  when: not ngi_venv_exists.stdout 
-  tags: ngi_dev
+#- name: Check if dev_IS virtual env exists 
+#  shell: conda env list | awk '{print $1}' | egrep -e "^dev_IS$"
+#  register: ngi_venv_exists
+#  ignore_errors: true
+#  tags: ngi_dev
+#
+#- name: Setup virtual env and install dependencies 
+#  shell: conda create -n dev_IS pip sqlalchemy 
+#  when: not ngi_venv_exists.stdout 
+#  tags: ngi_dev
 
 - include: dependencies.yml
   tags: ngi_reports
