@@ -1,0 +1,43 @@
+---
+
+- name: get arteria-checksum from git
+  git:
+    repo: "{{ arteria_checksum_repo }}"
+    dest: "{{ arteria_checksum_src_path }}"
+    version: "{{ arteria_checksum_version }}"
+
+- name: install arteria-checksum requirements
+  pip:
+      requirements: "{{ arteria_checksum_src_path }}/requirements/prod"
+      chdir: "{{ arteria_checksum_src_path }}"
+      virtualenv: "{{ arteria_checksum_env_root }}"
+      virtualenv_command: "{{ arteria_checksum_virtual_env_command }}"
+      state: present
+      executable: "{{ arteria_checksum_env_root }}/bin/pip"
+      extra_args: "-U"
+
+- name: install arteria-checksum
+  pip:
+      name: .
+      chdir: "{{ arteria_checksum_src_path }}"
+      virtualenv: "{{ arteria_checksum_env_root }}"
+      virtualenv_command: "{{ arteria_checksum_virtual_env_command }}"
+      state: present
+      executable: "{{ arteria_checksum_env_root }}/bin/pip"
+      extra_args: "-U"
+
+# This is an ugly hack that sets the permissions correctly to g+rwX,o+rX
+# for all files that is owned by the current user that is running the playbook.
+# This is necessary because some files compiled via the pip tasks seems to get
+# the wrong permissions. Future version of Ansible (2.1) apparently supports 
+# a umask argument to the pip task, that might fix this. 
+#
+# Note that this by purpose will miss changing the permissions of files
+# owned by an other user, as we do not want to have the playbook cluttered
+# with a lot of errors when the permission change fails.
+#
+# It is therefore expected that this script will always be run when someone is 
+# running the role.
+- name: set correct file permission for everything under arteria-checksum-venv
+  shell: "find {{ arteria_checksum_env_root }} -user `whoami` -exec chmod g+rwX,o+rX {} \\;"
+
