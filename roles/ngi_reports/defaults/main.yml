@@ -8,5 +8,3 @@ texLive_file: install-tl-unx.tar.gz
 texLive_url: "http://mirror.ctan.org/systems/texlive/tlnet/{{ texLive_file }}"
 texLive_dest: "{{ ngi_resources }}/texLive/"
 texLive_path: "{{ texLive_dest }}/texLive"
-
-statusdb_res: "{{ ngi_pipeline }}/statusDB"
