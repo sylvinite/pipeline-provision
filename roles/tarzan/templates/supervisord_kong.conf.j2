@@ -1,8 +1,0 @@
-[supervisord]
-logfile={{ tarzan_log_dest }}/supervisord.log
-pidfile={{ tarzan_log_dest }}/supervisord.pid
-
-[program:kong]
-command=kong start -c {{ ngi_pipeline_conf }}/webproxy.conf
-autorestart=true
-

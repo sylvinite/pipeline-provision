@@ -51,6 +51,7 @@ tarzan_env_path: "{{ luajit_dest }}/{{ luajit_version }}/bin:{{ luarocks_dest }}
 
 tarzan_log_dest: "{{ ngi_pipeline_upps_path }}/log/tarzan/"
 tarzan_db_dest: "{{ ngi_pipeline_upps_path }}/db/tarzan/"
+cassandra_log_dest: "{{ tarzan_log_dest }}/cassandra"
 cassandra_db_dest: "{{ tarzan_db_dest }}/cassandra" 
 
 # To get Tarzan to work lua_path and lua_cpath were generated from a working luarocks 
