@@ -57,20 +57,20 @@
 
 - name: Add statusDB envvar to sourceme 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}
-              line='export STATUS_DB_CONFIG={{ ngi_pipeline_conf }}/statusdb.yaml'
+              line="export STATUS_DB_CONFIG={{ ngi_pipeline_conf }}/{{ statusdb_creds }}"
               backup=no
   tags: ngi_reports
 
-###END STOCKHOLM SPECIFIX
+###END STOCKHOLM SPECIFIC
 
 #NOTE: WORKAROUND MAY NOT BE REQUIRED, BUT LIKELY SO.
 - name: Copy Pandoc fix
-  copy: src=make_report.sh dest="{{ ngi_resources }}/make_report.sh"
+  copy: src=make_report.sh dest="{{ ngi_resources }}/make_report.sh" mode=0770
   tags: ngi_reports 
 
 - name: Add Pandoc fix to alias
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line="alias ngi_reports=ngi_reports --pandoc_binary"
+              line="alias ngi_reports='ngi_reports --pandoc_binary'"
               backup=no
   tags: ngi_reports
 

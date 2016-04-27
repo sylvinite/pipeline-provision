@@ -1,15 +1,4 @@
 ---
-#- name: Check if dev_IS virtual env exists 
-#  shell: conda env list | awk '{print $1}' | egrep -e "^dev_IS$"
-#  register: ngi_venv_exists
-#  ignore_errors: true
-#  tags: ngi_dev
-#
-#- name: Setup virtual env and install dependencies 
-#  shell: conda create -n dev_IS pip sqlalchemy 
-#  when: not ngi_venv_exists.stdout 
-#  tags: ngi_dev
-
 - include: dependencies.yml
   tags: ngi_reports
 
@@ -25,8 +14,9 @@
   shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_reports_dest }}/requirements.txt"
   tags: ngi_reports
 
+#-e works similar to setup.py develop. Necessary for some hardcoded dependencies.
 - name: Install ngi_reports
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
   args:
     chdir: "{{ ngi_reports_dest }}"
   tags: ngi_reports
@@ -48,7 +38,7 @@
   tags: ngi_reports
 
 - name: Create Uppsala ngi_reports conf file
-  template: src="ngi_reports.conf" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf"
+  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf"
   tags: ngi_reports
 
 - set_fact:
@@ -56,5 +46,5 @@
   tags: ngi_reports
 
 - name: Create Stockholm ngi_reports conf file
-  template: src="ngi_reports.conf" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf" 
+  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf" 
   tags: ngi_reports
