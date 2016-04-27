@@ -65,7 +65,7 @@
 
 #NOTE: WORKAROUND MAY NOT BE REQUIRED, BUT LIKELY SO.
 - name: Copy Pandoc fix
-  copy: src=make_report.sh dest="{{ ngi_resources }}/make_report.sh" mode=0770
+  copy: src=make_report.sh dest="{{ ngi_resources }}/make_report.sh" mode=0775
   tags: ngi_reports 
 
 - name: Add Pandoc fix to alias
