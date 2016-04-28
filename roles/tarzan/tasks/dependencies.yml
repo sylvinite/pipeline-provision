@@ -97,7 +97,7 @@
     src: "{{ openssl_dest }}/{{ openssl_file }}" 
     dest: "{{ openssl_dest }}"
     copy: no 
-    creates: "{{ openssl_dest }}/{{ openssl_version }}/bin/openssl"
+    creates: "{{ openssl_dest }}/openssl-{{ openssl_version }}/LICENSE"
     mode: g+rwX,o+rX
   tags: tarzan
 
