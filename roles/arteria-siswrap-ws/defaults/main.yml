@@ -7,6 +7,8 @@ arteria_siswrap_app_config: "{{ arteria_siswrap_config_root }}/app.config"
 arteria_siswrap_logger_config: "{{ arteria_siswrap_config_root }}/logger.config"
 
 arteria_siswrap_port: 10430
+arteria_siswrap_mail_from: johan.hermansson@medsci.uu.se
+arteria_siswrap_mail_to: arteria-project@googlegroups.com
 
 arteria_siswrap_sources_path: "{{ arteria_install_path }}/siswrap_src"
 arteria_siswrap_repo: https://github.com/arteria-project/arteria-siswrap.git

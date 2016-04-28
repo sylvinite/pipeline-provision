@@ -1,8 +1,8 @@
 ---
 
-port: 10700
-sender: johan.hermansson@medsci.uu.se
-receiver: arteria-project@googlegroups.com
+port: {{  arteria_siswrap_port }}
+sender: {{ arteria_siswrap_mail_from }}
+receiver: {{ arteria_siswrap_mail_to }}
 report_bin: {{ arteria_siswrap_env_root }}/deps/sisyphus/sisyphus-latest/quickReport.pl
 qc_bin: {{ arteria_siswrap_env_root }}/deps/sisyphus/sisyphus-latest/qcValidateRun.pl
 version_bin: {{ arteria_siswrap_env_root }}/deps/sisyphus/sisyphus-latest/version.pl
