@@ -1,0 +1,37 @@
+---
+
+- include: install.yml
+- include: sisyphus.yml
+
+- name: ensure arteria-siswrap conf dir exists
+  file:
+    state: directory
+    path: "{{ arteria_siswrap_config_root }}"
+    mode: g+rwXs
+
+- name: deploying arteria-siswrap app config
+  template:
+    src: siswrap_app.config.j2
+    dest: "{{ arteria_siswrap_app_config }}"
+
+- name: deploying arteria-siswrap logger config
+  template:
+    src: siswrap_logger.config.j2
+    dest: "{{ arteria_siswrap_logger_config }}"
+
+# TODO: Perl that launches needs to have the correct PERL5LIB setup. 
+- name: modify uppsala's supervisord conf to start arteria-siswrap-ws 
+  ini_file: 
+    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
+    section=program:arteria-siswrap-ws
+    option=command
+    value="{{ arteria_siswrap_env_root }}/bin/siswrap-ws --configroot={{ arteria_siswrap_config_root }} --port={{ arteria_siswrap_port }}"
+    backup=no
+ 
+- name: modify uppsala's supervisord conf to start arteria-siswrap-ws
+  ini_file: 
+    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
+    section=program:arteria-siswrap-ws
+    option=autorestart
+    value=true
+    backup=no

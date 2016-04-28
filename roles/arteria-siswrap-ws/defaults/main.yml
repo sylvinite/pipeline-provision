@@ -1,0 +1,25 @@
+---
+
+arteria_install_path: "{{ root_path }}/sw/arteria"
+arteria_siswrap_env_root: "{{ arteria_install_path }}/siswrap_venv"
+arteria_siswrap_config_root: "{{ ngi_pipeline_conf }}/arteria/siswrap"
+arteria_siswrap_app_config: "{{ arteria_siswrap_config_root }}/app.config"
+arteria_siswrap_logger_config: "{{ arteria_siswrap_config_root }}/logger.config"
+
+arteria_siswrap_port: 10430
+
+arteria_siswrap_sources_path: "{{ arteria_install_path }}/siswrap_src"
+arteria_siswrap_repo: https://github.com/arteria-project/arteria-siswrap.git
+arteria_siswrap_version: v1.0.2
+
+virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"
+
+sisyphus_path: "{{ arteria_siswrap_env_root }}/deps/sisyphus/"
+sisyphus_git_repo: https://github.com/Molmed/sisyphus.git
+sisyphus_repo_branch: master
+
+runfolder_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming/"
+
+# Where to install our local Perl packages
+perllib_dest: "{{ ngi_resources }}/arteria/perl"
+
