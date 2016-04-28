@@ -1,26 +1,7 @@
 ---
 
-# TODO: 
-# - har requestat nedanstående paket att bli installerade på irma 
-# - installerar cpanm manuellt och lägger i ansible-env <-- gjort 
-# - använder cpanm-modulen för att installera perl* nedan (dvs ink pdl) <-- gjort 
-# - verkar gå att lägga till "locallib" till ansible-modulen för att installera lokalt <-- gjort
-#
-# - exportera miljövariabel så sisyphus kan starta: 
-#  export PERL5LIB=/lupus/ngi/resources/arteria/perl/lib/perl5/
-# 
-# PyXML finns inte i Centos7 längre. Se om det funkar ändå. 
-
-# Installera följande paket med cpanm: 
-#    - perl-XML-LibXML <-- alla perl-paket via cpanm
-#    - perl-XML-LibXML-Common
-#    - perl-XML-NamespaceSupport
-#    - perl-XML-SAX
-#    - perl-XML-Simple
-#    - perl-Archive-Zip
-#    - perl-CPAN
-#    - perl-PDL
-#    - perl-PerlIO-gzip
+# FIXME: One system dependency that is missing atm is PyXML. 
+# See if everything works well anyway. 
 
 - name: create arteria perllib dir 
   file: path={{ perllib_dest }} state=directory mode=g+s 

@@ -36,6 +36,11 @@
     value=true
     backup=no
 
+- name: add PERL5LIB to uppsala's sourcme script
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}
+              line="export PERL5LIB={{ ngi_resources }}/arteria/perl/lib/perl5/:$PERL5LIB"
+              backup=no
+
 # This is an ugly hack that sets the permissions correctly to g+rwX,o+rX
 # for all files that is owned by the current user that is running the playbook.
 # This is necessary because some files compiled via the pip and cpanm tasks seems
