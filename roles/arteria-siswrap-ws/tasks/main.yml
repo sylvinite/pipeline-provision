@@ -35,3 +35,19 @@
     option=autorestart
     value=true
     backup=no
+
+# This is an ugly hack that sets the permissions correctly to g+rwX,o+rX
+# for all files that is owned by the current user that is running the playbook.
+# This is necessary because some files compiled via the pip and cpanm tasks seems
+# to get the wrong permissions. Future version of Ansible (2.1) apparently supports
+# a umask argument to the pip task, that might fix some of this.
+#
+# Note that this by purpose will miss changing the permissions of files
+# owned by an other user, as we do not want to have the playbook cluttered
+# with a lot of errors when the permission change fails.
+#
+# It is therefore expected that this script will always be run when someone is
+# running the role.
+- name: set correct file permission for everything under arteria-siswrap-venv and arteria-perl
+  shell: "find {{ arteria_siswrap_env_root }} {{ ngi_resources }}/arteria/ -user `whoami` -exec chmod g+rwX,o+rX {} \\;"
+

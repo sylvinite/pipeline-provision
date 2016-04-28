@@ -42,9 +42,8 @@
 - name: install XML::SAX
   cpanm: name=XML::SAX locallib={{ perllib_dest }}
 
-# Beror på expat-devel
-#- name: install XML::Simple
-#  cpanm: name=XML::Simple locallib={{ perllib_dest }}
+- name: install XML::Simple
+  cpanm: name=XML::Simple locallib={{ perllib_dest }}
 
 - name: install Archive::Zip
   cpanm: name=Archive::Zip locallib={{ perllib_dest }}
