@@ -1,0 +1,50 @@
+---
+- include: dependencies.yml
+  tags: ngi_reports
+
+- name: Fetch ngi_reports from github 
+  git: repo={{ ngi_reports_repo }} 
+       dest={{ ngi_reports_dest }}
+       version={{ ngi_reports_version }}
+       force=yes
+       recursive=yes
+  tags: ngi_reports
+
+- name: Install ngi_reports requirements
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_reports_dest }}/requirements.txt"
+  tags: ngi_reports
+
+#-e works similar to setup.py develop. Necessary for some hardcoded dependencies.
+- name: Install ngi_reports
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
+  args:
+    chdir: "{{ ngi_reports_dest }}"
+  tags: ngi_reports
+
+- name: Add ngi_reports to $PATH via sourceme
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export PATH={{ ngi_reports_dest }}:$PATH'
+              backup=no
+  tags: ngi_reports
+
+- name: Install pandocfilters submodule
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  args:
+    chdir: "{{ ngi_reports_dest }}/data/pandoc_templates/pandocfilters/"
+  tags: ngi_reports
+
+- set_fact:
+    site: "uppsala"
+  tags: ngi_reports
+
+- name: Create Uppsala ngi_reports conf file
+  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf"
+  tags: ngi_reports
+
+- set_fact:
+    site: "stockholm"
+  tags: ngi_reports
+
+- name: Create Stockholm ngi_reports conf file
+  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf" 
+  tags: ngi_reports
