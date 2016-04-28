@@ -22,8 +22,8 @@ luarocks_version: 2.3.0
 luarocks_dest: "{{ tarzan_dest }}/luarocks/"
 
 # kong depends on cassandra as backend 
-cassandra_url: https://github.com/apache/cassandra/archive/cassandra-2.2.5.zip
-cassandra_file: cassandra-2.2.5.zip
+cassandra_url: http://archive.apache.org/dist/cassandra/2.2.5/apache-cassandra-2.2.5-bin.tar.gz
+cassandra_file: apache-cassandra-2.2.5-bin.tar.gz
 cassandra_version: 2.2.5
 cassandra_dest: "{{ tarzan_dest }}/cassandra/"
 
