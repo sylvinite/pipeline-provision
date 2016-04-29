@@ -34,17 +34,30 @@
   tags: ngi_reports
 
 - set_fact:
-    site: "uppsala"
+    site: "upps"
   tags: ngi_reports
 
 - name: Create Uppsala ngi_reports conf file
-  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf"
+  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf"
+  tags: ngi_reports
+
+- name: Add ngi_reports to $PATH via sourceme_{{ site }}
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}"
+              line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf'
+              backup=no
   tags: ngi_reports
 
 - set_fact:
-    site: "stockholm"
+    site: "sthlm"
   tags: ngi_reports
 
 - name: Create Stockholm ngi_reports conf file
-  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports.conf" 
+  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf" 
   tags: ngi_reports
+
+- name: Add ngi_reports to $PATH via sourceme_{{ site }}
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
+              line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf'
+              backup=no
+  tags: ngi_reports
+
