@@ -39,14 +39,15 @@ ngi_pipeline_db_upps: "{{ ngi_pipeline_upps_path }}/db/records_db_upps.sql"
 ngi_pipeline_db_sthlm: "{{ ngi_pipeline_sthlm_path }}/db/records_db_sthlm.sql"
 
 
-#ngi_piper_repo: https://github.com/NationalGenomicsInfrastructure/piper.git
-#ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
 piper_version: 1.4.0
 piper_src_file: /lupus/ngi/irma3/piper_src/piper-1.4.0.zip
 setupfilecreator_src_file: /lupus/ngi/irma3/piper_src/setupfilecreator-1.4.0.zip
 setupfilecreator_dest: "{{ root_path }}/sw/setupfilecreator"
 ngi_piper_bin_dest: "{{ root_path }}/sw/piper/"
+##EFFECTIVELY REPLACED. KEEPING COMMENTED AS A REMINDER/FALLBACK
 #ngi_piper_version: 70eb84f356352406167dd8a5e6a5f4ce0b12725a
+#ngi_piper_repo: https://github.com/NationalGenomicsInfrastructure/piper.git
+#ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
 
 taca_ngi_repo: https://github.com/SciLifeLab/taca-ngi-pipeline.git
 taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"
@@ -54,7 +55,7 @@ taca_ngi_version: 35db8a3fe031c3a69cb7422fcc55d74506a04998
 
 ngi_reports_repo: https://github.com/NationalGenomicsInfrastructure/ngi_reports.git
 ngi_reports_dest: "{{ root_path }}/sw/ngi_reports"
-ngi_reports_version: a21b58ade30fa5cd1f98ad88532cc87bf31ffc57
+ngi_reports_version: f65afd5cda2916e5df07604c19b9fc5a52ed375e
 
 # charon settings are fetched from charon_credentials.yml for now, 
 # that is not checked into repo.  
@@ -66,6 +67,6 @@ gatk_bundle_b37: "{{ ngi_resources }}/piper/gatk_bundle/2.8/b37"
 gatk_bundle_hg19: "{{ ngi_resources }}/piper/gatk_bundle/2.8/hg19"
 
 gatk_key: pontus.larsson_medsci.uu.se.key
-statusdb_creds: statusdb.yml
+statusdb_creds: statusdb_creds.yml
 
 recipient_mail: ngi_pipeline_operators@scilifelab.se
