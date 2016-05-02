@@ -1,8 +1,9 @@
 --- 
 
-- name: deploy arteria-checksum
+- name: deploy arteria webservices
   hosts: 127.0.0.1
   connection: local
   roles: 
     - { role: arteria-checksum-ws, tags: checksum-ws }
+    - { role: arteria-siswrap-ws, tags: siswrap-ws }
 

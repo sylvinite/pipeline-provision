@@ -1,0 +1,64 @@
+---
+
+# FIXME: One system dependency that is missing atm is PyXML. 
+# See if everything works well anyway. 
+
+- name: create arteria perllib dir 
+  file: path="{{ perllib_dest }}" state=directory mode=g+s 
+
+- name: install File::NFSLock
+  cpanm: name=File::NFSLock locallib="{{ perllib_dest }}"
+
+# Don't run the tests for this, as it seems to complain about a 
+# minor version missmatch for libxml2. 
+- name: install XML::LibXML
+  cpanm: name=XML::LibXML locallib="{{ perllib_dest }}" notest=yes
+
+- name: install XML::LibXML::Common
+  cpanm: name=XML::LibXML::Common locallib="{{ perllib_dest }}"
+
+- name: install XML::NamespaceSupport
+  cpanm: name=XML::NamespaceSupport locallib="{{ perllib_dest }}"
+
+- name: install XML::SAX
+  cpanm: name=XML::SAX locallib="{{ perllib_dest }}"
+
+- name: install XML::Simple
+  cpanm: name=XML::Simple locallib="{{ perllib_dest }}"
+
+- name: install Archive::Zip
+  cpanm: name=Archive::Zip locallib="{{ perllib_dest }}"
+
+- name: install PerlIO::gzip
+  cpanm: name=PerlIO::gzip locallib="{{ perllib_dest }}"
+
+- name: install PDL
+  cpanm: name=PDL locallib="{{ perllib_dest }}"
+
+- name: create sisyphus code folder
+  file: path="{{ sisyphus_path }}" state=directory mode=g+s
+
+- name: get sisyphus code
+  git: repo="{{ sisyphus_git_repo }}" version="{{ sisyphus_repo_branch }}" dest="{{ sisyphus_path }}/sisyphus-tmp" update=yes
+
+- name: get sisyphus version
+  command: git --git-dir="{{ sisyphus_path }}/sisyphus-tmp/.git" describe --tags
+  register: sisyphus_version
+
+- name: check if latest sisyphus version folder exists
+  stat: path="{{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }}"
+  register: latest_sisyphus_version_folder
+
+- name: copy latest version to correct named folder
+  command: "cp -r {{ sisyphus_path }}/sisyphus-tmp {{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }}"
+  when: not latest_sisyphus_version_folder.stat.exists
+
+- name: remove sisyphus-tmp
+  file: path="{{ sisyphus_path }}/sisyphus-tmp" state=absent
+
+- name: ensure latest version is globally readable and owned by proper user 
+  file: state=directory path="{{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }}" mode=775 recurse=yes
+
+- name: setup link to sisyphus latest
+  file: state=link src="{{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }}" dest="{{ sisyphus_path }}/sisyphus-latest" mode=775
+

@@ -1,0 +1,58 @@
+---
+
+- include: install.yml
+- include: sisyphus.yml
+
+- name: ensure arteria-siswrap conf dir exists
+  file:
+    state: directory
+    path: "{{ arteria_siswrap_config_root }}"
+    mode: g+rwXs
+
+- name: deploying arteria-siswrap app config
+  template:
+    src: siswrap_app.config.j2
+    dest: "{{ arteria_siswrap_app_config }}"
+
+- name: deploying arteria-siswrap logger config
+  template:
+    src: siswrap_logger.config.j2
+    dest: "{{ arteria_siswrap_logger_config }}"
+
+# TODO: Perl that launches needs to have the correct PERL5LIB setup. 
+- name: modify uppsala's supervisord conf to start arteria-siswrap-ws 
+  ini_file: 
+    dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
+    section=program:arteria-siswrap-ws
+    option=command
+    value="{{ arteria_siswrap_env_root }}/bin/siswrap-ws --configroot={{ arteria_siswrap_config_root }} --port={{ arteria_siswrap_port }}"
+    backup=no
+ 
+- name: modify uppsala's supervisord conf to autostart arteria-siswrap-ws
+  ini_file: 
+    dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
+    section=program:arteria-siswrap-ws
+    option=autorestart
+    value=true
+    backup=no
+
+- name: add PERL5LIB to uppsala's sourceme script
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}"
+              line="export PERL5LIB={{ ngi_resources }}/arteria/perl/lib/perl5/:$PERL5LIB"
+              backup=no
+
+# This is an ugly hack that sets the permissions correctly to g+rwX,o+rX
+# for all files that is owned by the current user that is running the playbook.
+# This is necessary because some files compiled via the pip and cpanm tasks seems
+# to get the wrong permissions. Future version of Ansible (2.1) apparently supports
+# a umask argument to the pip task, that might fix some of this.
+#
+# Note that this by purpose will miss changing the permissions of files
+# owned by an other user, as we do not want to have the playbook cluttered
+# with a lot of errors when the permission change fails.
+#
+# It is therefore expected that this script will always be run when someone is
+# running the role.
+- name: set correct file permission for everything under arteria-siswrap-venv and arteria-perl
+  shell: "find {{ arteria_siswrap_env_root }} {{ ngi_resources }}/arteria/ -user `whoami` -exec chmod g+rwX,o+rX {} \\;"
+
