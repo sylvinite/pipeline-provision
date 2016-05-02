@@ -28,7 +28,7 @@
     value="{{ arteria_siswrap_env_root }}/bin/siswrap-ws --configroot={{ arteria_siswrap_config_root }} --port={{ arteria_siswrap_port }}"
     backup=no
  
-- name: modify uppsala's supervisord conf to start arteria-siswrap-ws
+- name: modify uppsala's supervisord conf to autostart arteria-siswrap-ws
   ini_file: 
     dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
     section=program:arteria-siswrap-ws
@@ -36,7 +36,7 @@
     value=true
     backup=no
 
-- name: add PERL5LIB to uppsala's sourcme script
+- name: add PERL5LIB to uppsala's sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}
               line="export PERL5LIB={{ ngi_resources }}/arteria/perl/lib/perl5/:$PERL5LIB"
               backup=no
