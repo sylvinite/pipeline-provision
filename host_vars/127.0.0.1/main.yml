@@ -21,7 +21,9 @@ bash_env_sthlm_script: sourceme_sthlm.sh
 ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
 ngi_pipeline_version: 5c0a4194584a0577068d06197caa7ae86506904b
-ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/NGI"
+NGI_venv_name: "NGI"
+ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/{{ NGI_venv_name }}"
+
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
 ngi_resources: "{{ root_path }}/resources/"
@@ -56,6 +58,9 @@ taca_ngi_version: 35db8a3fe031c3a69cb7422fcc55d74506a04998
 ngi_reports_repo: https://github.com/NationalGenomicsInfrastructure/ngi_reports.git
 ngi_reports_dest: "{{ root_path }}/sw/ngi_reports"
 ngi_reports_version: f65afd5cda2916e5df07604c19b9fc5a52ed375e
+ngi_reports_log: "/log/ngi_reports.log"
+ngi_reports_log_sthlm: "{{ ngi_pipeline_sthlm_path }}{{ ngi_reports_log }}"
+ngi_reports_log_upps: "{{ ngi_pipeline_upps_path }}{{ ngi_reports_log }}"
 
 # charon settings are fetched from charon_credentials.yml for now, 
 # that is not checked into repo.  

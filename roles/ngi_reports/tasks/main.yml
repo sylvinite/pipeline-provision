@@ -3,9 +3,9 @@
   tags: ngi_reports
 
 - name: Fetch ngi_reports from github 
-  git: repo={{ ngi_reports_repo }} 
-       dest={{ ngi_reports_dest }}
-       version={{ ngi_reports_version }}
+  git: repo="{{ ngi_reports_repo }}" 
+       dest="{{ ngi_reports_dest }}"
+       version="{{ ngi_reports_version }}"
        force=yes
        recursive=yes
   tags: ngi_reports
@@ -38,7 +38,7 @@
   tags: ngi_reports
 
 - name: Create Uppsala ngi_reports conf file
-  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf"
+  template: src="ngi_reports_{{ site }}.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf"
   tags: ngi_reports
 
 - name: Add ngi_reports to $PATH via sourceme_{{ site }}
@@ -52,7 +52,7 @@
   tags: ngi_reports
 
 - name: Create Stockholm ngi_reports conf file
-  template: src="ngi_reports.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf" 
+  template: src="ngi_reports_{{ site }}.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf" 
   tags: ngi_reports
 
 - name: Add ngi_reports to $PATH via sourceme_{{ site }}
@@ -60,4 +60,3 @@
               line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf'
               backup=no
   tags: ngi_reports
-
