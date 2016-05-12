@@ -82,4 +82,8 @@ deliver:
         - 
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.recalibrated.*.annotated.vcf.gz.tbi
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
-"{{ extra_reports }}"
+{% if "upps" in site %}
+        -
+            - <ANALYSISPATH>/qc_sisyphus/reports
+            - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
+{% endif %}
