@@ -1,0 +1,6 @@
+---
+
+- name: Install MultiQC
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install multiqc --upgrade"
+  tags: multiqc
+ 
