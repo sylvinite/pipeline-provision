@@ -15,6 +15,6 @@ arteria_checksum_md5sum_log_dir: "{{ ngi_pipeline_upps_path }}/log/arteria/check
 arteria_checksum_service_log: "{{ ngi_pipeline_upps_path }}/log/arteria/checksum-ws"
 
 arteria_checksum_repo: https://github.com/arteria-project/arteria-checksum.git
-arteria_checksum_version: v1.0.2
+arteria_checksum_version: v1.0.3
 
 arteria_checksum_port: 10420
