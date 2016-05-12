@@ -26,7 +26,7 @@
     site_full: "uppsala"
     ngi_pipeline_site_path: "{{ ngi_pipeline_upps_path }}"
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_upps_path }}"
-    proj_path: "/proj/"
+    proj_path: "/pica/sw/links/proj/"
     extra_reports:"     -\n        - <ANALYSISPATH>/qc_sisyphus/reports\n        - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus"
   tags: taca
 
@@ -35,7 +35,8 @@
   tags: taca
 
 - set_fact:
-    proj_path: "/pica/sw/links/proj/"
+    proj_path: "/proj/"
+    tags: taca
 
 - name: Deploy upps_fake_delivery.yml config
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_fake_delivery.yml"
@@ -46,7 +47,7 @@
     site_full: "stockholm"
     ngi_pipeline_site_path: "{{ ngi_pipeline_sthlm_path }}"
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_sthlm_delivery }}"
-    proj_path: "/proj/"
+    proj_path: "/pica/sw/links/proj/"
     extra_reports: ""
   tags: taca
 
@@ -59,7 +60,8 @@
   tags: taca
 
 - set_fact:
-    proj_path: "/pica/sw/links/proj/"
+    proj_path: "/proj/"
+    tags: taca
 
 - name: Deploy sthlm_fake_delivery.yml config
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_fake_delivery.yml"
