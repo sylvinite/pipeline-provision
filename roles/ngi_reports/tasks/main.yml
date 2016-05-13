@@ -49,7 +49,7 @@
 
 - set_fact:
     site: "sthlm"
- tags: ngi_reports
+  tags: ngi_reports
 
 - name: Create Stockholm ngi_reports conf file
   template: src="ngi_reports_site.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf" 
