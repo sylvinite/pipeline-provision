@@ -38,7 +38,7 @@
   tags: ngi_reports
 
 - name: Create Uppsala ngi_reports conf file
-  template: src="ngi_reports_{{ site }}.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf"
+  template: src="ngi_reports_site.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf"
   tags: ngi_reports
 
 - name: Add ngi_reports to $PATH via sourceme_{{ site }}
@@ -49,10 +49,10 @@
 
 - set_fact:
     site: "sthlm"
-  tags: ngi_reports
+ tags: ngi_reports
 
 - name: Create Stockholm ngi_reports conf file
-  template: src="ngi_reports_{{ site }}.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf" 
+  template: src="ngi_reports_site.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf" 
   tags: ngi_reports
 
 - name: Add ngi_reports to $PATH via sourceme_{{ site }}
