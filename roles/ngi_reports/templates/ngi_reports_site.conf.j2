@@ -1,5 +1,9 @@
 [ngi_reports]
-ngi_node = {{ site }}
+{% if "sthlm" in site %}
+ngi_node = stockholm
+{% elif "upps" in site ‰}
+ngi_node = uppsala
+{% endif %}
 support_email = support@ngisweden.se
 [organism_names]
 hg19 = Homo_sapiens
@@ -29,4 +33,9 @@ dm3 = Drosophila_melanogaster
 150 : 70
 >250 : 60
 [log]
-log_dir : {{ ngi_pipeline_log_sthlm }}
+{% if "sthlm" in site %}
+"log_dir : {{ ngi_pipeline_log_sthlm }}"
+{% elif "upps" in site ‰}
+"log_dir : {{ ngi_pipeline_log_upps }}"
+{% endif %}
+
