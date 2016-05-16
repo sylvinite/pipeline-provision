@@ -1,7 +1,7 @@
 [ngi_reports]
 {% if "sthlm" in site %}
 ngi_node = stockholm
-{% elif "upps" in site ‰}
+{% elif "upps" in site %}
 ngi_node = uppsala
 {% endif %}
 support_email = support@ngisweden.se
@@ -35,7 +35,7 @@ dm3 = Drosophila_melanogaster
 [log]
 {% if "sthlm" in site %}
 "log_dir : {{ ngi_pipeline_log_sthlm }}"
-{% elif "upps" in site ‰}
+{% elif "upps" in site %}
 "log_dir : {{ ngi_pipeline_log_upps }}"
 {% endif %}
 
