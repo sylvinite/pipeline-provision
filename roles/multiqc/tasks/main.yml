@@ -3,4 +3,16 @@
 - name: Install MultiQC
   shell: "{{ ngi_pipeline_venv }}/bin/pip install multiqc --upgrade"
   tags: multiqc
+
+- name: Deploy multiqc config
+  copy: src="multiqc_config.yml" dest="{{ ngi_pipeline_conf }}"
+  tags: multiqc
+
+- name: Force config upon multiqc command (sourceme script)
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='alias multiqc=multiqc -c {{ ngi_pipeline_conf }}/multiqc_config.yml'
+              backup=no
+  tags: multiqc
+
+
  
