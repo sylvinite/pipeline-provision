@@ -1,6 +1,6 @@
 --- 
 
-- name: deploy ngi_pipeline and piper 
+- name: Deploy irma software 
   hosts: 127.0.0.1
   connection: local
   roles: 

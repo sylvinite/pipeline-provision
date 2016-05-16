@@ -9,8 +9,8 @@
   tags: multiqc
 
 - name: Force config upon multiqc command (sourceme script)
-  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='alias multiqc=multiqc -c {{ ngi_pipeline_conf }}/multiqc_config.yml'
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
+              line="alias multiqc='multiqc -c {{ ngi_pipeline_conf }}/multiqc_config.yml'"
               backup=no
   tags: multiqc
 
