@@ -11,6 +11,8 @@
   vars: 
     arteria_checksum_version: v1.0.3
     arteria_checksum_environment: production
+    arteria_siswrap_version: v1.0.2
+    arteria_siswrap_environment: production 
 
   roles: 
     - { role: arteria-checksum-ws, tags: checksum-ws }
