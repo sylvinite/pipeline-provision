@@ -18,16 +18,16 @@
 
 - name: modify uppsala's supervisord conf to start arteria-checksum-ws 
   ini_file: 
-    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
-    section=program:arteria-checksum-ws
+    dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
+    section="program:arteria-checksum-ws-{{ arteria_checksum_environment }}"
     option=command
     value="{{ arteria_checksum_env_root }}/bin/checksum-ws --configroot={{ arteria_checksum_config_root }} --port={{ arteria_checksum_port }}"
     backup=no
  
 - name: modify uppsala's supervisord conf to start arteria-checksum-ws
   ini_file: 
-    dest={{ ngi_pipeline_conf }}/supervisord_upps.conf
-    section=program:arteria-checksum-ws
+    dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
+    section="program:arteria-checksum-ws-{{ arteria_checksum_environment }}"
     option=autorestart
     value=true
     backup=no
