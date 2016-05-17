@@ -8,8 +8,8 @@
     arteria_checksum_env_root: "{{ arteria_checksum_env_root }}/production/"
     arteria_checksum_src_path: "{{ arteria_checksum_src_path }}/production/"
     arteria_checksum_config_root: "{{ arteria_checksum_config_root }}/production/"
-    arteria_checksum_md5sum_log_dir: "{{ arteria_checksum_md5sum_log_dir }}/production/"
-    arteria_checksum_service_log: "{{ arteria_checksum_service_log}}/production/"
+    arteria_checksum_md5sum_log_dir: "{{ arteria_checksum_md5sum_log_dir }}/production"
+    arteria_checksum_service_log: "{{ arteria_checksum_service_log}}/production"
     arteria_checksum_port: "{{ arteria_checksum_port_prod }}"
   when: arteria_checksum_environment == "production"
 
@@ -19,8 +19,8 @@
     arteria_checksum_env_root: "{{ arteria_checksum_env_root }}/staging/"
     arteria_checksum_src_path: "{{ arteria_checksum_src_path }}/staging/"
     arteria_checksum_config_root: "{{ arteria_checksum_config_root }}/staging/"
-    arteria_checksum_md5sum_log_dir: "{{ arteria_checksum_md5sum_log_dir }}/staging/"
-    arteria_checksum_service_log: "{{ arteria_checksum_service_log}}/staging/"
+    arteria_checksum_md5sum_log_dir: "{{ arteria_checksum_md5sum_log_dir }}/staging"
+    arteria_checksum_service_log: "{{ arteria_checksum_service_log}}/staging"
     arteria_checksum_port: "{{ arteria_checksum_port_stage }}"
   when: arteria_checksum_environment == "staging"
 
