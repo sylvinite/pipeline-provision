@@ -3,6 +3,17 @@
 - name: deploy arteria webservices
   hosts: 127.0.0.1
   connection: local
+
+  # These values should be overriden on the command line if you want to test 
+  # a new staging version. E.g. setting arteria_checksum_environment to 
+  # "staging" and a git commit as arteria_checksum_version would deploy into 
+  # an other dir and listen on tcp port 10421 instead of 10420.
+  vars: 
+    arteria_checksum_version: v1.0.3
+    arteria_checksum_environment: production
+    arteria_siswrap_version: v1.0.2
+    arteria_siswrap_environment: production 
+
   roles: 
     - { role: arteria-checksum-ws, tags: checksum-ws }
     - { role: arteria-siswrap-ws, tags: siswrap-ws }
