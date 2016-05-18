@@ -14,7 +14,6 @@
   shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_reports_dest }}/requirements.txt"
   tags: ngi_reports
 
-#-e works similar to setup.py develop. Necessary for some hardcoded dependencies.
 - name: Install ngi_reports
   shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
   args:

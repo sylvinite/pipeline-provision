@@ -68,9 +68,9 @@
   copy: src=make_report.sh dest="{{ ngi_resources }}/make_report.sh" mode=0775
   tags: ngi_reports 
 
-- name: Add Pandoc fix to alias
-  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line="alias ngi_reports='ngi_reports --pandoc_binary'"
-              backup=no
-  tags: ngi_reports
+#- name: Add Pandoc fix to alias
+#  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+#              line="alias ngi_reports='ngi_reports --pandoc_binary'"
+#              backup=no
+#  tags: ngi_reports
 
