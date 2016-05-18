@@ -1,3 +1,3 @@
 multiqc_ngi_repo: https://github.com/ewels/MultiQC_NGI.git
-multiqc_ngi_dest: "{{ root_path }}/sw/multiqc_ngi
+multiqc_ngi_dest: "{{ root_path }}/sw/multiqc_ngi"
 multiqc_ngi_version: v0.1
