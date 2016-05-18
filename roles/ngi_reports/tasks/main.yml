@@ -56,7 +56,7 @@
   tags: ngi_reports
 
 - name: Add ngi_reports to $PATH via sourceme_{{ site }}
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
               line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf'
               backup=no
   tags: ngi_reports
