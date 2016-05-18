@@ -1,20 +1,28 @@
 ---
 
-# TODO: Add correct path to monitor 
-arteria_checksum_monitored_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming"
-
-arteria_checksum_env_root: "{{ root_path }}/sw/arteria/checksum_venv"
-arteria_checksum_virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"
-
-arteria_checksum_src_path: "{{ root_path }}/sw/arteria/checksum_src"
-arteria_checksum_config_root: "{{ ngi_pipeline_conf }}/arteria/checksum"
-
-arteria_checksum_cores_to_use: 8
-# NB: The log dirs need to be created manually on destination cluster. 
-arteria_checksum_md5sum_log_dir: "{{ ngi_pipeline_upps_path }}/log/arteria/checksum_md5sum"
-arteria_checksum_service_log: "{{ ngi_pipeline_upps_path }}/log/arteria/checksum-ws"
-
+# _environment can be set to e.g. "staging" on the command line. 
+# _version is then also preferably changed.
+#
+# This will set corresponding paths and use the appropriate port.  
 arteria_checksum_repo: https://github.com/arteria-project/arteria-checksum.git
 arteria_checksum_version: v1.0.3
+arteria_checksum_environment: production
 
-arteria_checksum_port: 10420
+
+# These values will be appended with production and staging specific 
+# paths in the tasks.
+#
+# NB. The log dirs need to be created manually on destination cluster. 
+arteria_checksum_monitored_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming"
+arteria_checksum_env_root: "{{ root_path }}/sw/arteria/checksum_venv/"
+arteria_checksum_src_path: "{{ root_path }}/sw/arteria/checksum_src/"
+arteria_checksum_config_root: "{{ ngi_pipeline_conf }}/arteria/checksum/"
+arteria_checksum_md5sum_log_dir: "{{ ngi_pipeline_upps_path }}/log/arteria/checksum_md5sum/"
+arteria_checksum_service_log: "{{ ngi_pipeline_upps_path }}/log/arteria/checksum-ws/"
+
+
+arteria_checksum_port_prod: 10420
+arteria_checksum_port_stage: 10421
+arteria_checksum_cores_to_use: 8
+
+arteria_checksum_virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"

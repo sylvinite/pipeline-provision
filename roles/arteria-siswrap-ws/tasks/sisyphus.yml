@@ -3,6 +3,10 @@
 # FIXME: One system dependency that is missing atm is PyXML. 
 # See if everything works well anyway. 
 
+# Override the value from defaults so we get prod/stage specific path
+- set_fact: 
+    sisyphus_path: "{{ arteria_siswrap_env_root }}/deps/sisyphus/"
+
 - name: create arteria perllib dir 
   file: path="{{ perllib_dest }}" state=directory mode=g+s 
 
