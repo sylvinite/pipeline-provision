@@ -4,6 +4,6 @@ ngi_visual_repo: https://github.com/NationalGenomicsInfrastructure/ngi_visualiza
 ngi_visual_dest: "{{ root_path }}/sw//ngi_visualization"
 ngi_visual_version: 1aee395644551c408219618f35975db24b8dedc7
 
-texLive_file install-tl-unx.tar.gz
+texLive_file: "install-tl-unx.tar.gz"
 texLive_url: "http://mirror.ctan.org/systems/texlive/tlnet/{{ texLive_file }}"
 texLive_dest: "{{ ngi_resources }}/texLive/"
