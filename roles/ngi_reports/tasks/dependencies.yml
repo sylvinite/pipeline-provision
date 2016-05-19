@@ -2,18 +2,14 @@
 ##Plausible TODOs:
 # Install Helvetica Neue and Consolas from ngi_reports/data/pandoc_templates/assets/fonts/
 
-- stat: path="{{ texLive_dest }}/tlpkg/texlive.profile"
-  register: texlive_installed
-
 - name: Create TeXLive destination
   file: path={{ texLive_dest }} state=directory mode=g+rwxs
   tags: ngi_reports
 
-- name: Download TeXLive (Skipped if installed)
+- name: Download TeXLive
   get_url:
     url: "{{ texLive_url }}"
     dest: "{{ texLive_dest }}/src/{{ texLive_file }}"
-    when: not texlive_installed
     mode: g+rw
   tags: ngi_reports
 
@@ -29,6 +25,9 @@
 - name: Copy TexLive profile
   template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0775
   tags: ngi_reports 
+
+- stat: path="{{ texLive_dest }}/tlpkg/texlive.profile"
+  register: texlive_installed
 
 - name: Install TeXLive (Skipped if installed)
   shell: "./install-tl --profile={{ ngi_pipeline_conf }}/texlive.profile"
