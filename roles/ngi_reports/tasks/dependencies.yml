@@ -22,7 +22,7 @@
     src: "{{ texLive_dest }}/src/{{ texLive_file }}"
     dest: "{{ texLive_dest }}"
     copy: no
-    creates: "{{ texLive_dest }}/src/install-tl-*/LICENSE"
+    creates: "{{ texLive_dest }}/src/install-tl-*/LICENSE.TL"
     mode: g+rw
   tags: ngi_reports
 
@@ -30,14 +30,11 @@
   template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0664
   tags: ngi_reports 
 
-- stat: path="{{ texLive_dest }}/src/install-tl-*/tlpkg/texlive.profile"
-  register: texlive_installed
-
 - name: Install TeXLive (Takes a long time)
   shell: "./install-tl --profile={{ ngi_pipeline_conf }}/texlive.profile"
   args:
     chdir: "{{ texLive_dest }}/src/install-tl-*/"
-  when: not texlive_installed
+    creates: "{{ texLive_dest }}/tlpkg/texlive.profile"
   tags: ngi_reports
 
 - name: Append TexLive (XeLaTeX) to $PATH via sourceme
