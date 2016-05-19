@@ -2,30 +2,50 @@
 ##Plausible TODOs:
 # Install Helvetica Neue and Consolas from ngi_reports/data/pandoc_templates/assets/fonts/
 
-- name: Create TeXLive destination 
+- name: Check for existing TeXLive installation
+  stat: path="{{ texLive_dest }}/tlpkg/texlive.profile"
+  register: texlive_installed
+
+- name: Create TeXLive destination
   file: path={{ texLive_dest }} state=directory mode=g+rwxs
+  when: not texlive_installed
   tags: ngi_reports
 
 - name: Download TeXLive
   get_url:
     url: "{{ texLive_url }}"
-    dest: "{{ texLive_dest }}/{{ texLive_file }}"
+    dest: "{{ texLive_dest }}/src/{{ texLive_file }}"
     mode: g+rw
+  when: not texlive_installed
   tags: ngi_reports
 
 - name: Unpack TeXLive
   unarchive:
-    src: "{{ texLive_dest }}/{{ texLive_file }}"
+    src: "{{ texLive_dest }}/src/{{ texLive_file }}"
     dest: "{{ texLive_dest }}"
     copy: no
-    creates: "{{ texLive_path }}/LICENSE"
+    creates: "{{ texLive_dest }}/src/LICENSE"
     mode: g+rw
+  when: not texlive_installed
   tags: ngi_reports
 
-- name: Append TexLive to $PATH via sourceme
+- name: Copy TexLive profile
+  template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0775
+  when: not texlive_installed
+  tags: ngi_reports 
+
+- name: Install TeXLive (takes forever)
+  shell: "./install-tl --profile={{ ngi_pipeline_conf }}/texlive.profile"
+  args:
+    chdir: "{{ texLive_dest }}"
+  when: not texlive_installed
+  tags: ngi_reports
+
+- name: Append TexLive (XeLaTeX) to $PATH via sourceme
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='export PATH={{ texLive_path }}:$PATH'
+              line='export PATH={{ texLive_dest }}/bin/x86_64-linux:$PATH'
               backup=no
+  when: not texlive_installed
   tags: ngi_reports
 
 - name: Fetch ngi_visualizations from GitHub
@@ -63,11 +83,11 @@
 
 ###END STOCKHOLM SPECIFIC
 
-#NOTE: WORKAROUND MAY NOT BE REQUIRED, BUT LIKELY SO.
 - name: Copy Pandoc fix
-  copy: src=make_report.sh dest="{{ ngi_resources }}/make_report.sh" mode=0775
+  template: src=make_report.sh.j2 dest="{{ ngi_resources }}/make_report.sh" mode=0775
   tags: ngi_reports 
 
+#Working with UPPMAX Pandoc. This isn't required until further notice
 #- name: Add Pandoc fix to alias
 #  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
 #              line="alias ngi_reports='ngi_reports --pandoc_binary'"
