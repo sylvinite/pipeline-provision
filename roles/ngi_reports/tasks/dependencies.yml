@@ -6,6 +6,10 @@
   file: path={{ texLive_dest }} state=directory mode=g+rwxs
   tags: ngi_reports
 
+- name: Create TexLive src folder (seperate to honor permissions)
+  file: path={{ texLive_dest }}/src state=directory mode=g+rwxs
+  tags: ngi_reports
+
 - name: Download TeXLive
   get_url:
     url: "{{ texLive_url }}"
@@ -18,21 +22,21 @@
     src: "{{ texLive_dest }}/src/{{ texLive_file }}"
     dest: "{{ texLive_dest }}"
     copy: no
-    creates: "{{ texLive_dest }}/src/LICENSE"
+    creates: "{{ texLive_dest }}/src/install-tl-*/LICENSE"
     mode: g+rw
   tags: ngi_reports
 
 - name: Copy TexLive profile
-  template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0775
+  template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0664
   tags: ngi_reports 
 
-- stat: path="{{ texLive_dest }}/tlpkg/texlive.profile"
+- stat: path="{{ texLive_dest }}/src/install-tl-*/tlpkg/texlive.profile"
   register: texlive_installed
 
-- name: Install TeXLive (Skipped if installed)
+- name: Install TeXLive (Takes a long time)
   shell: "./install-tl --profile={{ ngi_pipeline_conf }}/texlive.profile"
   args:
-    chdir: "{{ texLive_dest }}"
+    chdir: "{{ texLive_dest }}/src/install-tl-*/"
   when: not texlive_installed
   tags: ngi_reports
 
