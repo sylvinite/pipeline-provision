@@ -2,21 +2,19 @@
 ##Plausible TODOs:
 # Install Helvetica Neue and Consolas from ngi_reports/data/pandoc_templates/assets/fonts/
 
-- name: Check for existing TeXLive installation
-  stat: path="{{ texLive_dest }}/tlpkg/texlive.profile"
+- stat: path="{{ texLive_dest }}/tlpkg/texlive.profile"
   register: texlive_installed
 
 - name: Create TeXLive destination
   file: path={{ texLive_dest }} state=directory mode=g+rwxs
-  when: not texlive_installed
   tags: ngi_reports
 
-- name: Download TeXLive
+- name: Download TeXLive (Skipped if installed)
   get_url:
     url: "{{ texLive_url }}"
     dest: "{{ texLive_dest }}/src/{{ texLive_file }}"
+    when: not texlive_installed
     mode: g+rw
-  when: not texlive_installed
   tags: ngi_reports
 
 - name: Unpack TeXLive
@@ -26,15 +24,13 @@
     copy: no
     creates: "{{ texLive_dest }}/src/LICENSE"
     mode: g+rw
-  when: not texlive_installed
   tags: ngi_reports
 
 - name: Copy TexLive profile
   template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0775
-  when: not texlive_installed
   tags: ngi_reports 
 
-- name: Install TeXLive (takes forever)
+- name: Install TeXLive (Skipped if installed)
   shell: "./install-tl --profile={{ ngi_pipeline_conf }}/texlive.profile"
   args:
     chdir: "{{ texLive_dest }}"
@@ -45,7 +41,6 @@
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ texLive_dest }}/bin/x86_64-linux:$PATH'
               backup=no
-  when: not texlive_installed
   tags: ngi_reports
 
 - name: Fetch ngi_visualizations from GitHub
