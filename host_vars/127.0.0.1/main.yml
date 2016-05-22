@@ -1,5 +1,4 @@
 ---
-
 # For now, values here should be updated accordingly when user develops locally. 
 
 # root_path should be changed to suitable value when e.g. deploying locally
@@ -46,10 +45,6 @@ piper_src_file: /lupus/ngi/irma3/piper_src/piper-1.4.0.zip
 setupfilecreator_src_file: /lupus/ngi/irma3/piper_src/setupfilecreator-1.4.0.zip
 setupfilecreator_dest: "{{ root_path }}/sw/setupfilecreator"
 ngi_piper_bin_dest: "{{ root_path }}/sw/piper/"
-##EFFECTIVELY REPLACED. KEEPING COMMENTED AS A REMINDER/FALLBACK
-#ngi_piper_version: 70eb84f356352406167dd8a5e6a5f4ce0b12725a
-#ngi_piper_repo: https://github.com/NationalGenomicsInfrastructure/piper.git
-#ngi_piper_src_dest: "{{ root_path }}/sw/piper_src"
 
 taca_ngi_repo: https://github.com/SciLifeLab/taca-ngi-pipeline.git
 taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"
@@ -62,13 +57,9 @@ ngi_reports_log: "/log/ngi_reports.log"
 ngi_reports_log_sthlm: "{{ ngi_pipeline_sthlm_path }}{{ ngi_reports_log }}"
 ngi_reports_log_upps: "{{ ngi_pipeline_upps_path }}{{ ngi_reports_log }}"
 
-# charon settings are fetched from charon_credentials.yml for now, 
-# that is not checked into repo.  
-
-# TODO: Move these settings to somewhere else? 
 gatk_bundle_b37_origin: "/sw/data/uppnex/reference/biodata/GATK/ftp.broadinstitute.org/bundle/2.8/b37/"
 gatk_bundle_b37: "{{ ngi_resources }}/piper/gatk_bundle/2.8/b37"
-# hg19 is not used, but still referenced in some config, so lets keep it for now. 
+# hg19 is not used, but still referenced in some config
 gatk_bundle_hg19: "{{ ngi_resources }}/piper/gatk_bundle/2.8/hg19"
 
 gatk_key: pontus.larsson_medsci.uu.se.key
