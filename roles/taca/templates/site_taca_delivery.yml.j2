@@ -66,7 +66,7 @@ deliver:
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
             - <STAGINGPATH>/05-Genotyping
         -
-            - <ROOTPATH>/bam2fastq.sh
+            - {{ ngi_pipeline_dest }}/scripts/bam2fastq.sh
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
         -
@@ -78,7 +78,7 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/03-BAM
             - required: True
         -
-            - <ROOTPATH>/applyRecalibration.sh
+            - {{ ngi_pipeline_dest }}/applyRecalibration.sh
             - <STAGINGPATH>/<SAMPLEID>/03-BAM
             - required: True
         - 
