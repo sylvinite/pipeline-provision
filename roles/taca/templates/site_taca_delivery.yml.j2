@@ -15,6 +15,19 @@ deliver:
     operator: "{{ recipient_mail }}"
     hash_algorithm: md5
     files_to_deliver:
+#Adds Sisyphus files to Uppsala deliveries
+{% if "upps" == site %}
+        -
+            - <ANALYSISPATH>/qc_sisyphus/reports
+            - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
+{% endif %}
+#Adds FASTQ files to Irma (aka fake) deliveries
+{% if "/proj/" == proj_path %}
+        -
+            - <DATAPATH>/<SAMPLEID>/*/*
+            - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
+            - required: True
+{% endif %}
         -   
             - <ROOTPATH>/DELIVERY.README.txt
             - <STAGINGPATH>
@@ -53,7 +66,7 @@ deliver:
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
             - <STAGINGPATH>/05-Genotyping
         -
-            - <ROOTPATH>/bam2fastq.sh
+            - {{ ngi_pipeline_dest }}/scripts/bam2fastq.sh
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
         -
@@ -65,7 +78,7 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/03-BAM
             - required: True
         -
-            - <ROOTPATH>/applyRecalibration.sh
+            - {{ ngi_pipeline_dest }}/applyRecalibration.sh
             - <STAGINGPATH>/<SAMPLEID>/03-BAM
             - required: True
         - 
@@ -76,14 +89,9 @@ deliver:
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.genomic.vcf.gz.tbi
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
         - 
-            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.recalibrated.*.annotated.vcf.gz
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.annotated.vcf.gz
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
             - required: True
         - 
-            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.recalibrated.*.annotated.vcf.gz.tbi
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.annotated.vcf.gz.tbi
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
-{% if "upps" in site %}
-        -
-            - <ANALYSISPATH>/qc_sisyphus/reports
-            - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
-{% endif %}
