@@ -39,6 +39,11 @@
 - name: install PDL
   cpanm: name=PDL locallib="{{ perllib_dest }}"
 
+# Don't run tests for this, complains about minor version 
+# mismatch for libmxl2
+- name: install XML::LibXSLT
+  cpanm: name=XML::LibXSLT locallib="{{ perllib_dest }}" notest=yes
+
 - name: create sisyphus code folder
   file: path="{{ sisyphus_path }}" state=directory mode=g+s
 
