@@ -16,13 +16,13 @@ deliver:
     hash_algorithm: md5
     files_to_deliver:
 #Adds Sisyphus files to Uppsala deliveries
-{% if "upps" in site %}
+{% if "upps" == site %}
         -
             - <ANALYSISPATH>/qc_sisyphus/reports
             - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
 {% endif %}
 #Adds FASTQ files to Irma (aka fake) deliveries
-{% if "/proj/" in proj_path %}
+{% if "/proj/" == proj_path %}
         -
             - <DATAPATH>/<SAMPLEID>/*/*
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
