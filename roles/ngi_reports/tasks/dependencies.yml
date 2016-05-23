@@ -30,7 +30,7 @@
   template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0664
   tags: ngi_reports 
 
-- shell: "find {{ texLive_dest }}/src/install* -maxdepth 0 -type d"
+- shell: "find {{ texLive_dest }}/src/install* -maxdepth 0 -type d | head -n 1"
   register: texlive_dir_name
 
 - name: Install TeXLive (Takes a long time)
