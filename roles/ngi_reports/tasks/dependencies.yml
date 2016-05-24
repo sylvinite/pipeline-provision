@@ -18,25 +18,25 @@
   tags: ngi_reports
 
 - name: Unpack TeXLive
-  unarchive:
-    src: "{{ texLive_dest }}/src/{{ texLive_file }}"
-    dest: "{{ texLive_dest }}/src/"
-    copy: no
-    creates: "{{ texLive_dest }}/src/install-tl-*/LICENSE.TL"
-    mode: g+rw
+  command: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1"
+# TODO: Sexier implrmentation for ansible 2.1
+#  unarchive:  
+#    src: "{{ texLive_dest }}/src/{{ texLive_file }}"
+#    dest: "{{ texLive_dest }}/src/"
+#    copy: no
+#    creates: "{{ texLive_dest }}/src/install-tl-*/LICENSE.TL"
+#    extra_opts: ["--strip-components=1"]
+#    mode: g+rw
   tags: ngi_reports
 
 - name: Copy TexLive profile
   template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0664
   tags: ngi_reports 
 
-- shell: "find {{ texLive_dest }}/src/install* -maxdepth 0 -type d | head -n 1"
-  register: texlive_dir_name
-
-- name: Install TeXLive (Takes a long time)
+- name: Install TeXLive (Takes half a day)
   shell: "./install-tl --profile={{ ngi_pipeline_conf }}/texlive.profile"
   args:
-    chdir: "{{ texlive_dir_name.stdout }}/"
+    chdir: "{{ texLive_dest }}/src/"
     creates: "{{ texLive_dest }}/tlpkg/texlive.profile"
   tags: ngi_reports
 
