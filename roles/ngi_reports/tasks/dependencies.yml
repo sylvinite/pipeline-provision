@@ -19,7 +19,8 @@
 
 - name: Unpack TeXLive
   shell: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1"
-  creates: "{{ texLive_dest }}/src/LICENSE.TL"
+  args:
+    creates: "{{ texLive_dest }}/src/LICENSE.TL"
 
 # TODO: Sexier implrmentation for ansible 2.1
 #  unarchive:  
