@@ -9,7 +9,7 @@
 - name: Install MultiQC
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
-    chdir: "{{ multiqc_dest }}
+    chdir: "{{ multiqc_dest }}"
   tags: multiqc
 
 - name: Fetch MultiQC NGI plugin from GitHub
