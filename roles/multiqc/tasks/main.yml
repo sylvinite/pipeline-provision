@@ -1,7 +1,15 @@
 ---
+- name: Fetch MultiQC from GitHub
+  git: repo="{{ multiqc_repo }}"
+       dest="{{ multiqc_dest }}"
+       version="{{ multiqc_version }}"
+       force=yes
+  tags: multiqc
 
 - name: Install MultiQC
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install multiqc --upgrade"
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  args:
+    chdir: "{{ multiqc_dest }}
   tags: multiqc
 
 - name: Fetch MultiQC NGI plugin from GitHub
