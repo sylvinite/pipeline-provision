@@ -18,7 +18,7 @@
   tags: ngi_reports
 
 - name: Unpack TeXLive
-  command: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1"
+  shell: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1"
 # TODO: Sexier implrmentation for ansible 2.1
 #  unarchive:  
 #    src: "{{ texLive_dest }}/src/{{ texLive_file }}"
