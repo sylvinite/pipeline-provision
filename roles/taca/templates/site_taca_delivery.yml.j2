@@ -21,7 +21,7 @@ deliver:
             - <ANALYSISPATH>/qc_sisyphus/reports
             - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
 {% endif %}
-#Adds FASTQ files to Irma (aka fake) deliveries
+#Adds FASTQ files to Lupus (aka irma) deliveries
 {% if "/proj/" == proj_path %}
         -
             - <DATAPATH>/<SAMPLEID>/*/*
@@ -29,7 +29,7 @@ deliver:
             - required: True
 {% endif %}
         -   
-            - <ROOTPATH>/DELIVERY.README.txt
+            - {{ ngi_pipeline_dest }}/DELIVERY.README.txt
             - <STAGINGPATH>
         -
             - <LOGPATH>/version_report.txt
