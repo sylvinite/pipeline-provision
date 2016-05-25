@@ -20,9 +20,9 @@
     chdir: "{{ ngi_reports_dest }}"
   tags: ngi_reports
 
-- name: Add ngi_reports to $PATH via sourceme
+- name: Add ngi_reports scripts to $PATH via sourceme
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='export PATH={{ ngi_reports_dest }}:$PATH'
+              line='export PATH={{ ngi_reports_dest }}/scripts:$PATH'
               backup=no
   tags: ngi_reports
 

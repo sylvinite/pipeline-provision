@@ -1,3 +1,7 @@
+multiqc_repo: https://github.com/ewels/MultiQC.git
+multiqc_dest: "{{ root_path }}/sw/multiqc"
+multiqc_version: 93f57a386a98db170587f23d04da7dc01635a307
+
 multiqc_ngi_repo: https://github.com/ewels/MultiQC_NGI.git
 multiqc_ngi_dest: "{{ root_path }}/sw/multiqc_ngi"
-multiqc_ngi_version: v0.1
+multiqc_ngi_version: 6053e3fde1c065d8e5c376f5446dc1c216c56c13
