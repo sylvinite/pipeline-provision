@@ -22,7 +22,7 @@ deliver:
             - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
 {% endif %}
 #Adds FASTQ files to Lupus (aka irma) deliveries
-{% if "/proj/" == proj_path %}
+{% if "/proj/" == item.proj_path %}
         -
             - <DATAPATH>/<SAMPLEID>/*/*
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
