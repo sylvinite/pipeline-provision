@@ -20,8 +20,8 @@
 - name: Create TACA softlinks directories
   file: path={{ item }}/softlinks state=directory mode=g+s
   with_items:
-    - { ngi_pipeline_sthlm_path }
-    - { ngi_pipeline_upps_path }
+    - { "{{ ngi_pipeline_sthlm_path }}" }
+    - { "{{ ngi_pipeline_upps_path }}" }
   tags: taca
 
 - name: Softlink important ngi_pipeline files
