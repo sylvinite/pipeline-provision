@@ -18,7 +18,7 @@
   tags: ngi_reports
 
 - name: Unpack TeXLive
-  shell: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1 --mode='g+rwxs'"
+  shell: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1 --mode='g+rwXs'"  
   args:
     creates: "{{ texLive_dest }}/src/LICENSE.TL"
 
@@ -44,7 +44,7 @@
   tags: ngi_reports
 
 - name: Ugly TexLive permissions fix 
-  file: path="{{ texLive_dest }}" state="directory" mode="g+rwxs" recurse="yes" 
+  shell: "find {{ texLive_dest }} -user `whoami` -exec chmod g+rwX,o+rX {} \\;"  
   tags: ngi_reports
 
 - name: Append TexLive (XeLaTeX) to $PATH via sourceme
