@@ -17,27 +17,6 @@
     chdir: "{{ taca_ngi_dest }}"
   tags: taca
 
-- name: Create TACA softlinks directories
-  file: path={{ item }}/softlinks state=directory mode=g+s
-  with_items:
-    - { "{{ ngi_pipeline_sthlm_path }}" }
-    - { "{{ ngi_pipeline_upps_path }}" }
-  tags: taca
-
-- name: Softlink important ngi_pipeline files
-  file:
-    src: "{{ ngi_pipeline_dest }}/{{ item.file }}"
-    dest: "{{ item.dest }}"
-    state: link
-  with_items:
-    - { file: "DELIVERY.README.txt", dest: "{{ ngi_pipeline_upps_path }}/softlinks/DELIVERY.README.txt" }
-    - { file: "scripts/applyRecalibration.sh", dest: "{{ ngi_pipeline_upps_path }}/softlinks/applyRecalibration.sh" }
-    - { file: "scripts/bam2fastq.sh", dest: "{{ ngi_pipeline_upps_path }}/softlinks/bam2fastq.sh" }
-    - { file: "DELIVERY.README.txt", dest: "{{ ngi_pipeline_sthlm_path }}/softlinks/DELIVERY.README.txt" }
-    - { file: "scripts/applyRecalibration.sh", dest: "{{ ngi_pipeline_sthlm_path }}/softlinks/applyRecalibration.sh" }
-    - { file: "scripts/bam2fastq.sh", dest: "{{ ngi_pipeline_sthlm_path }}/softlinks/bam2fastq.sh" }
-  tags: taca
-
 - name: Create TACA delivery configs directory
   file: path="{{ ngi_pipeline_conf }}/TACA" state=directory mode=g+s
   tags: taca
