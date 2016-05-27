@@ -84,7 +84,7 @@
   tags: ngi_pipeline 
 
 - name: deploy script for creating site specific ngi_pipeline dirs for logs and db
-  copy: src=create_ngi_pipeline_dirs.sh dest={{ ngi_resources }}
+  template: src=create_ngi_pipeline_dirs.sh dest={{ ngi_resources }}
   tags: ngi_pipeline
 
 - name: add anaconda path to sourceme script
