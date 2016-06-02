@@ -1,4 +1,7 @@
 ---
+taca_ngi_repo: https://github.com/SciLifeLab/taca-ngi-pipeline.git
+taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"
+taca_ngi_version: 35db8a3fe031c3a69cb7422fcc55d74506a04998
 
 statusdb_repo: "https://github.com/SciLifeLab/statusdb.git"
 statusdb_dest: "{{ root_path }}/sw/statusdb"

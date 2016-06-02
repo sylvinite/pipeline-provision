@@ -21,6 +21,7 @@
   shell: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1 --mode='g+rwXs'"  
   args:
     creates: "{{ texLive_dest }}/src/LICENSE.TL"
+  tags: ngi_reports
 
 # TODO: Sexier implementation for ansible 2.1
 #  unarchive:  

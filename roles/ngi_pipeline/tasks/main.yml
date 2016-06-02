@@ -19,15 +19,15 @@
   when: "not {{ NGI_venv_name }}_venv_exists.stdout"
   tags: ngi_pipeline
 
-- name: install ngi_pipeline reqs
+- name: Install ngi_pipeline requirements
   shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_pipeline_dest }}/requirements.txt"
   tags: ngi_pipeline
 
-- name: install ngi_pipeline
+- name: Install ngi_pipeline
   shell: "cd {{ ngi_pipeline_dest }} && {{ ngi_pipeline_venv }}/bin/pip install ."
   tags: ngi_pipeline
  
-- name: create ngi pipeline conf directory 
+- name: Create ngi pipeline conf directory 
   file: path="{{ ngi_pipeline_conf }}" state=directory mode=g+s
   tags: ngi_pipeline
 
@@ -38,7 +38,7 @@
     ngi_pipeline_log: "{{ ngi_pipeline_log_upps }}"
   tags: ngi_pipeline
 
-- name: deploy irma ngi_pipeline config for uppsala 
+- name: Deploy irma ngi_pipeline config for uppsala 
   template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ upps_config }}"
   tags: ngi_pipeline 
 
@@ -49,11 +49,11 @@
     ngi_pipeline_log: "{{ ngi_pipeline_log_sthlm }}"
   tags: ngi_pipeline
 
-- name: deploy irma ngi_pipeline config for stockholm
+- name: Deploy irma ngi_pipeline config for stockholm
   template: src="irma_ngi_config.yaml.j2" dest="{{ ngi_pipeline_conf }}/{{ sthlm_config }}"
   tags: ngi_pipeline
 
-- name: deploy common bash environment variables 
+- name: Deploy common bash environment variables 
   template: src="{{ bash_env_script }}.j2" dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
   tags: ngi_pipeline  
 
@@ -63,7 +63,7 @@
     charon_api_token: "{{ charon_api_token_upps }}"
   tags: ngi_pipeline
 
-- name: deploy uppsala site bash environment variables 
+- name: Deploy uppsala site bash environment variables 
   template: src="{{ bash_env_site_script }}" dest="{{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}"
   tags: ngi_pipeline 
 
@@ -73,21 +73,19 @@
     charon_api_token: "{{ charon_api_token_sthlm }}"
   tags: ngi_pipeline
 
-- name: deploy stockholm site bash environment variables
+- name: Deploy stockholm site bash environment variables
   template: src="{{ bash_env_site_script }}" dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
   tags: ngi_pipeline
 
-# TODO: Add step that sources this file in development user's local bash init files. 
-
-- name: deploy fastqc conf for irma 
+- name: Deploy fastqc conf for irma 
   copy: src="fastq_screen.irma.conf" dest="{{ ngi_pipeline_conf }}" 
   tags: ngi_pipeline 
 
-- name: deploy script for creating site specific ngi_pipeline dirs for logs and db
-  template: src=create_ngi_pipeline_dirs.sh dest={{ ngi_resources }}
+- name: Deploy script for creating site specific ngi_pipeline dirs for logs and db
+  template: src=create_ngi_pipeline_dirs.sh.j2 dest={{ ngi_resources }}
   tags: ngi_pipeline
 
-- name: add anaconda path to sourceme script
+- name: Add anaconda path to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ anaconda_path }}/bin:$PATH'
               backup=no
