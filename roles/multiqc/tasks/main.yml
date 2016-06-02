@@ -6,13 +6,8 @@
        force=yes
   tags: multiqc
 
-
-#- name: Install MultiQC from pip
-#  shell: "{{ ngi_pipeline_venv }}/bin/pip install multiqc --upgrade"
-#  tags: multiqc
-
 - name: Install MultiQC
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install . --upgrade"
   args:
     chdir: "{{ multiqc_dest }}"
   tags: multiqc
@@ -24,7 +19,7 @@
        force=yes
   tags: multiqc
 
-- name: Install MultiQC NGI plugin
+- name: Install MultiQC NGI submodule
   shell: "cd {{ multiqc_ngi_dest }} && {{ ngi_pipeline_venv }}/bin/pip install ."
   tags: multiqc
 

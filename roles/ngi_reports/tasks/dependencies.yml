@@ -18,11 +18,12 @@
   tags: ngi_reports
 
 - name: Unpack TeXLive
-  shell: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1"
+  shell: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1 --mode='g+rwXs'"  
   args:
     creates: "{{ texLive_dest }}/src/LICENSE.TL"
+  tags: ngi_reports
 
-# TODO: Sexier implrmentation for ansible 2.1
+# TODO: Sexier implementation for ansible 2.1
 #  unarchive:  
 #    src: "{{ texLive_dest }}/src/{{ texLive_file }}"
 #    dest: "{{ texLive_dest }}/src/"
@@ -41,6 +42,10 @@
   args:
     chdir: "{{ texLive_dest }}/src/"
     creates: "{{ texLive_dest }}/tlpkg/texlive.profile"
+  tags: ngi_reports
+
+- name: Ugly TexLive permissions fix 
+  shell: "find {{ texLive_dest }} -user `whoami` -exec chmod g+rwX,o+rX {} \\;"  
   tags: ngi_reports
 
 - name: Append TexLive (XeLaTeX) to $PATH via sourceme
@@ -88,7 +93,13 @@
   template: src=make_report.sh.j2 dest="{{ ngi_resources }}/make_report.sh" mode=0775
   tags: ngi_reports 
 
-#Working with UPPMAX Pandoc. This isn't required until further notice
+- name: Add Pandoc make_report function to sourceme
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
+              line="source {{ ngi_resources }}/make_report.sh"
+              backup=no
+  tags: ngi_reports
+
+#Currently using UPPMAX pandoc version
 #- name: Add Pandoc fix to alias
 #  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
 #              line="alias ngi_reports='ngi_reports --pandoc_binary'"

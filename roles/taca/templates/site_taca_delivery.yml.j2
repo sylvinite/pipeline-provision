@@ -6,7 +6,7 @@ deliver:
     analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
     datapath: <ROOTPATH>/DATA/<PROJECTID>
     stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
-    deliverypath: "{{ proj_path }}/<UPPNEXID>/INBOX/<PROJECTID>"
+    deliverypath: "{{ item.proj_path }}/<UPPNEXID>/INBOX/<PROJECTID>"
     report_aggregate: "ngi_reports ign_aggregate_report -n {{ site_full }} --pandoc_binary"
     report_sample: "ngi_reports ign_sample_report -n {{ site_full }} --pandoc_binary"
     reportpath: <ANALYSISPATH>/piper_ngi
@@ -22,14 +22,14 @@ deliver:
             - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
 {% endif %}
 #Adds FASTQ files to Lupus (aka irma) deliveries
-{% if "/proj/" == proj_path %}
+{% if "/proj/" == item.proj_path %}
         -
             - <DATAPATH>/<SAMPLEID>/*/*
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
 {% endif %}
         -   
-            - {{ ngi_pipeline_dest }}/DELIVERY.README.txt
+            - {{ ngi_pipeline_site_path }}/softlinks/DELIVERY.README.txt
             - <STAGINGPATH>
         -
             - <LOGPATH>/version_report.txt
@@ -66,7 +66,7 @@ deliver:
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
             - <STAGINGPATH>/05-Genotyping
         -
-            - {{ ngi_pipeline_dest }}/scripts/bam2fastq.sh
+            - {{ ngi_pipeline_site_path }}/softlinks/bam2fastq.sh
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
         -
@@ -78,7 +78,7 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/03-BAM
             - required: True
         -
-            - {{ ngi_pipeline_dest }}/scripts/applyRecalibration.sh
+            - {{ ngi_pipeline_site_path }}/softlinks/applyRecalibration.sh
             - <STAGINGPATH>/<SAMPLEID>/03-BAM
             - required: True
         - 
