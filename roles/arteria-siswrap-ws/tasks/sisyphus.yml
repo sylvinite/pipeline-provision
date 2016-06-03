@@ -13,10 +13,10 @@
 - name: install File::NFSLock
   cpanm: name=File::NFSLock locallib="{{ perllib_dest }}"
 
-# Don't run the tests for this, as it seems to complain about a 
-# minor version missmatch for libxml2. 
 - name: install XML::LibXML
-  cpanm: name=XML::LibXML locallib="{{ perllib_dest }}" notest=yes
+  shell: "PATH={{ cpanm_env }} cpanm -l {{ perllib_dest }} XML::LibXML"
+  args: 
+    creates: "{{ perllib_dest }}/lib/perl5/*/XML/LibXML.pm"
 
 - name: install XML::LibXML::Common
   cpanm: name=XML::LibXML::Common locallib="{{ perllib_dest }}"
@@ -39,10 +39,10 @@
 - name: install PDL
   cpanm: name=PDL locallib="{{ perllib_dest }}"
 
-# Don't run tests for this, complains about minor version 
-# mismatch for libmxl2
 - name: install XML::LibXSLT
-  cpanm: name=XML::LibXSLT locallib="{{ perllib_dest }}" notest=yes
+  shell: "PATH={{ cpanm_env }} cpanm -l {{ perllib_dest }} XML::LibXSLT"
+  args:
+    creates: "{{ perllib_dest }}/lib/perl5/*/XML/LibXSLT.pm"
 
 - name: create sisyphus code folder
   file: path="{{ sisyphus_path }}" state=directory mode=g+s
