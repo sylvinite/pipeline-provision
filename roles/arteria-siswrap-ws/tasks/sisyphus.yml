@@ -16,7 +16,7 @@
 - name: install XML::LibXML
   shell: "PATH={{ cpanm_env }} cpanm -l {{ perllib_dest }} XML::LibXML"
   args: 
-    creates: "{{ perllib_dest }}/lib/perl5/*/XML/LibXML.pm"
+    creates: "{{ perllib_dest }}/lib/perl5/x86_64-linux-thread-multi/XML/LibXML.pm"
 
 - name: install XML::LibXML::Common
   cpanm: name=XML::LibXML::Common locallib="{{ perllib_dest }}"
@@ -42,7 +42,7 @@
 - name: install XML::LibXSLT
   shell: "PATH={{ cpanm_env }} cpanm -l {{ perllib_dest }} XML::LibXSLT"
   args:
-    creates: "{{ perllib_dest }}/lib/perl5/*/XML/LibXSLT.pm"
+    creates: "{{ perllib_dest }}/lib/perl5/x86_64-linux-thread-multi/XML/LibXSLT.pm"
 
 - name: create sisyphus code folder
   file: path="{{ sisyphus_path }}" state=directory mode=g+s
