@@ -36,3 +36,7 @@ sisyphus_repo_branch: master
 # Where to install our local Perl packages
 perllib_dest: "{{ ngi_resources }}/arteria/perl"
 
+# Special $PATH variable for running some manual cpanm commands 
+# which otherwie include the wrong headers and libs (e.g. from anaconda, 
+# which is on the path, instead of the system libs). 
+cpanm_env: /lupus/ngi/irma3/ansible-env/bin/:/usr/bin:/bin

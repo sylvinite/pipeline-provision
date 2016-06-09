@@ -10,6 +10,8 @@ Copy the file from the repository under `bootstrap/bashrc` to `/lupus/ngi/irma3/
 
 Run `source /lupus/ngi/irma3/bashrc` -- this file has to be sourced for virtually any operation relating to this repository.
 
+Run `umask 0002` (or even more preferably add it to your ~/.bashrc file).
+
 Setup a virtual environment, i.e: `/lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py -p /usr/bin/python2.7 /lupus/ngi/irma3/ansible-env`
 
 Activate the environment using source `/lupus/ngi/irma3/ansible-env/bin/activate`
