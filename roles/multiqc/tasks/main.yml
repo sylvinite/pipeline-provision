@@ -43,6 +43,6 @@
               line="alias multiqc='multiqc -c {{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml'"
               backup=no
   with_items:
-  - { site: "sthlm", script: {{ bash_env_sthlm_script }} }
-  - { site: "upps", script: {{ bash_env_upps_script }} }
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}" }
   tags: multiqc
