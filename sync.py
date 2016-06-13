@@ -75,7 +75,7 @@ elif recv == 1:
 #         - readable by world 
 # Prompt the user if (s)he wants to continue anyway. 
 print('Searching for files that are 1) not owned by group ngi-sw, 2) group readable/writable, 3) world readable')
-find_cmd = "/bin/bash -c 'find {0} ! -perm -g+rw -ls -or ! -perm -o+r -ls -or ! -group ngi-sw -ls | egrep -v \"\.git/|\.swp|/lupus/ngi/irma3/\"'".format(src_root_path)
+find_cmd = "/bin/bash -c 'find {0} ! -perm -g+rw -ls -or ! -perm -o+r -ls -or ! -group ngi-sw -ls | egrep -v \"\.swp|/lupus/ngi/irma3/\"'".format(src_root_path)
 
 def yes_or_no(question):
 	reply = str(raw_input(question+' (y/n): ')).lower().strip()
@@ -126,7 +126,7 @@ else:
 #		src_root_path + "/conf", src_root_path + "/log", src_root_path + "/db", src_root_path + "/ngi_resources", src_root_path + "/piper_resources", 
 #		src_root_path + "/sw", user, host, dest)
 
-excludes = "--exclude=*.swp --exclude=.git/ --exclude=irma3/ --exclude=resources/piper/gatk_bundle/2.8/b37/"
+excludes = "--exclude=*.swp --exclude=irma3/ --exclude=resources/piper/gatk_bundle/2.8/b37/"
 rsync_cmd = "/bin/rsync -avzP --omit-dir-times --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest) 
 # TODO: Do this cleaner 
 dry_cmd = "/bin/rsync --dry-run -avzP --omit-dir-times --delete {0} {1} {2}@{3}:{4}".format(excludes, src_root_path, user, host, dest) 
