@@ -37,9 +37,6 @@
     chdir: "{{ texLive_dest }}/src/"
     creates: "{{ texLive_dest }}/tlpkg/texlive.profile"
 
-- name: Ugly TexLive permissions fix 
-  shell: "find {{ texLive_dest }} -user `whoami` -exec chmod g+rwX,o+rX {} \\;"  
-
 - name: Append TexLive (XeLaTeX) to $PATH via sourceme
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ texLive_dest }}/bin/x86_64-linux:$PATH'

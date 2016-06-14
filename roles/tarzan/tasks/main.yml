@@ -44,17 +44,3 @@
               line='38 * * * *      source $HOME/.bash_profile && kong start -c {{ ngi_pipeline_conf }}/webproxy.yml'
               backup=no
 
-# This is an ugly hack that sets the permissions correctly to g+rwX,o+rX
-# for all files that is owned by the current user that is running the playbook. 
-# This is necessary because some of the "luarocks install" and "make install" 
-# commands run in this role doesn't seem to pick up on the correct umask for
-# some weird reason.
-#
-# Note that this by purpose will miss changing the permissions of files
-# owned by an other user, as we do not want to have the playbook cluttered
-# with a lot of errors when the permission change fails.
-#
-# It is therefore expected that this script will always be run when someone is 
-# running the role.
-- name: set correct file permission for everything under sw/tarzan
-  shell: "find /lupus/ngi/sw/tarzan -user `whoami` -exec chmod g+rwX,o+rX {} \\;"
