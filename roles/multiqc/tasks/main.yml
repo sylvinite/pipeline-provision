@@ -4,37 +4,30 @@
        dest="{{ multiqc_dest }}"
        version="{{ multiqc_version }}"
        force=yes
-  tags: multiqc
 
 - name: Install MultiQC
   shell: "{{ ngi_pipeline_venv }}/bin/pip install . --upgrade"
   args:
     chdir: "{{ multiqc_dest }}"
-  tags: multiqc
 
 - name: Fetch MultiQC NGI plugin from GitHub
   git: repo="{{ multiqc_ngi_repo }}"
        dest="{{ multiqc_ngi_dest }}"
        version="{{ multiqc_ngi_version }}"
        force=yes
-  tags: multiqc
 
 - name: Install MultiQC NGI submodule
   shell: "cd {{ multiqc_ngi_dest }} && {{ ngi_pipeline_venv }}/bin/pip install ."
-  tags: multiqc
 
 - name: Add statusDB envvar to sourceme
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line="export STATUS_DB_CONFIG={{ ngi_pipeline_conf }}/{{ statusdb_creds }}"
               backup=no
-  tags: multiqc
 
 - name: Deploy multiqc config
   copy: src="multiqc_config.yml" dest="{{ ngi_pipeline_conf }}"
-  tags: multiqc
 
 - name: Force multiqc to autorun config
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
               line="alias multiqc='multiqc -c {{ ngi_pipeline_conf }}/multiqc_config.yml'"
               backup=no
-  tags: multiqc

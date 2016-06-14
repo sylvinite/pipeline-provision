@@ -4,24 +4,20 @@
 
 - name: Create TeXLive destination
   file: path={{ texLive_dest }} state=directory mode=g+rwxs
-  tags: ngi_reports
 
 - name: Create TexLive src folder (seperate to honor permissions)
   file: path={{ texLive_dest }}/src state=directory mode=g+rwxs
-  tags: ngi_reports
 
 - name: Download TeXLive
   get_url:
     url: "{{ texLive_url }}"
     dest: "{{ texLive_dest }}/src/{{ texLive_file }}"
     mode: g+rw
-  tags: ngi_reports
 
 - name: Unpack TeXLive
   shell: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1 --mode='g+rwXs'"  
   args:
     creates: "{{ texLive_dest }}/src/LICENSE.TL"
-  tags: ngi_reports
 
 # TODO: Sexier implementation for ansible 2.1
 #  unarchive:  
@@ -31,78 +27,64 @@
 #    creates: "{{ texLive_dest }}/src/install-tl-*/LICENSE.TL"
 #    extra_opts: ["--strip-components=1"]
 #    mode: g+rw
-  tags: ngi_reports
 
 - name: Copy TexLive profile
   template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0664
-  tags: ngi_reports 
 
 - name: Install TeXLive (Takes half a day)
   shell: "./install-tl --profile={{ ngi_pipeline_conf }}/texlive.profile"
   args:
     chdir: "{{ texLive_dest }}/src/"
     creates: "{{ texLive_dest }}/tlpkg/texlive.profile"
-  tags: ngi_reports
 
 - name: Ugly TexLive permissions fix 
   shell: "find {{ texLive_dest }} -user `whoami` -exec chmod g+rwX,o+rX {} \\;"  
-  tags: ngi_reports
 
 - name: Append TexLive (XeLaTeX) to $PATH via sourceme
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line='export PATH={{ texLive_dest }}/bin/x86_64-linux:$PATH'
               backup=no
-  tags: ngi_reports
 
 - name: Fetch ngi_visualizations from GitHub
   git: repo="{{ ngi_visual_repo }}"
        dest="{{ ngi_visual_dest }}"
        version="{{ ngi_visual_version }}"
        force=yes
-  tags: ngi_reports
 
 - name: Install ngi_visualizations requirements
   shell: "{{ ngi_pipeline_venv }}/bin/pip install -r {{ ngi_visual_dest }}/requirements.txt"
-  tags: taca
 
 - name: Install ngi_visualizations
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
     chdir: "{{ ngi_visual_dest }}"
-  tags: ngi_reports
 
 ###NOTE: REALLY ONLY NECESSARY FOR STOCKHOLM
 
 - name: Install couchDB (minimal version of statusDB)
   shell: "{{ ngi_pipeline_venv }}/bin/pip install couchdb"
-  tags: ngi_reports
 
 - name: Copy statusDB credentials
   copy: src="files/{{ statusdb_creds }}" dest="{{ ngi_pipeline_conf }}/{{ statusdb_creds }}"
-  tags: ngi_reports
 
 - name: Add statusDB envvar to sourceme 
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}
               line="export STATUS_DB_CONFIG={{ ngi_pipeline_conf }}/{{ statusdb_creds }}"
               backup=no
-  tags: ngi_reports
 
 ###END STOCKHOLM SPECIFIC
 
 - name: Copy Pandoc fix
   template: src=make_report.sh.j2 dest="{{ ngi_resources }}/make_report.sh" mode=0775
-  tags: ngi_reports 
 
 - name: Add Pandoc make_report function to sourceme
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
               line="source {{ ngi_resources }}/make_report.sh"
               backup=no
-  tags: ngi_reports
 
 #Currently using UPPMAX pandoc version
 #- name: Add Pandoc fix to alias
 #  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
 #              line="alias ngi_reports='ngi_reports --pandoc_binary'"
 #              backup=no
-#  tags: ngi_reports
 
