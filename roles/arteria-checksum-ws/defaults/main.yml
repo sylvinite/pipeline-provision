@@ -8,7 +8,6 @@ arteria_checksum_repo: https://github.com/arteria-project/arteria-checksum.git
 arteria_checksum_version: v1.0.3
 arteria_checksum_environment: production
 
-
 # These values will be appended with production and staging specific 
 # paths in the tasks.
 #

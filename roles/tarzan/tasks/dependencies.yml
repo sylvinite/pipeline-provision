@@ -10,13 +10,11 @@
 
 - name: create luajit destination directory 
   file: path={{ luajit_dest }} state=directory mode=g+rwXs
-  tags: tarzan 
 
 - name: download luajit archive
   get_url:
     url: "{{ luajit_url }}"
     dest: "{{ luajit_dest }}/{{ luajit_file }}"
-  tags: tarzan
 
 - name: unpack luajit to destination
   unarchive: 
@@ -25,39 +23,32 @@
     copy: no 
     creates: "{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}"
     mode: g+rwX,o+rX
-  tags: tarzan
 
 - name: set luajits install path
   lineinfile: dest="{{ luajit_dest }}/LuaJIT-{{ luajit_version }}/Makefile"
               regexp="^export PREFIX=./usr/local"
               line='export PREFIX={{ luajit_dest }}/{{ luajit_version }}'
               backup=no
-  tags: tarzan 
 
 - name: compile luajit 
   shell: make install
   args: 
     chdir: "{{ luajit_dest }}/LuaJIT-{{ luajit_version }}"
     creates: "{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}"
-  tags: tarzan 
 
 - name: symlink lua to luajit-version binary
   file: src="{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}" path="{{ luajit_dest }}/{{ luajit_version }}/bin/lua" state=link
-  tags: tarzan
 
 - name: symlink luajit to luajit-version binary
   file: src="{{ luajit_dest }}/{{ luajit_version }}/bin/luajit-{{ luajit_version }}" path="{{ luajit_dest }}/{{ luajit_version }}/bin/luajit" state=link
-  tags: tarzan
 
 - name: create luarocks destination directory
   file: path={{ luarocks_dest }} state=directory mode=g+rwXs
-  tags: tarzan
 
 - name: download luarocks archive
   get_url:
     url: "{{ luarocks_url }}"
     dest: "{{ luarocks_dest }}/{{ luarocks_file }}"
-  tags: tarzan
 
 - name: unpack luarocks to destination
   unarchive: 
@@ -66,31 +57,26 @@
     copy: no 
     creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
     mode: g+rwX,o+rX
-  tags: tarzan
 
 - name: configure luarocks
   shell: "./configure --with-lua={{ luajit_dest }}/{{ luajit_version }} --with-lua-include={{ luajit_dest }}/{{ luajit_version }}/include/luajit-2.1 --prefix={{ luarocks_dest }}/{{ luarocks_version }}"
   args: 
     chdir: "{{ luarocks_dest }}/luarocks-{{ luarocks_version }}"
     creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
-  tags: tarzan
 
 - name: compile luarocks 
   shell: make build && make install
   args: 
     chdir: "{{ luarocks_dest }}/luarocks-{{ luarocks_version }}"
     creates: "{{ luarocks_dest }}/{{ luarocks_version }}/bin/luarocks"
-  tags: tarzan 
 
 - name: create openssl destination directory
   file: path={{ openssl_dest }} state=directory mode=g+rwXs
-  tags: tarzan
 
 - name: download openssl archive
   get_url:
     url: "{{ openssl_url }}"
     dest: "{{ openssl_dest }}/{{ openssl_file }}"
-  tags: tarzan
 
 - name: unpack openssl to destination
   unarchive: 
@@ -99,17 +85,14 @@
     copy: no 
     creates: "{{ openssl_dest }}/openssl-{{ openssl_version }}/LICENSE"
     mode: g+rwX,o+rX
-  tags: tarzan
 
 - name: create openresty destination directory
   file: path={{ openresty_dest }} state=directory mode=g+rwXs
-  tags: tarzan
 
 - name: download openresty archive
   get_url:
     url: "{{ openresty_url }}"
     dest: "{{ openresty_dest }}/{{ openresty_file }}"
-  tags: tarzan
 
 - name: unpack openresty to destination
   unarchive: 
@@ -118,31 +101,26 @@
     copy: no 
     creates: "{{ openresty_dest }}/{{ openresty_version }}/bin/resty"
     mode: g+rwX,o+rX
-  tags: tarzan
 
 - name: configure openresty
   shell: "./configure --with-pcre-jit --with-ipv6 --with-http_realip_module --with-http_ssl_module --with-http_stub_status_module --with-luajit={{ luajit_dest }}/{{ luajit_version }} --prefix={{ openresty_dest }}/{{ openresty_version }} --with-openssl={{ openssl_dest }}/openssl-{{ openssl_version }}/" 
   args: 
     chdir: "{{ openresty_dest }}/openresty-{{ openresty_version }}"
     creates: "{{ openresty_dest }}/{{ openresty_version }}/bin/resty"
-  tags: tarzan 
 
 - name: compile openresty
   shell: make install
   args: 
     chdir: "{{ openresty_dest}}/openresty-{{ openresty_version }}" 
     creates: "{{ openresty_dest }}/{{ openresty_version }}/bin/resty"
-  tags: tarzan 
 
 - name: create cassandra destination directory
   file: path={{ cassandra_dest }} state=directory mode=g+rwXs
-  tags: tarzan
 
 - name: download cassandra archive
   get_url:
     url: "{{ cassandra_url }}"
     dest: "{{ cassandra_dest }}/{{ cassandra_file }}"
-  tags: tarzan
 
 - name: unpack cassandra to destination
   unarchive: 
@@ -151,33 +129,27 @@
     copy: no 
     creates: "{{ cassandra_dest }}/{{ cassandra_version }}/bin/cassandra"
     mode: g+rwX,o+rX
-  tags: tarzan
 
 - name: symlink cassandra to install dir
   file: src="{{ cassandra_dest }}/apache-cassandra-{{ cassandra_version }}" path="{{ cassandra_dest }}/{{ cassandra_version }}" state=link
-  tags: tarzan
 
 - name: symlink the cassandra conf dir to global ngi conf dir
   file: src="{{ cassandra_dest }}/{{ cassandra_version }}/conf" path="{{ ngi_pipeline_conf }}/cassandra" state=link
-  tags: tarzan
 
 - name: deploy customized cassandra main conf 
   template: src="cassandra.yaml.j2" dest="{{ ngi_pipeline_conf }}/cassandra/cassandra.yaml" 
-  tags: tarzan 
 
 - name: modify cassandra's environment file for proper logdir
   lineinfile: dest="{{ ngi_pipeline_conf }}/cassandra/cassandra-env.ps1"
               regexp=".logdir = ."
               line='$logdir = "{{ cassandra_log_dest }}"'
               backup=no
-  tags: tarzan
 
 - name: modify cassandra's startup script for proper logdir
   replace: dest="{{ cassandra_dest }}/{{ cassandra_version }}/bin/cassandra"
               regexp=".-Dcassandra.logdir=\$CASSANDRA_HOME/logs"
               replace=" -Dcassandra.logdir={{ cassandra_log_dest }}"
               backup=no
-  tags: tarzan
 
 - name: modify uppsala's supervisord conf to start cassandra
   ini_file:
@@ -186,7 +158,6 @@
     option=command
     value="cassandra -f"
     backup=no
-  tags: tarzan
 
 - name: modify uppsala's supervisord conf to autorestart cassandra
   ini_file:
@@ -195,17 +166,14 @@
     option=autorestart
     value=true
     backup=no
-  tags: tarzan
 
 - name: create serf destination directory
   file: path={{ serf_dest }} state=directory mode=g+rwXs
-  tags: tarzan
 
 - name: download serf archive
   get_url:
     url: "{{ serf_url }}"
     dest: "{{ serf_dest }}/{{ serf_file }}"
-  tags: tarzan
 
 - name: unpack serf to destination
   unarchive: 
@@ -214,5 +182,4 @@
     copy: no 
     creates: "{{ serf_dest }}/{{ serf_version }}/bin/serf"
     mode: g+rwX,o+rX
-  tags: tarzan
  

@@ -2,14 +2,12 @@
 
 - name: create qualimap destination directory 
   file: path={{ qualimap_dest }} state=directory mode=g+rwxs
-  tags: ngi_piper  
 
 - name: download qualimap archive
   get_url:
     url: "{{ qualimap_url }}"
     dest: "{{ qualimap_dest }}/{{ qualimap_file }}"
     mode: g+rw
-  tags: ngi_piper
 
 - name: unpack qualimap to destination
   unarchive: 
@@ -18,7 +16,6 @@
     copy: no 
     creates: "{{ qualimap_path }}/LICENSE"
     mode: g+rw
-  tags: ngi_piper
 
 # FIXME: Not bundled in new version of Piper. 
 # Only needed for RNA-seq though
@@ -35,5 +32,4 @@
     url: "{{ rna_seqc_url }}"
     dest: "{{ rna_seqc_dest }}"
     mode: g+rw
-  tags: ngi_piper
 

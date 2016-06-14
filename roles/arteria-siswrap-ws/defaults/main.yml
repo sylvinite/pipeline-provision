@@ -5,7 +5,7 @@
 #
 # This will set corresponding paths and use the appropriate port. 
 arteria_siswrap_repo: https://github.com/arteria-project/arteria-siswrap.git
-arteria_siswrap_version: v1.0.2
+arteria_siswrap_version: v1.1.0
 arteria_siswrap_environment: production
 
 arteria_install_path: "{{ root_path }}/sw/arteria"
