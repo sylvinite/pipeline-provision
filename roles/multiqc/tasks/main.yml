@@ -20,7 +20,9 @@
   tags: multiqc
 
 - name: Install MultiQC NGI submodule
-  shell: "cd {{ multiqc_ngi_dest }} && {{ ngi_pipeline_venv }}/bin/pip install ."
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  args:
+    chdir: "{{ multiqc_ngi_dest }}"
   tags: multiqc
 
 - name: Add statusDB envvar to sourceme
@@ -29,12 +31,18 @@
               backup=no
   tags: multiqc
 
-- name: Deploy multiqc config
-  copy: src="multiqc_config.yml" dest="{{ ngi_pipeline_conf }}"
+- name: Deploy multiqc configs
+  template: src="multiqc_config.yml.j2" dest="{{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml"
+  with_items: 
+  - { site: "sthlm", ngi_hooks: "True"}
+  - { site: "upps", ngi_hooks: "False"}
   tags: multiqc
 
 - name: Force multiqc to autorun config
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
-              line="alias multiqc='multiqc -c {{ ngi_pipeline_conf }}/multiqc_config.yml'"
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
+              line="alias multiqc='multiqc -c {{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml'"
               backup=no
+  with_items:
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}" }
   tags: multiqc
