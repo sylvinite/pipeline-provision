@@ -1,9 +1,13 @@
 ---
+- name: Create nextflow directory
+  file: path="{{ nextflow_dest }}" state=directory mode=g+s
+  mode: g+rw
+  tags: ngi-rnaseq
 
 - name: Download & install NextFlow 
   shell: "curl -fsSL get.nextflow.io | bash"
   args:
-    chmod: "{{ root_path }}/sw"
+    chdir: "{{ nextflow_dest }}"
   tags: ngi-rnaseq
 
 - name: Add nextflow to $PATH
