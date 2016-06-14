@@ -1,7 +1,6 @@
 ---
 - name: Create nextflow directory
-  file: path="{{ nextflow_dest }}" state=directory mode=g+s
-  mode: g+rw
+  file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
   tags: ngi-rnaseq
 
 - name: Download & install NextFlow 
