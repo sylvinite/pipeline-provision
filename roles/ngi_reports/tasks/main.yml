@@ -30,7 +30,7 @@
     site: "upps"
 
 - name: Create Uppsala ngi_reports conf file
-  template: src="ngi_reports_site.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf"
+  template: src="ngi_reports_{{ site }}.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf"
 
 - name: Add ngi_reports to $PATH via sourceme_{{ site }}
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}"
@@ -41,7 +41,7 @@
     site: "sthlm"
 
 - name: Create Stockholm ngi_reports conf file
-  template: src="ngi_reports_site.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf" 
+  template: src="ngi_reports_{{ site }}.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf" 
 
 - name: Add ngi_reports to $PATH via sourceme_{{ site }}
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
