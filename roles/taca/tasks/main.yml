@@ -21,6 +21,7 @@
     site: "upps"
     site_full: "uppsala"
     ngi_pipeline_site_path: "{{ ngi_pipeline_upps_path }}"
+    ngi_site_softlinks: "{{ ngi_sthlm_softlinks }}"
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_upps_delivery }}"
 
 - name: Deploy standard uppsala configs
@@ -33,6 +34,7 @@
     site: "sthlm"
     site_full: "stockholm"
     ngi_pipeline_site_path: "{{ ngi_pipeline_sthlm_path }}"
+    ngi_site_softlinks: "{{ ngi_sthlm_softlinks }}"
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_sthlm_delivery }}"
 
 - name: Deploy sthlm_fastq_taca_delivery.yml config
