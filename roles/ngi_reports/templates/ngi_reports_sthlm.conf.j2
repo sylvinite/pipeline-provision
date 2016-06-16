@@ -1,10 +1,7 @@
 [ngi_reports]
-{% if "sthlm" in site %}
 ngi_node = stockholm
-{% elif "upps" in site %}
-ngi_node = uppsala
-{% endif %}
 support_email = support@ngisweden.se
+
 [organism_names]
 hg19 = Homo_sapiens
 hg18 = Homo_sapiens
@@ -19,6 +16,7 @@ sacCer2 = Saccharomyces_cerevisiae
 canFam2 = Canis_lupus_familiaris
 canFam3 = Canis_lupus_familiaris
 dm3 = Drosophila_melanogaster
+
 [quality_threshold_hiseq]
 50 : 85
 100 : 80
@@ -32,10 +30,6 @@ dm3 = Drosophila_melanogaster
 100 : 75
 150 : 70
 >250 : 60
-[log]
-{% if "sthlm" in site %}
-log_dir : {{ ngi_pipeline_log_sthlm }}
-{% elif "upps" in site %}
-log_dir : {{ ngi_pipeline_log_upps }}
-{% endif %}
 
+[log]
+log_dir: {{ ngi_pipeline_log_sthlm }}

@@ -26,24 +26,16 @@
   args:
     chdir: "{{ ngi_reports_dest }}/data/pandoc_templates/pandocfilters/"
 
-- set_fact:
-    site: "upps"
+- name: Create ngi_reports conf files
+  template: src="ngi_reports_{{ item.site }}.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ item.site }}.conf"
+  with_items:
+  - { site: "upps" }
+  - { site: "sthlm" }
 
-- name: Create Uppsala ngi_reports conf file
-  template: src="ngi_reports_site.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf"
-
-- name: Add ngi_reports to $PATH via sourceme_{{ site }}
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}"
-              line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf'
+- name: Add ngi_reports to $PATH via sourceme_{{ item.site }}
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.env_script }}"
+              line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ item.site }}.conf'
               backup=no
-
-- set_fact:
-    site: "sthlm"
-
-- name: Create Stockholm ngi_reports conf file
-  template: src="ngi_reports_site.conf.j2" dest="{{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf" 
-
-- name: Add ngi_reports to $PATH via sourceme_{{ site }}
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
-              line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ site }}.conf'
-              backup=no
+  with_items:
+  - { site: "upps", env_script: {{ bash_env_upps_script }} }
+  - { site: "sthlm", env_script: {{ bash_env_sthlm_script }} }

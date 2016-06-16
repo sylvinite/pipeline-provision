@@ -70,7 +70,7 @@ Run `python sync.py <remote dest>` to rsync all files under `/lupus/ngi/` from i
 
 Run `crontab /lupus/ngi/conf/crontab_<site>` once per user to initialize the first instance of cron for the user. No posterior loading is required.
 
-Run `/lupus/ngi/resources/create_ngi_pipeline_dirs.sh <project_name>` once per project (i.e. ngi2016003) to create the log and db directories for NGI pipeline.
+Run `/lupus/ngi/resources/create_ngi_pipeline_dirs.sh <project_name>` once per project (i.e. ngi2016003) to create the log, db and softlink directories for NGI pipeline (and generate the softlinks).
 
 Run `/lupus/ngi/sw/piper/gen_GATK_ref.sh` one time ever to generate the required GATK indexes to run piper.
 

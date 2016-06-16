@@ -28,6 +28,8 @@ ngi_resources: "{{ root_path }}/resources/"
 
 ngi_pipeline_sthlm_delivery: ngi2016003
 ngi_pipeline_upps_delivery: ngi2016001
+ngi_sthlm_softlinks: "/proj/{{ ngi_pipeline_sthlm_delivery }}/nobackup/NGI/softlinks"
+ngi_upps_softlinks: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/softlinks"
 
 ngi_pipeline_sthlm_path: "/proj/{{ ngi_pipeline_sthlm_delivery }}/private/ngi_pipeline/"
 ngi_pipeline_upps_path: "/proj/{{ ngi_pipeline_upps_delivery }}/private/ngi_pipeline/"
