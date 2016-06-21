@@ -18,20 +18,15 @@
        version="{{ ngi_rnaseq_version }}"
        force=yes
 
-- name: Install NGI-RNAseq
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install . --upgrade"
-  args:
-    chdir: "{{ ngi_rnaseq_dest }}"
-
 - name: Copy NGI-RNAseq config
-  template: src="nextflow.config.j2" dest="{{ ngi_pipeline_conf }}/nextflow_{{ item.site }}.config"
+  template: src="ngi-rnaseq.config.j2" dest="{{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config"
   with_items:
   - { site: "sthlm", proj: "{{ ngi_pipeline_sthlm_delivery }}" }
   - { site: "upps", proj: "{{ ngi_pipeline_upps_delivery }}" }
 
 - name: Set alias
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias nextflow='nextflow {{ ngi_rnaseq_dest }}/main.nf -c {{ ngi_pipeline_conf }}/nextflow_{{ item.site }}.config'"
+              line="alias rna-seq='nextflow {{ ngi_rnaseq_dest }}/main.nf -c {{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config'"
               backup=no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
