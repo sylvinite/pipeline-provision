@@ -37,5 +37,5 @@
               line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ item.site }}.conf'
               backup=no
   with_items:
-  - { site: "upps", env_script: {{ bash_env_upps_script }} }
-  - { site: "sthlm", env_script: {{ bash_env_sthlm_script }} }
+  - { site: "upps", env_script: "{{ bash_env_upps_script }}" }
+  - { site: "sthlm", env_script: "{{ bash_env_sthlm_script }}" }
