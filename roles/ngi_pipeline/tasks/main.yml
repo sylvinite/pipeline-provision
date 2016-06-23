@@ -65,7 +65,7 @@
   copy: src="fastq_screen.irma.conf" dest="{{ ngi_pipeline_conf }}" 
 
 - name: Deploy script for creating site specific ngi_pipeline dirs for logs and db
-  template: src=create_ngi_pipeline_dirs.sh.j2 dest={{ ngi_resources }}
+  template: src=create_ngi_pipeline_dirs.sh.j2 dest={{ ngi_resources }}/create_ngi_pipeline_dirs.sh
 
 - name: Add anaconda path to sourceme script
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}

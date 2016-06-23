@@ -3,6 +3,9 @@
 - name: create tarzan main directory 
   file: name={{ tarzan_dest }} state=directory mode=g+rwXs
 
+- name: create tarzan conf dir 
+  file: name={{ tarzan_conf }} state=directory mode=g+rwXs
+
 - include: dependencies.yml 
 
 - name: install kong via luarocks
@@ -24,7 +27,13 @@
               backup=no
 
 - name: deploy config for kong
-  template: src="kong.yml.j2" dest="{{ ngi_pipeline_conf }}/webproxy.yml"
+  template: src="kong.yml.j2" dest="{{ tarzan_conf }}/webproxy.yml"
+
+- name: deploy ssl cert for kong
+  copy: src="tarzan_cert.pem" dest="{{ tarzan_conf }}/tarzan_cert.pem"
+
+- name: deploy ssl key for kong 
+  copy: src="tarzan_key.pem" dest="{{ tarzan_conf }}/tarzan_key.pem"
 
 # FIXME: Couldn't get this to work properly with supervisord because 
 # it demands that the program under control doesn't daemonize. 
@@ -36,11 +45,10 @@
 
 - name: modify uppsala's crontab to start kong
   lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
-              line='@reboot source $HOME/.bash_profile && kong start -c {{ ngi_pipeline_conf }}/webproxy.yml'
+              line='@reboot source $HOME/.bash_profile && kong start -c {{ tarzan_conf }}/webproxy.yml'
               backup=no
 
 - name: modify uppsala's crontab to start kong
   lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
-              line='38 * * * *      source $HOME/.bash_profile && kong start -c {{ ngi_pipeline_conf }}/webproxy.yml'
+              line='38 * * * *      source $HOME/.bash_profile && kong start -c {{ tarzan_conf }}/webproxy.yml'
               backup=no
-
