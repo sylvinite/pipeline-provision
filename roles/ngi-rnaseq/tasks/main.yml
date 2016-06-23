@@ -2,12 +2,6 @@
 - name: Create NextFlow directory
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
-<<<<<<< HEAD
-=======
-- name: Put NextFlow installation files in same directory
-  shell: "export NXF_HOME={{ nextflow_dest }}"
-
->>>>>>> upstream/master
 - name: Add NextFlow installation files to env var NFX_HOME
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
               line="export NXF_HOME={{ nextflow_dest }}"
@@ -15,11 +9,8 @@
 
 - name: Install NextFlow
   shell: "./nextflow"
-<<<<<<< HEAD
   environment:
     NXF_HOME: "{{ nextflow_dest }}"
-=======
->>>>>>> upstream/master
   args:
     chdir: "{{ nextflow_dest }}"
 
