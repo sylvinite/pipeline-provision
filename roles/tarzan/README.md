@@ -21,7 +21,7 @@ There is no specific backup of Cassandra at the moment. And the serf traffic (ov
 
 ## Configuring self signed SSL cert
 
-On Irma run `openssl req -x509 -newkey rsa:2048 -keyout tarzan_key.pem -out tarzan_cert.pem -days 1460 -nodes` to generate a self signed server SSL key and cert for the Irma webproxy, valid for 4 years. Put `tarzan_key.pem` and `tarzan_cert.pem` under `/lupus/ngi/irma3/deploy/files` so that they can be picked up by the Tarzan role. 
+On Irma run `openssl req -x509 -newkey rsa:2048 -keyout tarzan_key.pem -out tarzan_cert.pem -days 1460 -nodes -subj '/CN=irma1.uppmax.uu.se'` to generate a self signed server SSL key and cert for the webproxy running on irma1.uppmax.uu.se, which will be valid for 4 years. Put `tarzan_key.pem` and `tarzan_cert.pem` under `/lupus/ngi/irma3/deploy/files` so that they can be picked up by the Tarzan role. 
 
 (One can then add the contents of `tarzan_cert.pem` to the client's CA bundle if one want to get rid of certificate warnings. E.g. some clients (like Stackstorm) use the Mozilla CA bundle in the Python library `requests`, which can usually be found under a path similar to `..../python2.7/site-packages/requests/cacert.pem`.)
 
