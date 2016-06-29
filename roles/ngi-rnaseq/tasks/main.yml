@@ -1,11 +1,16 @@
 ---
+##IMPORTANT: NextFlow installation will be handled by module system.
+#Since nextflow creates a classpath file on virtually every runtime, and we lack a writeable directory 
+#that can be distinguished from irma3; installation is impossible.
+
 - name: Create NextFlow directory
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
-- name: Add NextFlow installation files to env var NFX_HOME
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
-              line="export NXF_HOME={{ nextflow_dest }}"
-              backup=no
+- name: Override where NextFlow dependencies are placed
+  shell: "export { item }={{ nextflow_dest }}"
+  with_items:
+  - { "NXF_HOME" }
+  - { "NXF_LAUNCHER" } 
 
 - name: Install NextFlow
   shell: "./nextflow"
@@ -18,6 +23,14 @@
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
               line="export PATH={{ root_path }}/sw/nextflow:$PATH"
               backup=no
+
+- name: Point NextFlow dependencies vars to installation directory
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
+              line="export { item }={{ nextflow_dest }}"
+              backup=no
+  with_items:
+  - { "NXF_HOME" }
+  - { "NXF_LAUNCHER" }
 
 - name: Fetch NGI-RNAseq from GitHub
   git: repo="{{ ngi_rnaseq_repo }}"
