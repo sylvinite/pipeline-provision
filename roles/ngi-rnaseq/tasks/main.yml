@@ -6,16 +6,11 @@
 - name: Create NextFlow directory
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
-- name: Override where NextFlow dependencies are placed
-  shell: "export { item }={{ nextflow_dest }}"
-  with_items:
-  - { "NXF_HOME" }
-  - { "NXF_LAUNCHER" } 
-
 - name: Install NextFlow
   shell: "./nextflow"
   environment:
     NXF_HOME: "{{ nextflow_dest }}"
+    NXF_LAUNCHER: "{{ nextflow_dest }}"
   args:
     chdir: "{{ nextflow_dest }}"
 
