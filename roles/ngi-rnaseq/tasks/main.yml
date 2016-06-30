@@ -17,7 +17,7 @@
 
 - name: Point NextFlow dependencies vars to installation directory
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
-              line="export { item }={{ nextflow_dest }}"
+              line="export {{ item }}={{ nextflow_dest }}"
               backup=no
   with_items:
   - { "NXF_HOME" }
