@@ -1,0 +1,9 @@
+qatools_repo: "https://github.com/vezzi/qaTools.git"
+qatools_dest: 
+qatools_version: "95c8fd737dd831e162a5587e205ce83c6b6aa189"
+
+frc_align_repo: "https://github.com/vezzi/FRC_align.git"
+frc_align_dest:
+frc_align_version: "5b3f53e01cb539c857fd4230ec9410d76220fe22"
+
+
