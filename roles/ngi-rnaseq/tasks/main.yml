@@ -1,8 +1,4 @@
 ---
-##IMPORTANT: NextFlow installation will be handled by module system.
-#Since nextflow creates a classpath file on virtually every runtime, and we lack a writeable directory 
-#that can be distinguished from irma3; installation is impossible.
-
 - name: Create NextFlow directory
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
