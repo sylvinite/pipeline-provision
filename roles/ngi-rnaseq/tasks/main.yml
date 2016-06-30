@@ -2,16 +2,11 @@
 - name: Create NextFlow directory
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
-- name: Put NextFlow installation files in same directory
-  shell: "export NXF_HOME={{ nextflow_dest }}"
-
-- name: Add NextFlow installation files to env var NFX_HOME
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
-              line="export NXF_HOME={{ nextflow_dest }}"
-              backup=no
-
 - name: Install NextFlow
   shell: "./nextflow"
+  environment:
+    NXF_HOME: "{{ nextflow_dest }}"
+    NXF_LAUNCHER: "{{ nextflow_dest }}"
   args:
     chdir: "{{ nextflow_dest }}"
 
@@ -19,6 +14,14 @@
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
               line="export PATH={{ root_path }}/sw/nextflow:$PATH"
               backup=no
+
+- name: Point NextFlow dependencies vars to installation directory
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
+              line="export {{ item }}={{ nextflow_dest }}"
+              backup=no
+  with_items:
+  - { "NXF_HOME" }
+  - { "NXF_LAUNCHER" }
 
 - name: Fetch NGI-RNAseq from GitHub
   git: repo="{{ ngi_rnaseq_repo }}"
