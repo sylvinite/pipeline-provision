@@ -20,8 +20,8 @@
               line="export {{ item }}={{ nextflow_dest }}"
               backup=no
   with_items:
-  - { "NXF_HOME" }
-  - { "NXF_LAUNCHER" }
+  - "NXF_HOME"
+  - "NXF_LAUNCHER" 
 
 - name: Fetch NGI-RNAseq from GitHub
   git: repo="{{ ngi_rnaseq_repo }}"
