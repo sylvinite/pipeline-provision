@@ -13,11 +13,8 @@
 - name: Copy configuration
   template: src="NouGAT_config.conf.j2" dest="{{ ngi_pipeline_conf }}/NouGAT_config.conf"
 
-- name: Copy installation paths file (configuration)
-  template: src="NouGAT_uppmax_denovo.yaml" dest="{{ ngi_pipeline_conf }}/NouGAT_irma_denovo.yaml"
-
 - name: Install NouGAT
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
   args:
     chdir: "{{ nougat_dest }}"
 
@@ -25,7 +22,3 @@
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}
               line="export NOUGAT_CONF={{ ngi_pipeline_conf }}/NouGAT_config.conf"
               backup=no
-
-#Link config file in sourceme
-#
-#Doublecheck everything
