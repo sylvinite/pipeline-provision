@@ -1,5 +1,5 @@
 ---
-include: dependencies.yml
+- include: dependencies.yml
 
 - name: Fetch NouGAT from GitHub
   git: repo="{{ nougat_repo }}"
@@ -20,6 +20,11 @@ include: dependencies.yml
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
     chdir: "{{ nougat_dest }}"
+
+- name: Add NOUGAT_CONF envvar to sthlm_sourceme 
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}
+              line="export NOUGAT_CONF={{ ngi_pipeline_conf }}/NouGAT_config.conf"
+              backup=no
 
 #Link config file in sourceme
 #

@@ -1,3 +1,4 @@
+---
 - name: Fetch non-SciLifeLab repos from GitHub
   git: repo="{{ item.repo }}"
        dest="{{ item.dest }}"
@@ -5,29 +6,19 @@
   with_items:
   -  { repo: "{{ qatools_repo }}", dest: "{{ qatools_dest }}", version: "{{ qatools_version }}" }
   -  { repo: "{{ frc_align_repo }}", dest: "{{ frc_align_dest }}", version: "{{ frc_align_version }}" }
-  tags: nougat
 
 - name: Create FRC_Align build directory
   file: path="{{ frc_align_dest }}/build" state=directory mode=g+rwxs
-  tags: nougat
 
-- name: CMake FRC_Align from build directory
-  shell: "cmake .."
+- name: Make FRC_Align
+  shell: "module load boost && cmake .."
   args: 
     chdir: "{{ frc_align_dest }}/build"
-    #creates: Something; checkout output
-  tags: nougat
+    creates: "{{ frc_align_dest }}/LICENSE"  
 
-- name: Make FRC_Align from build directory 
-  shell: "cmake .."
-  args: 
-    chdir: "{{ frc_align_dest }}/build"
-    creates: "{{ qatools_dest }}/LICENSE"
-  tags: nougat
-
-- name: Make qaTools
-  shell: "make -f {{ qatools_dest }}/Makefile SAMTOOLS=/sw/apps/bioinfo/samtools/0.1.19/src/"
-  args:
-    chdir: "{{ qatools_dest }}"
-    creates: "{{ qatools_dest }}/LICENSE"
-  tags: nougat
+#TODO: Omitted for now due to complications. Removed completely in a later version (if decided ofc ;) ) 
+#- name: Make qaTools
+#  shell: "make -f {{ qatools_dest }}/Makefile SAMTOOLS=/sw/apps/bioinfo/samtools/0.1.19/src/"
+#  args:
+#    chdir: "{{ qatools_dest }}"
+#    creates: "{{ qatools_dest }}/LICENSE"
