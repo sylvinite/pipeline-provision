@@ -7,6 +7,8 @@
   environment:
     NXF_HOME: "{{ nextflow_dest }}"
     NXF_LAUNCHER: "{{ nextflow_dest }}"
+    PATH: "{{ root_path }}/sw/java/jdk1.7.0_25/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "/sw/apps/build/slurm-drmaa/default/lib:/sw/apps/build/slurm-drmaa/default/lib:"
   args:
     chdir: "{{ nextflow_dest }}"
 
@@ -21,7 +23,7 @@
               backup=no
   with_items:
   - "NXF_HOME"
-  - "NXF_LAUNCHER" 
+  - "NXF_LAUNCHER"
 
 - name: Fetch NGI-RNAseq from GitHub
   git: repo="{{ ngi_rnaseq_repo }}"
