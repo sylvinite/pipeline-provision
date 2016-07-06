@@ -5,8 +5,9 @@
        version="{{ multiqc_version }}"
        force=yes
 
+#Remember to use --upgrade flag if using commit-id
 - name: Install MultiQC
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install . --upgrade"
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
     chdir: "{{ multiqc_dest }}"
 
@@ -16,6 +17,7 @@
        version="{{ multiqc_ngi_version }}"
        force=yes
 
+#Remember to use --upgrade flag if using commit-id
 - name: Install MultiQC NGI submodule
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
