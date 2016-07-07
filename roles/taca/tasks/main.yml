@@ -38,7 +38,10 @@
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_sthlm_delivery }}"
 
 - name: Deploy sthlm_fastq_taca_delivery.yml config
-  template: src="sthlm_fastq_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/sthlm_taca_fastq_delivery.yml"
+  template: src="sthlm_fastq_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/sthlm_{{ item.name }}_fastq_delivery.yml"
+  with_items:
+  - { proj_path: "/proj", name: "lupus" }
+  - { proj_path: "/pica/sw/links/proj/", name: "taca" }
 
 - name: Deploy standard stockholm configs
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_delivery.yml"
