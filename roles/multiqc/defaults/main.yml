@@ -4,4 +4,4 @@ multiqc_version: "v0.7"
 
 multiqc_ngi_repo: https://github.com/ewels/MultiQC_NGI.git
 multiqc_ngi_dest: "{{ root_path }}/sw/multiqc_ngi"
-multiqc_ngi_version: "v0.2.1"
+multiqc_ngi_version: "v0.2.2"

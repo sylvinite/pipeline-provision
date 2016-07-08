@@ -31,8 +31,8 @@
 - name: Deploy multiqc configs
   template: src="multiqc_config.yml.j2" dest="{{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml"
   with_items: 
-  - { site: "sthlm", ngi_hooks: "True"}
-  - { site: "upps", ngi_hooks: "False"}
+  - { site: "sthlm", disable_ngi_hooks: "False"}
+  - { site: "upps", disable_ngi_hooks: "True"}
 
 - name: Force multiqc to autorun config
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
