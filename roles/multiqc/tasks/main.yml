@@ -40,4 +40,4 @@
               backup=no
   with_items:
   - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", flags: "-t ngi"}
-  - { site: "upps", script: "{{ bash_env_upps_script }}", flags = "" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}", flags: "" }
