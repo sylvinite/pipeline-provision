@@ -3,7 +3,7 @@
 
 # root_path should be changed to suitable value when e.g. deploying locally
 # for a developer
-root_path: /lupus/ngi/
+#root_path: /lupus/ngi/
 
 # TODO: This variable has to be set to something more suitable when 
 # deploying as a real user with a real home directory. This is 
