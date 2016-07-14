@@ -37,7 +37,8 @@
     - { role: arteria-siswrap-ws, tags: arteria-siswrap }
     - { role: ngi-rnaseq, tags: ngi-rnaseq }
     - { role: nougat, tags: nougat }
-    - { role: test_devel, tags: test-devel }
+
+  environment: "{{ anaconda_env }}"
 
   post_tasks:
     - include: tasks/post-install.yml
