@@ -3,3 +3,6 @@ no_version_check: True
 template: 'ngi'
 disable_ngi: {{ item.disable_ngi_hooks }}
 push_statusdb: True
+extra_fn_clean_exts:
+    - .bowtie_log
+    - .featureCounts
