@@ -2,6 +2,9 @@
 - name: Create NextFlow directory
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
+- name: Download NextFlow 
+  get_url: url="http://get.nextflow.io" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
+
 - name: Install NextFlow
   shell: "./nextflow"
   environment:
