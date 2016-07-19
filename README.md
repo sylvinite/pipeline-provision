@@ -18,10 +18,6 @@ Activate the environment using source `/lupus/ngi/irma3/ansible-env/bin/activate
 
 Install ansible with `pip install ansible`
 
-Download Anaconda and install it to `/lupus/ngi/sw/anaconda`
-
-Manually set Anaconda's permissions with `chmod -R g+rwX,o+rX /lupus/ngi/sw/anaconda`
-
 Enable rsync functionality by using `pip install pexpect`
 
 Install cpanm into the Ansible environment (which is already in $PATH) so that we can install Perl packages locally: 
@@ -45,24 +41,29 @@ The following files need to be present on irma3 in order to successfully deploy 
 
 - A valid `statusdb_creds.yml` access file placed under `/lupus/ngi/irma3/deploy/files`. Necessary layout is described at https://github.com/SciLifeLab/statusdb
 
+- Valid SSL certificates for the web proxyunder `/lupus/ngi/irma3/deploy/files` (see `roles/tarzan/README.md` for details) 
+
 ###Typical deployment
 
-Clone the repository to `/lupus/ngi/irma3/devel` and develop your scripts.
+TODO: Come back and update these instructions later. 
 
-Create your own virtual environment for developing, i.e: `conda create -n myVenv python=2.7`
+Fork the repository https://github.com/NationalGenomicsInfrastructure/irma-provision to your private Github repo. Clone this private repository to `/lupus/ngi/irma3/devel` and develop your scripts in a new feature branch. 
 
-Alter `{{ ngi_pipeline_venv }}` under `host_vars/127.0.0.1/main.yml` to match your environment's name.
+Test deploy your roles/playbook changes with e.g. `ansible-playbook install.yml`. This will install your development run in `/lupus/ngi/irma3/devel-root/<username>-<branch_name>`. 
 
-Once the features have been approved, `git pull` them into `/lupus/ngi/irma3/deploy`
+When you are satisfied with your changes, create a pull request from your feature branch into upstream irma-provisioning's master branch. 
 
-Make sure the target is somewhere under `/lupus/ngi/`. Some folders (currently only `/lupus/ngi/irma3/` and 
-`/lupus/ngi/resources/piper/gatk_bundle`) should not be used as targets as they are set up to be ignored by the rsync.
+Once the feature has been approved, or after you collected a bunch of merged features, make a new Github release and tag (https://github.com/NationalGenomicsInfrastructure/irma-provision/releases/new) for the master branch. Use the convention to name the tag according to `v<MAJOR>.<MINOR>-beta.<PATCH>`. E.g. if the latest released version is `v1.2.5`, and we've discovered a bug which we now want to test, we'll create a staging version called `v1.2-beta.6`. Click the box "This is a pre-release" and add appropriate description to the pre-release. 
 
-Run the deployment script, for instance `ansible-playbook install.yml`
+Now go to `/lupus/ngi/irma3/deploy` and do a `git fetch --tags && git checkout tags/v1.2-beta.6` and deploy it to staging with `ansible-playbook install.yml -e deployment_env=staging`. This will install your run under `/lupus/ngi/staging/v1.2-beta.6/` and symlink `/lupus/ngi/staging/latest` to it, for easier access. 
 
-Manually place any additional files that need to be synced over under `/lupus/ngi/`
+Run `python sync.py --staging` (FIXME: Syntax?)  to rsync the staged environment from irma3 to irma1. 
 
-If you don't want your environment synced to irma1, remove it.
+Login to the Irma cluster as your personal user and then run `source /lupus/ngi/staging/latest/conf/sourceme_<site>.sh && source activate NGI` (where `site` is `upps` or `sthlm` depending on location). For convenience add to your personal file bash init file `~/.bashrc`. This will load the staging environment for your user with the appropriate staging variables set. 
+
+When the staged environment has been verified to work OK (TODO: add test protocol, manual or automated sanity checks) proceed with making a production release. In our case we would therefore now create the tag and release called `v1.2.6`. 
+
+We can now, still standing in `/lupus/ngi/irma3/deploy`, do a `git fetch -- tags && git checkout tags/v1.2.6 && ansible-playbook install.yml -e deployment_env=production`. This will install everything under `/lupus/ngi/production/v1.2.6` and the symlink `/lupus/ngi/production/latest` pointing to it. 
 
 Run `python sync.py <remote dest>` to rsync all files under `/lupus/ngi/` from irma3 to irma1. If no directory is given the default is `/lupus/ngi/`
 
@@ -73,6 +74,8 @@ Run `crontab /lupus/ngi/conf/crontab_<site>` once per user to initialize the fir
 Run `/lupus/ngi/resources/create_ngi_pipeline_dirs.sh <project_name>` once per project (i.e. ngi2016003) to create the log, db and softlink directories for NGI pipeline (and generate the softlinks).
 
 Run `/lupus/ngi/sw/piper/gen_GATK_ref.sh` one time ever to generate the required GATK indexes to run piper.
+
+Add `source /lupus/ngi/production/latest/conf/sourcme_<site>.sh && source activate NGI`, where `site` can be `upps` or `sthlm`, to each functional account's bash init file `~/.bashrc`. 
 
 ###Quick integrity verification
 
