@@ -28,7 +28,7 @@
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_delivery.yml"
   with_items:
   - { proj_path: "{{ proj_root }}", name: "lupus" }
-  - { proj_path: "/pica/sw/links/proj/", name: "taca" } # TODO: Investigate how these pica links will affect staging
+  - { proj_path: "{{ milou_delivery_root }}", name: "taca" } 
 
 - set_fact: 
     site: "sthlm"
@@ -41,11 +41,11 @@
   template: src="sthlm_fastq_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/sthlm_{{ item.name }}_fastq_delivery.yml"
   with_items:
   - { proj_path: "{{ proj_root }}", name: "lupus" }
-  - { proj_path: "/pica/sw/links/proj/", name: "taca" }
+  - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
 
 - name: Deploy standard stockholm configs
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_delivery.yml"
   with_items:
   - { proj_path: "{{ proj_root }}", name: "lupus" }
-  - { proj_path: "/pica/sw/links/proj/", name: "taca" }
+  - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
 
