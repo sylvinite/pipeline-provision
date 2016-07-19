@@ -20,7 +20,7 @@ arteria_siswrap_config_root: "{{ ngi_pipeline_conf }}/arteria/siswrap"
 arteria_siswrap_app_config: "{{ arteria_siswrap_config_root }}/app.config"
 arteria_siswrap_logger_config: "{{ arteria_siswrap_config_root }}/logger.config"
 arteria_siswrap_log: "{{ ngi_pipeline_upps_path }}/log/arteria/siswrap-ws"
-runfolder_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming/"
+runfolder_path: "{{ proj_root }}/{{ ngi_pipeline_upps_delivery }}/incoming/"
 
 arteria_siswrap_port_prod: 10430
 arteria_siswrap_port_stage: 10431
