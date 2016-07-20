@@ -32,7 +32,7 @@ src_root_path = ngi_root + args.environment
 if args.destination: 
 	dest = args.destination
 else: 
-	dest = ngi_root 
+	dest = src_root_path 
 
 host = "irma1"
 rsync_log_path = ngi_root + "/irma3/log/rsync.log" 
