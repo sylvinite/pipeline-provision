@@ -15,21 +15,27 @@ import pexpect
 import sys
 import getpass 
 import subprocess 
-#import argparse 
+import argparse 
 
 # TODO: Need to catch wrong token or wrong password. 
 # TODO: Lots of errors that can go wrong.
 
-
 # Step 0. Settings to fetch from user or set globally for the sync. 
-if len(sys.argv) == 1: 
-	dest = "/lupus/ngi/"
-else: 
-	dest = sys.argv[1]
+parser = argparse.ArgumentParser() 
+parser.add_argument("environment", choices=["production", "staging"], help="which environment to sync over")
+parser.add_argument("-d", "--destination", help="the non-standard destination path on the remote host to sync to")
+args = parser.parse_args() 
 
-src_root_path = "/lupus/ngi/"
+ngi_root = "/lupus/ngi/"
+src_root_path = ngi_root + args.environment
+
+if args.destination: 
+	dest = args.destination
+else: 
+	dest = ngi_root 
+
 host = "irma1"
-rsync_log_path = src_root_path + "/irma3/log/rsync.log" 
+rsync_log_path = ngi_root + "/irma3/log/rsync.log" 
 
 user = getpass.getuser()
 password = getpass.getpass("Enter your UPPMAX password: ")
