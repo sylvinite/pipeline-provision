@@ -57,15 +57,15 @@ Once the feature has been approved, or after you collected a bunch of merged fea
 
 Now go to `/lupus/ngi/irma3/deploy` and do a `git fetch --tags && git checkout tags/v1.2-beta.6` and deploy it to staging with `ansible-playbook install.yml -e deployment_env=staging`. This will install your run under `/lupus/ngi/staging/v1.2-beta.6/` and symlink `/lupus/ngi/staging/latest` to it, for easier access. 
 
-Run `python sync.py --staging` (FIXME: Syntax?)  to rsync the staged environment from irma3 to irma1. 
+Run `python sync.py staging`  to rsync the staged environment from irma3 to irma1. 
 
 Login to the Irma cluster as your personal user and then run `source /lupus/ngi/staging/latest/conf/sourceme_<site>.sh && source activate NGI` (where `site` is `upps` or `sthlm` depending on location). For convenience add to your personal file bash init file `~/.bashrc`. This will load the staging environment for your user with the appropriate staging variables set. 
 
 When the staged environment has been verified to work OK (TODO: add test protocol, manual or automated sanity checks) proceed with making a production release. In our case we would therefore now create the tag and release called `v1.2.6`. 
 
-We can now, still standing in `/lupus/ngi/irma3/deploy`, do a `git fetch -- tags && git checkout tags/v1.2.6 && ansible-playbook install.yml -e deployment_env=production`. This will install everything under `/lupus/ngi/production/v1.2.6` and the symlink `/lupus/ngi/production/latest` pointing to it. 
+We can now, still standing in `/lupus/ngi/irma3/deploy`, do a `git fetch --tags && git checkout tags/v1.2.6 && ansible-playbook install.yml -e deployment_env=production`. This will install everything under `/lupus/ngi/production/v1.2.6` and the symlink `/lupus/ngi/production/latest` pointing to it. 
 
-Run `python sync.py <remote dest>` to rsync all files under `/lupus/ngi/` from irma3 to irma1. If no directory is given the default is `/lupus/ngi/`
+Run `python sync.py production` to rsync all files under `/lupus/ngi/production` from irma3 to irma1. 
 
 ###Manual initiations on irma1
 
