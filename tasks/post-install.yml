@@ -13,11 +13,8 @@
     #
     # It is therefore expected that this script will always be run when someone is 
     # running the playbook.
-    # 
-    # Only for staging and production; ie for data that is to be synced to the cluster. 
     - name: set correct file permission for everything owned by current user 
-      shell: "find /lupus/ngi/{conf,sw,resources} -user `whoami` -exec chmod g+rwX,o=rX {} \\;"
-      when: deployment_environment != "staging" # FIXME: remove staging 
+      shell: "find {{ root_path }}/{conf,sw,resources} -user `whoami` -exec chmod g+rwX,o=rX {} \\;"
 
     - name: symlink deployed version to /lupus/ngi/<production|staging>/latest 
       file: src=/lupus/ngi/{{ deployment_environment }}/latest dest={{ root_path }} state=link
