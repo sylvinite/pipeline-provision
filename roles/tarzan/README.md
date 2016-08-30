@@ -21,7 +21,7 @@ There is no specific backup of Cassandra at the moment. And the serf traffic (ov
 
 ## List all registered downstream APIs
 
-To see all the downstream APIs that have been previously registered with the web proxy run the command ` curl -s -k http://localhost:8001/apis | python -m json.tool` on irma1. 
+To see all the downstream APIs that have been previously registered with the web proxy run the command ` curl -s http://localhost:8001/apis | python -m json.tool` on irma1. 
 
 ## Configuring self signed SSL cert
 
