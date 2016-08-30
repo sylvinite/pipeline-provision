@@ -55,7 +55,7 @@ When you are satisfied with your changes, create a pull request from your featur
 
 Once the feature has been approved, or after you collected a bunch of merged features, make a new Github release and tag (https://github.com/NationalGenomicsInfrastructure/irma-provision/releases/new) for the master branch. Use the convention to name the tag according to `v<MAJOR>.<MINOR>-beta.<PATCH>`. E.g. if the latest released version is `v1.2.5`, and we've discovered a bug which we now want to test, we'll create a staging version called `v1.2-beta.6`. Click the box "This is a pre-release" and add appropriate description to the pre-release. 
 
-Now go to `/lupus/ngi/irma3/deploy` and do a `git fetch --tags && git checkout tags/v1.2-beta.6` and deploy it to staging with `ansible-playbook install.yml -e deployment_env=staging`. This will install your run under `/lupus/ngi/staging/v1.2-beta.6/` and symlink `/lupus/ngi/staging/latest` to it, for easier access. 
+Now go to `/lupus/ngi/irma3/deploy` and do a `git fetch --tags && git checkout tags/v1.2-beta.6` and deploy it to staging with `ansible-playbook install.yml -e deployment_environment=staging`. This will install your run under `/lupus/ngi/staging/v1.2-beta.6/` and symlink `/lupus/ngi/staging/latest` to it, for easier access. 
 
 Run `python sync.py staging`  to rsync the staged environment from irma3 to irma1. 
 
@@ -63,7 +63,7 @@ Login to the Irma cluster as your personal user and then run `source /lupus/ngi/
 
 When the staged environment has been verified to work OK (TODO: add test protocol, manual or automated sanity checks) proceed with making a production release. In our case we would therefore now create the tag and release called `v1.2.6`. 
 
-We can now, still standing in `/lupus/ngi/irma3/deploy`, do a `git fetch --tags && git checkout tags/v1.2.6 && ansible-playbook install.yml -e deployment_env=production`. This will install everything under `/lupus/ngi/production/v1.2.6` and the symlink `/lupus/ngi/production/latest` pointing to it. 
+We can now, still standing in `/lupus/ngi/irma3/deploy`, do a `git fetch --tags && git checkout tags/v1.2.6 && ansible-playbook install.yml -e deployment_environment=production`. This will install everything under `/lupus/ngi/production/v1.2.6` and the symlink `/lupus/ngi/production/latest` pointing to it. 
 
 Run `python sync.py production` to rsync all files under `/lupus/ngi/production` from irma3 to irma1. 
 
