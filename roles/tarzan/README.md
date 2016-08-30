@@ -19,9 +19,13 @@ There is no specific backup of Cassandra at the moment. And the serf traffic (ov
 
 # Usage 
 
+## List all registered downstream APIs
+
+To see all the downstream APIs that have been previously registered with the web proxy run the command ` curl -s -k http://localhost:8001/apis | python -m json.tool` on irma1. 
+
 ## Configuring self signed SSL cert
 
-On Irma run `openssl req -x509 -newkey rsa:2048 -keyout tarzan_key.pem -out tarzan_cert.pem -days 1460 -nodes -subj '/CN=irma1.uppmax.uu.se'` to generate a self signed server SSL key and cert for the webproxy running on irma1.uppmax.uu.se, which will be valid for 4 years. Put `tarzan_key.pem` and `tarzan_cert.pem` under `/lupus/ngi/irma3/deploy/files` so that they can be picked up by the Tarzan role. 
+On irma1 run `openssl req -x509 -newkey rsa:2048 -keyout tarzan_key.pem -out tarzan_cert.pem -days 1460 -nodes -subj '/CN=irma1.uppmax.uu.se'` to generate a self signed server SSL key and cert for the webproxy running on irma1.uppmax.uu.se, which will be valid for 4 years. Put `tarzan_key.pem` and `tarzan_cert.pem` under `/lupus/ngi/irma3/deploy/files` so that they can be picked up by the Tarzan role. 
 
 (One can then add the contents of `tarzan_cert.pem` to the client's CA bundle if one want to get rid of certificate warnings. E.g. some clients (like Stackstorm) use the Mozilla CA bundle in the Python library `requests`, which can usually be found under a path similar to `..../python2.7/site-packages/requests/cacert.pem`.)
 
