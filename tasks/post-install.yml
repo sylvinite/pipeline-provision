@@ -17,8 +17,8 @@
       shell: "find {{ root_path }}/{conf,sw,resources} -user `whoami` -exec chmod g+rwX,o=rX {} \\;"
 
     - name: symlink deployed version to /lupus/ngi/<production|staging>/latest 
-      file: src=/lupus/ngi/{{ deployment_environment }}/latest dest={{ root_path }} state=link
-  - when: "deployment_environment" != "devel" 
+      file: dest="/lupus/ngi/{{ deployment_environment }}/latest" src="{{ root_path }}" state=link
+    when: deployment_environment != "devel" 
 
   - debug: msg="Finished deploying to {{ root_path }}"
 
