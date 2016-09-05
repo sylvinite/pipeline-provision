@@ -27,7 +27,7 @@ parser.add_argument("-d", "--destination", help="the non-standard destination pa
 args = parser.parse_args() 
 
 ngi_root = "/lupus/ngi/"
-src_root_path = ngi_root + args.environment
+src_root_path = ngi_root + args.environment + "/"
 
 if args.destination: 
 	dest = args.destination
