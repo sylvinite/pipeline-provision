@@ -1,0 +1,11 @@
+qatools_repo: "https://github.com/vezzi/qaTools.git"
+qatools_dest: "{{ root_path }}/sw/qaTools" 
+qatools_version: "0af6b1df4a51518483fa8579be8b54219802a0e7"
+
+frc_align_repo: "https://github.com/vezzi/FRC_align.git"
+frc_align_dest: "{{ root_path }}/sw/FRCAlign"
+frc_align_version: "5b3f53e01cb539c857fd4230ec9410d76220fe22"
+
+nougat_repo: "https://github.com/SciLifeLab/NouGAT.git"
+nougat_dest: "{{ root_path }}/sw/NouGAT"
+nougat_version: "d190015f4aa96b2a217f9ea27b78509df5ad4f1f"

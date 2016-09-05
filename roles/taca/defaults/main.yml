@@ -1,7 +1,7 @@
 ---
 taca_ngi_repo: https://github.com/SciLifeLab/taca-ngi-pipeline.git
 taca_ngi_dest: "{{ root_path }}/sw/taca-ngi-pipeline"
-taca_ngi_version: 35db8a3fe031c3a69cb7422fcc55d74506a04998
+taca_ngi_version: bd3af0f9e8d65e90da14b29d8482f33b634a1994
 
 statusdb_repo: "https://github.com/SciLifeLab/statusdb.git"
 statusdb_dest: "{{ root_path }}/sw/statusdb"
@@ -13,4 +13,4 @@ flowcell_parser_version: "587cbfba9179f822a8e85946a13bfcd0b10b5a1b"
 
 taca_repo: "https://github.com/SciLifeLab/TACA.git"
 taca_dest: "{{ root_path }}/sw/TACA"
-taca_version: 1c32f9f6968b9084df56b1a8e1f8f87de6fa9458
+taca_version: 01741daaffc5e12090316636f32ff86198fb90e9

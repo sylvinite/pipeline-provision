@@ -5,8 +5,9 @@
        version="{{ multiqc_version }}"
        force=yes
 
+#Remember to use --upgrade flag if using commit-id
 - name: Install MultiQC
-  shell: "{{ ngi_pipeline_venv }}/bin/pip install . --upgrade"
+  shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
     chdir: "{{ multiqc_dest }}"
 
@@ -16,6 +17,7 @@
        version="{{ multiqc_ngi_version }}"
        force=yes
 
+#Remember to use --upgrade flag if using commit-id
 - name: Install MultiQC NGI submodule
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
@@ -29,13 +31,13 @@
 - name: Deploy multiqc configs
   template: src="multiqc_config.yml.j2" dest="{{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml"
   with_items: 
-  - { site: "sthlm", ngi_hooks: "True"}
-  - { site: "upps", ngi_hooks: "False"}
+  - { site: "sthlm", disable_ngi_hooks: "False"}
+  - { site: "upps", disable_ngi_hooks: "True"}
 
 - name: Force multiqc to autorun config
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias multiqc='multiqc -c {{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml'"
+              line="alias multiqc='multiqc -c {{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml {{ item.flags }}'"
               backup=no
   with_items:
-  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
-  - { site: "upps", script: "{{ bash_env_upps_script }}" }
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}", flags: "-t ngi"}
+  - { site: "upps", script: "{{ bash_env_upps_script }}", flags: "" }

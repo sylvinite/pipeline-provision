@@ -14,6 +14,7 @@
     - { role: arteria-checksum-ws, tags: arteria-checksum }
     - { role: arteria-siswrap-ws, tags: arteria-siswrap }
     - { role: ngi-rnaseq, tags: ngi-rnaseq }
+    - { role: nougat, tags: nougat }
 
 # This is an ugly hack that sets the permissions correctly to g+rwX,o=rX
 # for all files that is owned by the current user that is running the playbook. 
@@ -33,7 +34,7 @@
     - name: set correct file permission for everything owned by current user 
       shell: "find /lupus/ngi/{conf,sw,resources} -user `whoami` -exec chmod g+rwX,o=rX {} \\;"
       tags: [ 'ngi_pipeline', 'piper', 'func_accounts', 'tarzan', 'taca', 'ngi_reports', 
-              'multiqc', 'tarzan', 'arteria-checksum', 'arteria-siswrap', 'ngi-rnaseq' ]
+              'multiqc', 'tarzan', 'arteria-checksum', 'arteria-siswrap', 'ngi-rnaseq', 'nougat' ]
       # NB: Setting the tags explicitely is only necessary if we want to be able to 
       # run any single role above explicetely. If we only want to run all roles every
       # time then mentioning the tags here wouldn't be needed. 
