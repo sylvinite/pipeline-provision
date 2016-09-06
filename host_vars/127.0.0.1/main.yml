@@ -3,12 +3,18 @@
 
 # root_path should be changed to suitable value when e.g. deploying locally
 # for a developer
-root_path: /lupus/ngi/
+#root_path: /lupus/ngi/
+anaconda_path: "{{ root_path }}/sw/anaconda"
+ansible_path: "/lupus/ngi/irma3/ansible-env/" 
+default_env: "/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sw/uppmax/bin"
+anaconda_env:
+  PATH: "{{ anaconda_path }}/bin:{{ ansible_path }}/bin:{{ default_env }}" # this hopefully gets updated by anaconda role
 
 # TODO: This variable has to be set to something more suitable when 
 # deploying as a real user with a real home directory. This is 
 # only used when building Piper atm, and will not be necessary 
 # when Piper soon is available in the module system. 
+# FIXME: Redo piper so that we use $HOME now when we've got pica mounted? 
 home_path: /tmp 
 
 # Name of the script that should be sourced from the user to get the 
@@ -28,11 +34,11 @@ ngi_resources: "{{ root_path }}/resources/"
 
 ngi_pipeline_sthlm_delivery: ngi2016003
 ngi_pipeline_upps_delivery: ngi2016001
-ngi_sthlm_softlinks: "/proj/{{ ngi_pipeline_sthlm_delivery }}/nobackup/NGI/softlinks"
-ngi_upps_softlinks: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/softlinks"
+ngi_sthlm_softlinks: "{{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/nobackup/NGI/softlinks"
+ngi_upps_softlinks: "{{ proj_root }}/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/softlinks"
 
-ngi_pipeline_sthlm_path: "/proj/{{ ngi_pipeline_sthlm_delivery }}/private/ngi_pipeline/"
-ngi_pipeline_upps_path: "/proj/{{ ngi_pipeline_upps_delivery }}/private/ngi_pipeline/"
+ngi_pipeline_sthlm_path: "{{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/private/ngi_pipeline/"
+ngi_pipeline_upps_path: "{{ proj_root }}/{{ ngi_pipeline_upps_delivery }}/private/ngi_pipeline/"
 
 ngi_pipeline_log_sthlm: "{{ ngi_pipeline_sthlm_path }}/log/ngi_pipeline.log"
 ngi_pipeline_log_upps: "{{ ngi_pipeline_upps_path }}/log/ngi_pipeline.log"
