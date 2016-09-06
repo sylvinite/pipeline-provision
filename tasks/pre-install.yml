@@ -79,7 +79,7 @@
   - name: set charon envs for staging and devel
     set_fact: 
       charon_base_url: "{{ charon_base_url_stage }}"
-      charon_api_token_sthlm: "{{ charon_api_token_sthlm_prod }}"
-      charon_api_token_upps: "{{ charon_api_token_upps_prod }}"
+      charon_api_token_sthlm: "{{ charon_api_token_sthlm_stage }}"
+      charon_api_token_upps: "{{ charon_api_token_upps_stage }}"
     when: deployment_environment in [ "staging", "devel" ]
 
