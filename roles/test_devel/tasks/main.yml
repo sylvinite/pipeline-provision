@@ -1,0 +1,4 @@
+---
+
+- name: test create a folder
+  file: state=directory name={{ root_path }}/uggla

@@ -1,9 +1,18 @@
 --- 
 
-anaconda_path: /lupus/ngi/sw/anaconda
+anaconda_file: Anaconda2-4.1.1-Linux-x86_64.sh
+anaconda_checksum: a3586948f841f3ed9639375be6c0f932286156e31a45d1b418368294ad0b31f1
+anaconda_url: "http://repo.continuum.io/archive/{{ anaconda_file }}"
+anaconda_src: "/lupus/ngi/irma3/{{ anaconda_file }}"
+#anaconda_path: "{{ root_path }}/sw/anaconda"
+
 upps_config: irma_ngi_config_upps.yaml
 sthlm_config: irma_ngi_config_sthlm.yaml
 
 bash_env_site_script: sourceme_site.sh.j2
 bash_env_upps_script: sourceme_upps.sh
 bash_env_sthlm_script: sourceme_sthlm.sh
+
+sthlm_rna_seq_conf: "{{ ngi_pipeline_conf }}/ngi-rnaseq_sthlm.config"
+upps_rna_seq_conf: "{{ ngi_pipeline_conf }}/ngi-rnaseq_upps.config"
+

@@ -12,7 +12,7 @@ arteria_checksum_environment: production
 # paths in the tasks.
 #
 # NB. The log dirs need to be created manually on destination cluster. 
-arteria_checksum_monitored_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming"
+arteria_checksum_monitored_path: "{{ proj_root }}/{{ ngi_pipeline_upps_delivery }}/incoming"
 arteria_checksum_env_root: "{{ root_path }}/sw/arteria/checksum_venv/"
 arteria_checksum_src_path: "{{ root_path }}/sw/arteria/checksum_src/"
 arteria_checksum_config_root: "{{ ngi_pipeline_conf }}/arteria/checksum/"

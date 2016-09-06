@@ -10,8 +10,8 @@ environment:
     ngi_scripts_dir: {{ ngi_pipeline_dest }}/scripts 
     conda_env: NGI
     flowcell_inbox:
-            - /proj/{{ ngi_pipeline_sthlm_delivery }}/incoming
-            - /proj/{{ ngi_pipeline_upps_delivery }}/incoming
+            - {{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/incoming
+            - {{ proj_root }}/{{ ngi_pipeline_upps_delivery }}/incoming
 # TODO: This QOS flag is probably not used/needed any longer. 
 #       Enable later in the future if required. 
 #slurm:
@@ -58,10 +58,15 @@ analysis:
             analysis_engine: ngi_pipeline.engines.piper_ngi
         qc:
             analysis_engine: ngi_pipeline.engines.qc_ngi
+         RNA-seq:
+             analysis_engine: ngi_pipeline.engines.rna_ngi
+             ngi_nf_path: {{ ngi_rnaseq_dest }}/main.nf
+             sthlm_ngi_conf: {{ sthlm_ngi_rna_seq_conf }}
+             upps_ngi_conf: {{ upps_ngi_rna_seq_conf }}
     top_dir: nobackup/NGI
     sthlm_root: {{ ngi_pipeline_sthlm_delivery }}
     upps_root: {{ ngi_pipeline_upps_delivery }}
-    base_root: /proj
+    base_root: {{ proj_root }}
 
 qc:
     load_modules:
