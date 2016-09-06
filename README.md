@@ -37,7 +37,7 @@ The following files need to be present on irma3 in order to successfully deploy 
 
 - A valid GATK key placed under `/lupus/ngi/irma3/deploy/files`. The filename must be specified in the gatk_keyvariable in `host_vars/127.0.0.1/main.yml`. 
 
-- A `charon_credentials.yml` file placed under `/lupus/ngi/irma3/deploy/host_vars/127.0.0.1/` listing the variables `charon_base_url`, `charon_api_token_upps` and `charon_api_token_sthlm`
+- A `charon_credentials.yml` file placed under `/lupus/ngi/irma3/deploy/host_vars/127.0.0.1/` listing the variables `charon_base_url_{stage,prod}`, `charon_api_token_upps_{stage,prod}` and `charon_api_token_sthlm_{stage,prod}`
 
 - A valid `statusdb_creds.yml` access file placed under `/lupus/ngi/irma3/deploy/files`. Necessary layout is described at https://github.com/SciLifeLab/statusdb
 
