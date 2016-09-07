@@ -61,8 +61,8 @@ analysis:
          RNA-seq:
              analysis_engine: ngi_pipeline.engines.rna_ngi
              ngi_nf_path: {{ ngi_rnaseq_dest }}/main.nf
-             sthlm_ngi_conf: {{ sthlm_ngi_rna_seq_conf }}
-             upps_ngi_conf: {{ upps_ngi_rna_seq_conf }}
+             sthlm_ngi_conf: {{ sthlm_rna_seq_conf }}
+             upps_ngi_conf: {{ upps_rna_seq_conf }}
     top_dir: nobackup/NGI
     sthlm_root: {{ ngi_pipeline_sthlm_delivery }}
     upps_root: {{ ngi_pipeline_upps_delivery }}
