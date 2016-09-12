@@ -127,14 +127,9 @@ else:
 
 # Step 5. Sync our destignated folders.
 
-# Old rsync command. Keep this for a while... 
-#rsync_cmd = 	"/bin/rsync --delete -avzP --exclude '*.swp,.git/' --log-file={0} {1} {2} {3} {4} {5} {6} {7}@{8}:{9}".format(rsync_log_path, 
-#		src_root_path + "/conf", src_root_path + "/log", src_root_path + "/db", src_root_path + "/ngi_resources", src_root_path + "/piper_resources", 
-#		src_root_path + "/sw", user, host, dest)
-
-excludes = "--exclude=*.swp --exclude=irma3/ --exclude=resources/piper/gatk_bundle/2.8/b37/"
+excludes = "--exclude=*.swp --exclude=irma3/"
 rsync_cmd = "/bin/rsync -avzP --omit-dir-times --delete {0} --log-file={1} {2} {3}@{4}:{5}".format(excludes, rsync_log_path, src_root_path, user, host, dest) 
-# TODO: Do this cleaner 
+# TODO: Do this cleaner? 
 dry_cmd = "/bin/rsync --dry-run -avzP --omit-dir-times --delete {0} {1} {2}@{3}:{4}".format(excludes, src_root_path, user, host, dest) 
 
 # First doing a dry-run to confirm sync. 

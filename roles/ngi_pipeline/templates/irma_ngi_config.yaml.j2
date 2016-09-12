@@ -18,12 +18,11 @@ environment:
 #    extra_params:
 #        "--qos": "seqver"
 piper:
-    # Also can be set as an environmental variable $PIPER_QSCRIPTS_DIR
-    path_to_piper_qscripts: {{ ngi_piper_bin_dest }}/piper-{{ piper_version }}/qscripts
     #sample:
     #    required_autosomal_coverage: 28.4
     load_modules:
-        - java/sun_jdk1.7.0_25
+        - bioinfo-tools
+        - "piper/{{ piper_module_version }}"
         - R/3.2.3
     threads: 16
     job_walltime:
@@ -34,7 +33,8 @@ piper:
     #    - arg1
     #    - arg2
     #    - arg3
-    path_to_setupfilecreator: "{{ setupfilecreator_dest }}/setupfilecreator-{{ piper_version }}/bin/setupfilecreator"
+    # TODO: Piper module adds setupfilecreator to the path; unsure if this works or if complete path is required.  
+    path_to_setupfilecreator: setupfilecreator
     gatk_key: "{{ ngi_resources }}/piper/{{ gatk_key }}"
 
 supported_genomes:
@@ -61,8 +61,8 @@ analysis:
          RNA-seq:
              analysis_engine: ngi_pipeline.engines.rna_ngi
              ngi_nf_path: {{ ngi_rnaseq_dest }}/main.nf
-             sthlm_ngi_conf: {{ sthlm_ngi_rna_seq_conf }}
-             upps_ngi_conf: {{ upps_ngi_rna_seq_conf }}
+             sthlm_ngi_conf: {{ sthlm_rna_seq_conf }}
+             upps_ngi_conf: {{ upps_rna_seq_conf }}
     top_dir: nobackup/NGI
     sthlm_root: {{ ngi_pipeline_sthlm_delivery }}
     upps_root: {{ ngi_pipeline_upps_delivery }}

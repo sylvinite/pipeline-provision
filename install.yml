@@ -27,7 +27,6 @@
 
   roles: 
     - { role: ngi_pipeline, tags: ngi_pipeline }
-    - { role: piper, tags: piper }
     - { role: func_accounts, tags: func_accounts }
     - { role: tarzan, tags: tarzan }
     - { role: taca, tags: taca }
