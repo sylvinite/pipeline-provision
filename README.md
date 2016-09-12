@@ -41,7 +41,7 @@ The following files need to be present on irma3 in order to successfully deploy 
 
 - A valid `statusdb_creds.yml` access file placed under `/lupus/ngi/irma3/deploy/files`. Necessary layout is described at https://github.com/SciLifeLab/statusdb
 
-- Valid SSL certificates for the web proxyunder `/lupus/ngi/irma3/deploy/files` (see `roles/tarzan/README.md` for details) 
+- Valid SSL certificates for the web proxy under `/lupus/ngi/irma3/deploy/files` (see `roles/tarzan/README.md` for details) 
 
 ###Typical deployment
 
@@ -51,11 +51,29 @@ Fork the repository https://github.com/NationalGenomicsInfrastructure/irma-provi
 
 Test deploy your roles/playbook changes with e.g. `ansible-playbook install.yml`. This will install your development run in `/lupus/ngi/irma3/devel-root/<username>-<branch_name>`. 
 
-When you are satisfied with your changes, create a pull request from your feature branch into upstream irma-provisioning's master branch. 
+When you are satisfied with your changes you need to test it in staging. First create a pull request from your feature branch into upstream irma-provisioning's master branch. 
 
-Once the feature has been approved, or after you collected a bunch of merged features, make a new Github release and tag (https://github.com/NationalGenomicsInfrastructure/irma-provision/releases/new) for the master branch. Use the convention to name the tag according to `v<MAJOR>.<MINOR>-beta.<PATCH>`. E.g. if the latest released version is `v1.2.5`, and we've discovered a bug which we now want to test, we'll create a staging version called `v1.2-beta.6`. Click the box "This is a pre-release" and add appropriate description to the pre-release. 
+Once the feature has been approved, go to `/lupus/ngi/irma3/deploy` and do a 
 
-Now go to `/lupus/ngi/irma3/deploy` and do a `git fetch --tags && git checkout tags/v1.2-beta.6` and deploy it to staging with `ansible-playbook install.yml -e deployment_environment=staging`. This will install your run under `/lupus/ngi/staging/v1.2-beta.6/` and symlink `/lupus/ngi/staging/latest` to it, for easier access. 
+```
+    git checkout master 
+    git pull 
+		ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=FOO
+```
+
+where `FOO` is a unique staging version you pick. This will install your run under `/lupus/ngi/staging/FOO` and symlink `/lupus/ngi/staging/latest` to it, for easier access. 
+
+If you want to stage test many feature branches at the same time then for better log of what is included then it is recommended to do a Github tag and pre-release of the master branch ((https://github.com/NationalGenomicsInfrastructure/irma-provision/releases/new) instead of running `ansible-playbook` directly inside the master branch. Write a good release note so it is clear what significant things are included. 
+
+So if you've e.g. created a pre-release called `v1.2-beta.6` go to `/lupus/ngi/irma3/deploy` and do a 
+
+```
+    git fetch --tags
+		git checkout tags/v.1.2-beta.6
+		ansible-playbook -e deployment_environment=staging
+```
+
+This will deploy everything under `/lupus/ngi/staging/v1.2-beta.6` and update the `latest` symlink accordingly. (The playbook will automatically pick the currently checkout tag as version name if we're deplying to staging or production, but it can be overriden by manually adding the `deployment_version` flag as seen in the `FOO` example above.) 
 
 Run `python sync.py staging`  to rsync the staged environment from irma3 to irma1. 
 
@@ -73,8 +91,6 @@ Run `crontab /lupus/ngi/conf/crontab_<site>` once per user to initialize the fir
 
 Run `/lupus/ngi/resources/create_ngi_pipeline_dirs.sh <project_name>` once per project (i.e. ngi2016003) to create the log, db and softlink directories for NGI pipeline (and generate the softlinks).
 
-Run `/lupus/ngi/sw/piper/gen_GATK_ref.sh` one time ever to generate the required GATK indexes to run piper.
-
 Add `source /lupus/ngi/production/latest/conf/sourcme_<site>.sh && source activate NGI`, where `site` can be `upps` or `sthlm`, to each functional account's bash init file `~/.bashrc`. 
 
 ###Quick integrity verification
@@ -89,9 +105,9 @@ Run `ngi_pipeline_start.py` with the commands `organize flowcell`, `analyze proj
 
 ###Other worthwhile information
 
-Deploying to sw requires the deployer to be in both the `ngi-sw` and the `ngi` groups. Everything under `/lupus/ngi/` is owned by `ngi-sw`.
+Deploying requires the deployer to be in both the `ngi-sw` and the `ngi` groups. Everything under `/lupus/ngi/` is owned by `ngi-sw`.
 
-Only deployers can write new programs and configs, but all NGI functional accounts (funk_004, funk_006 etc) can write log files, to the SQL databases, etc.
+Only deployers can write new programs and configs, but all NGI functional accounts (`funk_004`, `funk_006` etc) can write log files, to the SQL databases, etc.
 
 Global configuration values are set in the repository under `host_vars/127.0.0.1/main.yml`, and each respective role's in the `<role>/defaults/main.yml` file. 
 
@@ -99,6 +115,4 @@ The log `/lupus/ngi/irma3/log/ansible.log` logs the files installed by ansible
 
 The log `/lupus/ngi/irma3/log/rsync.log` logs the rsync history
 
-All directories genereated from deployment need to be set to `setgid=ngi-sw` to properly function, with the exception of the files under `/lupus/ngi/sw/anaconda` as it breaks the environment.
-
-When developing roles deployed directories must have the setgid flag mode=g+s; this makes sure the files in the dirs (ngi-sw or ngi) recieve their correct owner.
+When developing roles deployed directories must have the setgid flag `g+s`, and be created while the deployer had his gid set to `ngi-sw`. This ensures the files in the dirs recieve the correct group owner when they are created.
