@@ -14,10 +14,11 @@ if [ $# -ne 1 ]; then
         exit 1
 fi
 
-mkdir -p {{ proj_root }}/$1/private/ngi_pipeline/log
-mkdir -p {{ proj_root }}/$1/private/ngi_pipeline/db
+
+mkdir -p {{ proj_root }}/$1/private/log
+mkdir -p {{ proj_root }}/$1/private/db
 mkdir -p {{ proj_root }}/$1/nobackup/NGI/softlinks
-mkdir -p {{ proj_root }}/$1/private/ngi_pipeline/log/supervisord
+mkdir -p {{ proj_root }}/$1/private/log/supervisord
 ln -s {{ ngi_pipeline_dest }}/DELIVERY.README.txt {{ proj_root }}/$1/nobackup/NGI/softlinks/DELIVERY.README.txt
 ln -s {{ ngi_pipeline_dest }}/scripts/applyRecalibration.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/applyRecalibration.sh
 ln -s {{ ngi_pipeline_dest }}/scripts/bam2fastq.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/bam2fastq.sh
