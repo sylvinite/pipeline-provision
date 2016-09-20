@@ -85,6 +85,22 @@ We can now, still standing in `/lupus/ngi/irma3/deploy`, do a `git fetch --tags 
 
 Run `python sync.py production` to rsync all files under `/lupus/ngi/production` from irma3 to irma1. 
 
+#####Arteria staging 
+
+Due to the special setup on Irma there is some extra work at the moment when deploying and running a staging version of the Arteria services. So until the Arteria roles have been refactored one have to deploy a staging env with Arteria staging vars set correctly for the services to start. I.e. do something like:  
+
+```
+ansible-playbook install.yml -e arteria_checksum_environment=staging -e arteria_siswrap_environment=staging -e deployment_environment=staging -e deployment_version=arteria-staging-FOO
+python sync.py staging
+```
+
+And then inside a screen on irma1 start two windows with the corresponding commands: 
+
+```
+/lupus/ngi/staging/latest/sw/arteria/siswrap_venv/staging/bin/siswrap-ws --configroot=/lupus/ngi/staging/latest/conf/arteria/siswrap/staging/ --port=10431 --debug
+/lupus/ngi/staging/latest/sw/arteria/siswrap_venv/staging/bin/siswrap-ws --configroot=/lupus/ngi/staging/latest/conf/arteria/siswrap/staging/ --port=10431 --debug
+```
+
 ###Manual initiations on irma1
 
 Run `crontab /lupus/ngi/conf/crontab_<site>` once per user to initialize the first instance of cron for the user. No posterior loading is required.
