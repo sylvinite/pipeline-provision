@@ -10,13 +10,6 @@ default_env: "/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sw/uppmax/
 anaconda_env:
   PATH: "{{ anaconda_path }}/bin:{{ ansible_path }}/bin:{{ default_env }}" # this hopefully gets updated by anaconda role
 
-# TODO: This variable has to be set to something more suitable when 
-# deploying as a real user with a real home directory. This is 
-# only used when building Piper atm, and will not be necessary 
-# when Piper soon is available in the module system. 
-# FIXME: Redo piper so that we use $HOME now when we've got pica mounted? 
-home_path: /tmp 
-
 # Name of the script that should be sourced from the user to get the 
 # relevant environment variables setup. Perhaps move this to defaults vars.  
 bash_env_script: sourceme_common.sh
