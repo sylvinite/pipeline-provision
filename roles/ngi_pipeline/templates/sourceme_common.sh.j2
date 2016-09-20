@@ -11,6 +11,5 @@ export LANG=en_US.UTF-8
 
 # Append the Bash prompt with the version of the Irma environment/provisioning
 # that we're running. 
-SCRIPT_PATH=`realpath $0`
-IRMA_ENV=`echo $SCRIPT_PATH | cut -d/ -f4,5`
+IRMA_ENV=`echo $BASH_SOURCE | cut -d/ -f4,5`
 export PS1="(irma env: $IRMA_ENV) $PS1"
