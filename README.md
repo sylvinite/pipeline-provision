@@ -85,6 +85,10 @@ We can now, still standing in `/lupus/ngi/irma3/deploy`, do a `git fetch --tags 
 
 Run `python sync.py production` to rsync all files under `/lupus/ngi/production` from irma3 to irma1. 
 
+####Nota bene
+
+Remember that you will probably have to restart services manually after a new production release have been rolled out. First re-load the crontab as the func user on irma1 with a `crontab /lupus/ngi/production/latest/conf/crontab_SITE`. Then, depending on what software your func user is running, continue with manually shutting down the old versions and re-start the new versions of the software. 
+
 ###Manual initiations on irma1
 
 Run `crontab /lupus/ngi/conf/crontab_<site>` once per user to initialize the first instance of cron for the user. No posterior loading is required.

@@ -11,5 +11,13 @@ export LANG=en_US.UTF-8
 
 # Append the Bash prompt with the version of the Irma environment/provisioning
 # that we're running. 
-IRMA_ENV=`echo $BASH_SOURCE | cut -d/ -f4,5`
-export PS1="(irma env: $IRMA_ENV) $PS1"
+IRMA_ENV=`echo $BASH_SOURCE | cut -d/ -f4`
+IRMA_VER=`echo $BASH_SOURCE | cut -d/ -f5`
+
+if [ $IRMA_ENV == "production" ] ; then
+	IRMA_PROMPT="Prod/$IRMA_VER"
+else
+	IRMA_PROMPT="Stage/$IRMA_VER"
+fi
+
+export PS1="$IRMA_PROMPT $PS1"
