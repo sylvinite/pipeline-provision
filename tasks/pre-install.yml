@@ -66,6 +66,9 @@
   - name: set proj root for production
     set_fact: 
       proj_root: "/proj/"
+  - name: set delivery root for production
+    set_fact: 
+      milou_delivery_root: "/pica/sw/links/proj/"
     when: deployment_environment == "production"
   
   # charon variables are fetched from private host_vars/127.0.0.1/charon_credentials.yml 
