@@ -2,25 +2,17 @@
 
 # Production values
 - set_fact: 
-    arteria_siswrap_env_root: "{{ arteria_siswrap_env_root }}/production/"
-    arteria_siswrap_sources_path: "{{ arteria_siswrap_sources_path }}/production/"
-    arteria_siswrap_config_root: "{{ arteria_siswrap_config_root }}/production/"
     arteria_siswrap_log: "{{ arteria_siswrap_log }}/production"
     runfolder_path: "{{ runfolder_path }}"
     arteria_siswrap_port: "{{ arteria_siswrap_port_prod }}"
-    sisyphus_path: "{{ arteria_siswrap_env_root }}/deps/sisyphus/"
-  when: arteria_siswrap_environment == "production"
+  when: deployment_environment == "production"
 
 # Staging values
 - set_fact: 
-    arteria_siswrap_env_root: "{{ arteria_siswrap_env_root }}/staging/"
-    arteria_siswrap_sources_path: "{{ arteria_siswrap_sources_path }}/staging/"
-    arteria_siswrap_config_root: "{{ arteria_siswrap_config_root }}/staging/"
     arteria_siswrap_log: "{{ arteria_siswrap_log }}/staging"
     runfolder_path: "{{ runfolder_path }}/staging/"
     arteria_siswrap_port: "{{ arteria_siswrap_port_stage }}"
-    sisyphus_path: "{{ arteria_siswrap_env_root }}/deps/sisyphus/"
-  when: arteria_siswrap_environment == "staging"
+  when: deployment_environment in [ "staging", "devel" ]
 
 - include: install.yml
 - include: sisyphus.yml
@@ -45,7 +37,7 @@
 - name: modify uppsala's supervisord conf to start arteria-siswrap-ws 
   ini_file: 
     dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
-    section="program:arteria-siswrap-ws-{{ arteria_siswrap_environment }}"
+    section="program:arteria-siswrap-ws-{{ deployment_environment }}"
     option=command
     value="{{ arteria_siswrap_env_root }}/bin/siswrap-ws --configroot={{ arteria_siswrap_config_root }} --port={{ arteria_siswrap_port }}"
     backup=no
@@ -53,7 +45,7 @@
 - name: modify uppsala's supervisord conf to autostart arteria-siswrap-ws
   ini_file: 
     dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
-    section="program:arteria-siswrap-ws-{{ arteria_siswrap_environment }}"
+    section="program:arteria-siswrap-ws-{{ deployment_environment }}"
     option=autorestart
     value=true
     backup=no
