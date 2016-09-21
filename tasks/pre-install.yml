@@ -63,20 +63,19 @@
         - "{{ milou_delivery_root }}"
     when: deployment_environment == "staging"
 
-  - name: set proj root for production
-    set_fact: 
-      proj_root: "/proj/"
-  - name: set delivery root for production
-    set_fact: 
-      milou_delivery_root: "/pica/sw/links/proj/"
-    when: deployment_environment == "production"
-  
-  # charon variables are fetched from private host_vars/127.0.0.1/charon_credentials.yml 
-  - name: set charon envs for production 
-    set_fact:   
-      charon_base_url: "{{ charon_base_url_prod }}"
-      charon_api_token_sthlm: "{{ charon_api_token_sthlm_prod }}"
-      charon_api_token_upps: "{{ charon_api_token_upps_prod }}"
+  - block: 
+    - name: set proj root for production
+       set_fact: 
+         proj_root: "/proj/"
+    - name: set delivery root for production
+      set_fact: 
+        milou_delivery_root: "/pica/sw/links/proj/"
+    # charon variables are fetched from private host_vars/127.0.0.1/charon_credentials.yml 
+    - name: set charon envs for production 
+      set_fact:   
+        charon_base_url: "{{ charon_base_url_prod }}"
+        charon_api_token_sthlm: "{{ charon_api_token_sthlm_prod }}"
+        charon_api_token_upps: "{{ charon_api_token_upps_prod }}"
     when: deployment_environment == "production"
 
   - name: set charon envs for staging and devel
