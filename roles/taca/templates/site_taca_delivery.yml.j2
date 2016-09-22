@@ -12,7 +12,7 @@ deliver:
     reportpath: <ANALYSISPATH>/piper_ngi
 {% if "upps" == site %}
     copy_reports_to_reports_outbox: True
-		reports_outbox: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/incoming/reports/" 
+    reports_outbox: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/incoming/reports/" 
 {% endif %}
     logpath: <REPORTPATH>/logs
     deliverystatuspath: <REPORTPATH>/08_misc
