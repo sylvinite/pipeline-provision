@@ -10,6 +10,10 @@ deliver:
     report_aggregate: "ngi_reports ign_aggregate_report -n {{ site_full }}"
     report_sample: "ngi_reports ign_sample_report -n {{ site_full }}"
     reportpath: <ANALYSISPATH>/piper_ngi
+{% if "upps" == site %}
+    copy_reports_to_reports_outbox: True
+		reports_outbox: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/incoming/reports/" 
+{% endif %}
     logpath: <REPORTPATH>/logs
     deliverystatuspath: <REPORTPATH>/08_misc
     operator: "{{ recipient_mail }}"
