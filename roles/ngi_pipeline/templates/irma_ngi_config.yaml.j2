@@ -21,8 +21,7 @@ piper:
     #sample:
     #    required_autosomal_coverage: 28.4
     load_modules:
-        - bioinfo-tools
-        - piper/{{ piper_module_version }}
+        - bioinfo-tools piper/{{ piper_module_version }}
         - R/3.2.3
     threads: 16
     job_walltime:
