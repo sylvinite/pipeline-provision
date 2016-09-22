@@ -58,7 +58,7 @@ Once the feature has been approved, go to `/lupus/ngi/irma3/deploy` and do a
 ```
     git checkout master 
     git pull 
-		ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=FOO
+    ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=FOO
 ```
 
 where `FOO` is a unique staging version you pick. This will install your run under `/lupus/ngi/staging/FOO` and symlink `/lupus/ngi/staging/latest` to it, for easier access. 
@@ -69,8 +69,8 @@ So if you've e.g. created a pre-release called `v1.2-beta.6` go to `/lupus/ngi/i
 
 ```
     git fetch --tags
-		git checkout tags/v.1.2-beta.6
-		ansible-playbook -e deployment_environment=staging
+    git checkout tags/v.1.2-beta.6
+    ansible-playbook -e deployment_environment=staging
 ```
 
 This will deploy everything under `/lupus/ngi/staging/v1.2-beta.6` and update the `latest` symlink accordingly. (The playbook will automatically pick the currently checkout tag as version name if we're deplying to staging or production, but it can be overriden by manually adding the `deployment_version` flag as seen in the `FOO` example above.) 
@@ -87,19 +87,22 @@ Run `python sync.py production` to rsync all files under `/lupus/ngi/production`
 
 #####Arteria staging 
 
-Due to the special setup on Irma there is some extra work at the moment when deploying and running a staging version of the Arteria services. So until the Arteria roles have been refactored one have to deploy a staging env with Arteria staging vars set correctly for the services to start. I.e. do something like:  
+The Arteria roles will pick up on whether we're running in `deployment_environment` equal to `production` or `staging` and then use different ports, runfolders, log files, etc.
+
+So in essence it should work almost as usual. You run something similar to: 
 
 ```
-ansible-playbook install.yml -e arteria_checksum_environment=staging -e arteria_siswrap_environment=staging -e deployment_environment=staging -e deployment_version=arteria-staging-FOO
+ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=arteria-staging-FOO -e arteria_checksum_version=660a8ff
 python sync.py staging
 ```
 
-And then inside a screen on irma1 start two windows with the corresponding commands: 
+if you want to stage test a specific commit hash of `arteria-checksum`, and the default version of `arteria-siswrap`. When launching the staging services it is recommended to do this inside `screen`, although there are some bundled `supervisord` configs as well. So login to irma1, start a screen session with `screen -S arteria-staging`, and then launch the following two commands in two separate windows: 
 
 ```
-/lupus/ngi/staging/latest/sw/arteria/siswrap_venv/staging/bin/siswrap-ws --configroot=/lupus/ngi/staging/latest/conf/arteria/siswrap/staging/ --port=10431 --debug
-/lupus/ngi/staging/latest/sw/arteria/siswrap_venv/staging/bin/siswrap-ws --configroot=/lupus/ngi/staging/latest/conf/arteria/siswrap/staging/ --port=10431 --debug
+/lupus/ngi/staging/arteria-staging-FOO/sw/arteria/siswrap_venv/bin/siswrap-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/siswrap/ --port=10431 --debug
+/lupus/ngi/staging/arteria-staging-FOO/sw/arteria/checksum_venv/bin/checksum-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/checksum/ --port=10421 --debug
 ```
+
 ####Nota bene
 
 Remember that you will probably have to restart services manually after a new production release have been rolled out. First re-load the crontab as the func user on irma1 with a `crontab /lupus/ngi/production/latest/conf/crontab_SITE`. Then, depending on what software your func user is running, continue with manually shutting down the old versions and re-start the new versions of the software. 
