@@ -18,6 +18,7 @@ fi
 mkdir -p {{ proj_root }}/$1/private/log
 mkdir -p {{ proj_root }}/$1/private/db
 mkdir -p {{ proj_root }}/$1/nobackup/NGI/softlinks
+mkdir -p {{ proj_root }}/$1/nobackup/NGI/denovo
 mkdir -p {{ proj_root }}/$1/private/log/supervisord
 ln -s /lupus/ngi/production/latest/sw/ngi_pipeline/DELIVERY.README.txt {{ proj_root }}/$1/nobackup/NGI/softlinks/DELIVERY.README.txt
 ln -s /lupus/ngi/production/latest/sw/ngi_pipeline/scripts/applyRecalibration.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/applyRecalibration.sh
