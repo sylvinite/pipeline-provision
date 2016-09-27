@@ -29,15 +29,15 @@
 - name: Install ngi_pipeline
   shell: "cd {{ ngi_pipeline_dest }} && {{ ngi_pipeline_venv }}/bin/pip install ."
  
-- name: Create ngi pipeline conf directory 
+- name: Create ngi_pipeline conf directory 
   file: path="{{ ngi_pipeline_conf }}" state=directory mode=g+s
 
-- name: Create ngi pipeline incoming directories
+- name: Create ngi_pipeline staging incoming directories
   file: path="{{ proj_root }}/{{ item.site }}/incoming" state=directory mode=g+s
   with_items:
   - { site: {{ "ngi_pipeline_sthlm_delivery }}" }
   - { site: {{ "ngi_pipeline_upps_delivery }}" }
-
+  when: deployment_environment == "staging"
 
 - name: Install PyVCF for joint calling 
   shell: "{{ ngi_pipeline_venv }}/bin/pip install PyVCF"
