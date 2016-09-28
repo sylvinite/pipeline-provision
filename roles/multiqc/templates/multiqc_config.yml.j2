@@ -2,7 +2,22 @@
 no_version_check: True
 template: 'ngi'
 disable_ngi: {{ item.disable_ngi_hooks }}
-push_statusdb: True
+
 extra_fn_clean_exts:
     - .bowtie_log
     - .featureCounts
+
+fn_ignore_paths:
+    - '*/piper_ngi/01_raw_alignments/*'
+    - '*/piper_ngi/02_preliminary_alignment_qc/*'
+    - '*/piper_ngi/03_genotype_concordance/*'
+    - '*/piper_ngi/04_merged_alignments/*'
+
+#True for production, False for Staging
+{% if {{ deployment_environment }} == "production" %}
+push_statusdb: True
+save_remote: True
+remote_sshkey: '~/.ssh/id_rsa'  # Optional
+remote_port: '5912'             # Optional
+remote_destination: 'genomics.www@tools.scilifelab.se:/var/local/mqc_reports/'
+{% endif %}
