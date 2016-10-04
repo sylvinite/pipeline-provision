@@ -56,11 +56,24 @@
     - name: set delivery root for staging 
       set_fact: 
         milou_delivery_root: "{{ proj_root }}/milou-delivery/"
-    - name: create staging proj root dir (wildwest) and milou-delivery
+    - name: set path to staging incoming dir 
+      set_fact: 
+        incoming_dir_upps: "{{ proj_root }}/{{ ngi_pipeline_upps_delivery }}/incoming/"
+        incoming_dir_sthlm: "{{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/incoming/"
+    - name: create staging proj root dir (wildwest), milou-delivery and incoming dirs 
       file: path={{ item }} state=directory mode="g+rwxs,u+rwx"
       with_items: 
         - "{{ proj_root }}"
         - "{{ milou_delivery_root }}"
+        - "{{ incoming_dir_upps }}"
+        - "{{ incoming_dir_sthlm }}"
+    - name: create wildwest symlinks to validation data
+      file: src={{ validation_data_root }}/{{ item.src }} dest={{ item.dest }} state=link force=yes
+      with_items: 
+        - { dest: "{{ incoming_dir_upps }}/{{ validation_data[0] }}", src: "{{ validation_data[0] }}" }
+        - { dest: "{{ incoming_dir_upps }}/{{ validation_data[1] }}", src: "{{ validation_data[1] }}" }
+        - { dest: "{{ incoming_dir_sthlm }}/{{ validation_data[0] }}", src: "{{ validation_data[0] }}" }
+        - { dest: "{{ incoming_dir_sthlm }}/{{ validation_data[1] }}", src: "{{ validation_data[1] }}" }
     when: deployment_environment == "staging"
 
   - block: 
