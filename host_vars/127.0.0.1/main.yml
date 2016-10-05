@@ -49,5 +49,10 @@ statusdb_creds: statusdb_creds.yml
 
 recipient_mail: ngi_pipeline_operators@scilifelab.se
 
+validation_data_root: "/lupus/ngi/validation_data/"
+validation_data: 
+ - "160915_ST-1234_0123_ATESTFCCXX"
+ - "160915_ST-1234_0124_BCHR22CCXX"
+
 # Empty placeholder that gets filled by tasks/pre-install.yml
 root_path: 
