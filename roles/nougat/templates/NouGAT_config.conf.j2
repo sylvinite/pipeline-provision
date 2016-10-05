@@ -1,9 +1,10 @@
-qc_analysis:
+analysis:
   global_config: {{ nougat_dest }}/config_files/config_de_novo_irma.yaml
   time: 1-00:00:00
   project: {{ ngi_pipeline_sthlm_delivery }}
   threads: 16
   email: {{ recipient_mail }}
+  env: {{ NGI_venv_name }}
   qos: normal
 qc_report:
   global_config: {{ nougat_dest }}/config_files/config_de_novo_irma.yaml
@@ -14,6 +15,7 @@ assembly:
   project: {{ ngi_pipeline_sthlm_delivery }}
   threads: 16
   email: {{ recipient_mail }}
+  env: {{ NGI_venv_name }}
   qos: normal
 validation:
   global_config: {{ nougat_dest }}/config_files/config_de_novo_irma.yaml
@@ -21,4 +23,5 @@ validation:
   project: {{ ngi_pipeline_sthlm_delivery }}
   threads: 16
   email: {{ recipient_mail }}
+  env: {{ NGI_venv_name }}
   qos: normal
