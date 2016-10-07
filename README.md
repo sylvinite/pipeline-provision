@@ -55,8 +55,8 @@ To accomplish this run the following commands:
    cd /lupus/ngi/irma3/deploy
    git fetch --tags 
    git checkout tags/vX.Y
-	 ansible-playbook -e deployment_environment=production
-	 python sync.py production 
+   ansible-playbook -e deployment_environment=production
+   python sync.py production 
 ```
 
 This will install and sync over the Irma environment version `vX.Y`. 
@@ -80,7 +80,7 @@ Do the following once the feature has been approved:
     git checkout master 
     git pull 
     ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=FOO
-		python sync staging
+    python sync staging
 ```
 
 where `FOO` is a unique staging version you pick. This will install your run under `/lupus/ngi/staging/FOO` and symlink `/lupus/ngi/staging/latest` to it, for easier access. 
