@@ -43,7 +43,13 @@
   shell: "{{ ngi_pipeline_venv }}/bin/pip install PyVCF"
 
 - name: Create ngi_resources folder 
-  file: name={{ ngi_resources }} state=directory mode=g+s
+  file: name="{{ ngi_resources }}" state=directory mode=g+s
+
+- name: Create ngi_resources/piper folder
+  file: name="{{ ngi_resources }}/piper" state=directory mode=g+s
+
+- name: Deploy GATK license key 
+  copy: src="files/{{ gatk_key }}" dest="{{ ngi_resources }}/piper/{{ gatk_key }}"
 
 # Set Uppsala specific variables
 - set_fact:
