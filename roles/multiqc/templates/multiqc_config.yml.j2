@@ -14,7 +14,7 @@ fn_ignore_paths:
     - '*/piper_ngi/04_merged_alignments/*'
 
 #True for production, False for Staging
-{% if deployment_environment == "production" %}
+{% if deployment_environment == "production" and item.site == "sthlm" %}
 push_statusdb: True
 save_remote: True
 remote_sshkey: '~/.ssh/id_rsa'  # Optional
