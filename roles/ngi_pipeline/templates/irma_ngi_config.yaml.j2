@@ -15,11 +15,11 @@ environment:
 # TODO: This QOS flag is probably not used/needed any longer. 
 #       Enable later in the future if required. 
 
-{% if "{{ deployment_environment }}" == [ "staging", "devel" ] %}
+{% if deployment_environment in [ "staging", "devel" ] %}
 slurm:
      queue: 
          - devcore
-{% endif }
+{% endif %}
  
 piper:
     #sample:
