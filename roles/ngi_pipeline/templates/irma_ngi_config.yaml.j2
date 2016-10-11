@@ -14,7 +14,11 @@ environment:
             - {{ proj_root }}/{{ ngi_pipeline_upps_delivery }}/incoming
 # TODO: This QOS flag is probably not used/needed any longer. 
 #       Enable later in the future if required. 
-#slurm:
+slurm:
+{% if "{{ deployment_environment }}" == [ "staging", "devel" ] %}
+     queue: 
+         - devcore
+{% endif } 
 #    extra_params:
 #        "--qos": "seqver"
 piper:
