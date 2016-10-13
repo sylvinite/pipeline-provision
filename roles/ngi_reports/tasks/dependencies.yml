@@ -1,47 +1,4 @@
 ---
-##Plausible TODOs:
-# Install Helvetica Neue and Consolas from ngi_reports/data/pandoc_templates/assets/fonts/
-
-#- name: Create TeXLive destination
-#  file: path={{ texLive_dest }} state=directory mode=g+rwxs
-
-#- name: Create TexLive src folder (seperate to honor permissions)
-#  file: path={{ texLive_dest }}/src state=directory mode=g+rwxs
-
-#- name: Download TeXLive
-#  get_url:
-#    url: "{{ texLive_url }}"
-#    dest: "{{ texLive_dest }}/src/{{ texLive_file }}"
-#    mode: g+rw
-
-#- name: Unpack TeXLive
-#  shell: "tar -xzf {{ texLive_dest }}/src/{{ texLive_file }} -C {{ texLive_dest }}/src/ --strip-components=1 --mode='g+rwXs'"  
-#  args:
-#    creates: "{{ texLive_dest }}/src/LICENSE.TL"
-
-# TODO: Sexier implementation for ansible 2.1
-#  unarchive:  
-#    src: "{{ texLive_dest }}/src/{{ texLive_file }}"
-#    dest: "{{ texLive_dest }}/src/"
-#    copy: no
-#    creates: "{{ texLive_dest }}/src/install-tl-*/LICENSE.TL"
-#    extra_opts: ["--strip-components=1"]
-#    mode: g+rw
-
-#- name: Copy TexLive profile
-#  template: src="texlive.profile.j2" dest="{{ ngi_pipeline_conf }}/texlive.profile" mode=0664
-
-#- name: Install TeXLive (Takes half a day)
-#  shell: "./install-tl --profile={{ ngi_pipeline_conf }}/texlive.profile"
-#  args:
-#    chdir: "{{ texLive_dest }}/src/"
-#    creates: "{{ texLive_dest }}/tlpkg/texlive.profile"
-
-#- name: Append TexLive (XeLaTeX) to $PATH via sourceme
-#  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-#              line='export PATH={{ texLive_dest }}/bin/x86_64-linux:$PATH'
-#              backup=no
-
 - name: Fetch ngi_visualizations from GitHub
   git: repo="{{ ngi_visual_repo }}"
        dest="{{ ngi_visual_dest }}"
@@ -56,7 +13,15 @@
   args:
     chdir: "{{ ngi_visual_dest }}"
 
-###NOTE: REALLY ONLY NECESSARY FOR STOCKHOLM
+- name: Copy Pandoc fix
+  template: src=make_report.sh.j2 dest="{{ ngi_resources }}/make_report.sh" mode=0775
+
+- name: Add Pandoc make_report function to common sourceme
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
+              line="source {{ ngi_resources }}/make_report.sh"
+              backup=no
+
+###START STOCKHOLM SPECIFIC
 
 - name: Install couchDB (minimal version of statusDB)
   shell: "{{ ngi_pipeline_venv }}/bin/pip install couchdb"
@@ -70,18 +35,3 @@
               backup=no
 
 ###END STOCKHOLM SPECIFIC
-
-- name: Copy Pandoc fix
-  template: src=make_report.sh.j2 dest="{{ ngi_resources }}/make_report.sh" mode=0775
-
-- name: Add Pandoc make_report function to sourceme
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
-              line="source {{ ngi_resources }}/make_report.sh"
-              backup=no
-
-#Currently using UPPMAX pandoc version
-#- name: Add Pandoc fix to alias
-#  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-#              line="alias ngi_reports='ngi_reports --pandoc_binary'"
-#              backup=no
-
