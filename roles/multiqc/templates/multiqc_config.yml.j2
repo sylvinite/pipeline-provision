@@ -17,7 +17,7 @@ fn_ignore_paths:
 {% if deployment_environment == "production" and item.site == "sthlm" %}
 push_statusdb: True
 save_remote: True
-remote_sshkey: '~/.ssh/id_rsa'  # Optional
+remote_sshkey: '~/ssh_keys/id_rsa'  # Optional
 remote_port: '5912'             # Optional
 remote_destination: 'genomics.www@tools.scilifelab.se:/var/local/mqc_reports/'
 {% endif %}

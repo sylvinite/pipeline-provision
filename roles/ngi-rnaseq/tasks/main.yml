@@ -1,33 +1,4 @@
 ---
-- name: Create NextFlow directory
-  file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
-
-- name: Download NextFlow 
-  get_url: url="http://get.nextflow.io" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
-
-- name: Install NextFlow
-  shell: "./nextflow"
-  environment:
-    NXF_HOME: "{{ nextflow_dest }}"
-    NXF_LAUNCHER: "{{ nextflow_dest }}"
-    PATH: "{{ root_path }}/sw/java/jdk1.7.0_25/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "/sw/apps/build/slurm-drmaa/default/lib:/sw/apps/build/slurm-drmaa/default/lib:"
-  args:
-    chdir: "{{ nextflow_dest }}"
-
-- name: Add NextFlow to $PATH
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
-              line="export PATH={{ root_path }}/sw/nextflow:$PATH"
-              backup=no
-
-- name: Point NextFlow dependencies vars to installation directory
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
-              line="export {{ item }}={{ nextflow_dest }}"
-              backup=no
-  with_items:
-  - "NXF_HOME"
-  - "NXF_LAUNCHER"
-
 - name: Fetch NGI-RNAseq from GitHub
   git: repo="{{ ngi_rnaseq_repo }}"
        dest="{{ ngi_rnaseq_dest }}"
@@ -39,11 +10,3 @@
   with_items:
   - { site: "sthlm", proj: "{{ ngi_pipeline_sthlm_delivery }}" }
   - { site: "upps", proj: "{{ ngi_pipeline_upps_delivery }}" }
-
-- name: Set alias
-  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
-              line="alias rnaseq='nextflow {{ ngi_rnaseq_dest }}/main.nf -c {{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config'"
-              backup=no
-  with_items:
-  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
-  - { site: "upps", script: "{{ bash_env_upps_script }}" }
