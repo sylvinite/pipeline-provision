@@ -17,8 +17,7 @@ environment:
 
 {% if deployment_environment in [ "staging", "devel" ] %}
 slurm:
-     queue: 
-         - devcore
+     queue: testcore
 {% endif %}
  
 piper:
