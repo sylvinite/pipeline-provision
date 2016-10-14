@@ -61,7 +61,7 @@
         incoming_dir_upps: "{{ proj_root }}/{{ ngi_pipeline_upps_delivery }}/incoming/"
         incoming_dir_sthlm: "{{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/incoming/"
     - name: create staging proj root dir (wildwest), milou-delivery and incoming dirs 
-      file: path={{ item }} state=directory mode="g+rwxs,u+rwx"
+      file: path={{ item }} state=directory mode="g+rwxs,u+rwx" group="ngi"
       with_items: 
         - "{{ proj_root }}"
         - "{{ milou_delivery_root }}"
