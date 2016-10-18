@@ -23,7 +23,7 @@
   - block:
 
     - name: Make wildwest directory editable by anyone that can access irma
-      shell: "find {{ proj_root }} -user `whoami` -exec chmod g+rwX,o=rwX {} \\;"
+      shell: "find {{ proj_root }} -user `whoami` -exec chmod g+rwXs,o=rwX {} \\;"
     when: deployment_environment == "staging"
 
   - debug: msg="Finished deploying to {{ root_path }}"
