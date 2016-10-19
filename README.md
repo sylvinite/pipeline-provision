@@ -38,7 +38,7 @@ The following files need to be present on irma3 in order to successfully deploy 
 
 - A `charon_credentials.yml` file placed under `/lupus/ngi/irma3/deploy/host_vars/127.0.0.1/` listing the variables `charon_base_url_{stage,prod}`, `charon_api_token_upps_{stage,prod}` and `charon_api_token_sthlm_{stage,prod}`
 
-- A valid `statusdb_creds.yml` access file placed under `/lupus/ngi/irma3/deploy/files`. Necessary layout is described at https://github.com/SciLifeLab/statusdb
+- A valid `statusdb_creds_{stage,prod}.yml` access file placed under `/lupus/ngi/irma3/deploy/files`. Necessary layout is described at https://github.com/SciLifeLab/statusdb
 
 - Valid SSL certificates for the web proxy under `/lupus/ngi/irma3/deploy/files` (see `roles/tarzan/README.md` for details) 
 
