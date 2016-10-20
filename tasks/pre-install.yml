@@ -89,12 +89,19 @@
         charon_base_url: "{{ charon_base_url_prod }}"
         charon_api_token_sthlm: "{{ charon_api_token_sthlm_prod }}"
         charon_api_token_upps: "{{ charon_api_token_upps_prod }}"
+    - name: set statusdb config file for production
+      set_fact:
+        statusdb_creds: statusdb_creds_prod.yml
     when: deployment_environment == "production"
 
-  - name: set charon envs for staging and devel
-    set_fact: 
-      charon_base_url: "{{ charon_base_url_stage }}"
-      charon_api_token_sthlm: "{{ charon_api_token_sthlm_stage }}"
-      charon_api_token_upps: "{{ charon_api_token_upps_stage }}"
+  - block:
+    - name: set charon envs for staging and devel
+      set_fact: 
+        charon_base_url: "{{ charon_base_url_stage }}"
+        charon_api_token_sthlm: "{{ charon_api_token_sthlm_stage }}"
+        charon_api_token_upps: "{{ charon_api_token_upps_stage }}"
+    - name: set statusdb config file for 
+      set_fact:
+        statusdb_creds: statusdb_creds_stage.yml
     when: deployment_environment in [ "staging", "devel" ]
 
