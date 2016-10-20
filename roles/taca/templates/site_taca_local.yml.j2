@@ -1,0 +1,16 @@
+log:
+    log_file: "{{ ngi_pipeline_site_path }}/taca.log"
+
+cleanup:
+    irma:
+        flowcell:
+            root: 
+                - "{{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/incoming"
+                - "{{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/archive"
+            relative_project_source: Demultiplexing
+        data_dir: "{{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/nobackup/NGI/DATA"
+        analysis:
+            root: "{{ proj_root }}/{{ ngi_pipeline_sthlm_delivery }}/nobackup/NGI/ANALYSIS"
+            files_to_remove:
+                piper_ngi:
+                    - "*.bam"

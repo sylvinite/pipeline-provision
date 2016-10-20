@@ -34,7 +34,7 @@ if args.destination:
 else: 
 	dest = src_root_path 
 
-host = "irma1"
+host = "irma2"
 rsync_log_path = ngi_root + "/irma3/log/rsync.log" 
 
 user = getpass.getuser()
