@@ -32,11 +32,11 @@
 - name: Create ngi_pipeline conf directory 
   file: path="{{ ngi_pipeline_conf }}" state=directory mode=g+s
 
-- name: Create ngi_pipeline staging incoming directories
-  file: path="{{ proj_root }}/{{ item.site }}/incoming" state=directory mode=g+s
+- name: Create ngi_pipeline staging incoming & archive directories
+  file: path="{{ proj_root }}/{{ item.site }}/{{ item.dir }}" state=directory mode=g+s
   with_items:
-  - { site: "{{ ngi_pipeline_sthlm_delivery }}" }
-  - { site: "{{ ngi_pipeline_upps_delivery }}" }
+  - { site: "{{ ngi_pipeline_sthlm_delivery }}", dir: [ "incoming", "archive" ]}
+  - { site: "{{ ngi_pipeline_upps_delivery }}", dir: [ "archive", "archive" ]}
   when: deployment_environment == "staging"
 
 - name: Install PyVCF for joint calling 
