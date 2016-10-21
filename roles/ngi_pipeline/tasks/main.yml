@@ -35,9 +35,11 @@
 - name: Create ngi_pipeline staging incoming & archive directories
   file: path="{{ proj_root }}/{{ item.site }}/{{ item.dir }}" state=directory mode=g+s
   with_items:
-  - { site: "{{ ngi_pipeline_sthlm_delivery }}", dir: [ "incoming", "archive" ]}
-  - { site: "{{ ngi_pipeline_upps_delivery }}", dir: [ "archive", "archive" ]}
-  when: deployment_environment == "staging"
+  - { site: "{{ ngi_pipeline_sthlm_delivery }}", dir: "incoming"}
+  - { site: "{{ ngi_pipeline_upps_delivery }}", dir: "incoming"}
+  - { site: "{{ ngi_pipeline_sthlm_delivery }}", dir: "archive"}
+  - { site: "{{ ngi_pipeline_upps_delivery }}", dir: "archive"}
+  when: deployment_environment in ["staging", "devel"]
 
 - name: Install PyVCF for joint calling 
   shell: "{{ ngi_pipeline_venv }}/bin/pip install PyVCF"
