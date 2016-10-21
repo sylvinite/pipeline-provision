@@ -18,7 +18,7 @@ bash_env_sthlm_script: sourceme_sthlm.sh
 
 ngi_pipeline_repo: https://github.com/sylvinite/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
-ngi_pipeline_version: 214651217a1d499d17785a9db4b0346d3c879e2f
+ngi_pipeline_version: 5fe62f93002219d0c8c824d1228b5df1fb7162b9
 NGI_venv_name: "NGI"
 ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/{{ NGI_venv_name }}"
 
