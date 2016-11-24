@@ -58,7 +58,7 @@ child.sendline(password)
 #          then expect a bash prompt
 # Step 3b. Expect a bash prompt immediately if our token 
 #          grace period is enabled. 
-exp_token = "Please enter your second factor:.\r\n"
+exp_token = "Please enter the current code from your second factor:.\r\n"
 exp_success = ".*\$ " # Matches the end of a bash prompt 
 
 recv = child.expect([exp_token, exp_success])
