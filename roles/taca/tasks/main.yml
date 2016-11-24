@@ -23,6 +23,7 @@
     ngi_pipeline_site_path: "{{ ngi_pipeline_upps_path }}"
     ngi_site_softlinks: "{{ ngi_upps_softlinks }}"
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_upps_delivery }}"
+    recipient_mail: "{{ recipient_mail_upps }}"
 
 - name: Deploy standard uppsala configs
   template: src="site_taca_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_delivery.yml"
@@ -36,6 +37,7 @@
     ngi_pipeline_site_path: "{{ ngi_pipeline_sthlm_path }}"
     ngi_site_softlinks: "{{ ngi_sthlm_softlinks }}"
     ngi_pipeline_site_delivery: "{{ ngi_pipeline_sthlm_delivery }}"
+    recipient_mail: "{{ recipient_mail_sthlm }}"
 
 - name: Deploy sthlm_taca_local.yml config
   template: src="site_taca_local.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_taca_local.yml"
