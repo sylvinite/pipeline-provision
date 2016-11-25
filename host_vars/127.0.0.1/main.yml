@@ -46,7 +46,8 @@ ngi_rnaseq_dest: "{{ root_path }}/sw/ngi-rnaseq"
 
 gatk_key: pontus.larsson_medsci.uu.se.key
 
-recipient_mail: ngi_pipeline_operators@scilifelab.se
+recipient_mail_sthlm: ngi_pipeline_operators@scilifelab.se
+recipient_mail_upps: medsci-molmed-bioinfo@googlegroups.com 
 
 validation_data_root: "/lupus/ngi/validation_data/"
 validation_data: 

@@ -3,7 +3,7 @@ qc_analysis:
   time: 1-00:00:00
   project: {{ ngi_pipeline_sthlm_delivery }}
   threads: 16
-  email: {{ recipient_mail }}
+  email: {{ recipient_mail_sthlm }}
   env: {{ NGI_venv_name }}
   qos: normal
 qc_report:
@@ -14,7 +14,7 @@ assembly:
   time: 1-00:00:00
   project: {{ ngi_pipeline_sthlm_delivery }}
   threads: 16
-  email: {{ recipient_mail }}
+  email: {{ recipient_mail_sthlm }}
   env: {{ NGI_venv_name }}
   qos: normal
 validation:
@@ -22,6 +22,6 @@ validation:
   time: 1-00:00:00
   project: {{ ngi_pipeline_sthlm_delivery }}
   threads: 16
-  email: {{ recipient_mail }}
+  email: {{ recipient_mail_sthlm }}
   env: {{ NGI_venv_name }}
   qos: normal
