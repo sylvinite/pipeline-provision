@@ -16,9 +16,9 @@ bash_env_script: sourceme_common.sh
 bash_env_upps_script: sourceme_upps.sh
 bash_env_sthlm_script: sourceme_sthlm.sh
 
-ngi_pipeline_repo: https://github.com/NationalGenomicsInfrastructure/ngi_pipeline.git
+ngi_pipeline_repo: https://github.com/sylvinite/ngi_pipeline.git
 ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
-ngi_pipeline_version: dff223f4c7a32c096206b758146a9bc4d180f126
+ngi_pipeline_version: fcc4b733f7cf9c177bbcde9f18650c17d4c40155
 NGI_venv_name: "NGI"
 ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/{{ NGI_venv_name }}"
 
