@@ -10,3 +10,13 @@
   with_items:
   - { site: "sthlm", proj: "{{ ngi_pipeline_sthlm_delivery }}" }
   - { site: "upps", proj: "{{ ngi_pipeline_upps_delivery }}" }
+
+- name: Add Nextflow module vars to sourceme
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env__script }}
+              line="export NOUGAT_CONF={{ ngi_pipeline_conf }}/NouGAT_config.conf"
+  with_items:
+  - { envvar: "export NXF_HOME=$HOME/.nextflow" }
+  - { envvar: "export NXF_OPTS='-Xms1g -Xmx4g'"}
+  - { envvar: "export NXF_TEMP=${SNIC_TMP:-$NXF_HOME/tmp}"}
+  - { envvar: "export NXF_WORK=$NXF_HOME/work"}
+  - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-$NXF_HOME/tmp}"}
