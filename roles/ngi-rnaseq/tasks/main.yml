@@ -13,7 +13,7 @@
 
 - name: Add Nextflow module vars to sourceme
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line="export NOUGAT_CONF={{ ngi_pipeline_conf }}/NouGAT_config.conf"
+              line="{{ item.envvar }}"
   with_items:
   - { envvar: "export NXF_HOME=$HOME/.nextflow" }
   - { envvar: "export NXF_OPTS='-Xms1g -Xmx4g'"}
