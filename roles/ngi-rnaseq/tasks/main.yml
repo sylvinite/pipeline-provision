@@ -12,7 +12,7 @@
   - { site: "upps", proj: "{{ ngi_pipeline_upps_delivery }}" }
 
 - name: Add Nextflow module vars to sourceme
-  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env__script }}
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line="export NOUGAT_CONF={{ ngi_pipeline_conf }}/NouGAT_config.conf"
   with_items:
   - { envvar: "export NXF_HOME=$HOME/.nextflow" }
