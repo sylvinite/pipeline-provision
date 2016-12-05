@@ -80,6 +80,7 @@
 - set_fact: 
     site_config: "{{ upps_config }}"
     charon_api_token: "{{ charon_api_token_upps }}"
+    tsm_config_file: "/etc/dsm.opt.ngiu"
 
 - name: Deploy uppsala site bash environment variables 
   template: src="{{ bash_env_site_script }}" dest="{{ ngi_pipeline_conf }}/{{ bash_env_upps_script }}"
@@ -88,6 +89,7 @@
 - set_fact: 
     site_config: "{{ sthlm_config }}"
     charon_api_token: "{{ charon_api_token_sthlm }}"
+    tsm_config_file: "/etc/dsm.opt.ngis"
 
 - name: Deploy stockholm site bash environment variables
   template: src="{{ bash_env_site_script }}" dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
