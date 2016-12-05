@@ -16,3 +16,5 @@ bash_env_sthlm_script: sourceme_sthlm.sh
 sthlm_rna_seq_conf: "{{ ngi_pipeline_conf }}/ngi-rnaseq_sthlm.config"
 upps_rna_seq_conf: "{{ ngi_pipeline_conf }}/ngi-rnaseq_upps.config"
 
+tsm_config_file_upps: "/etc/dsm.opt.ngiu"
+tsm_config_file_sthlm: "/etc/dsm.opt.ngis"
