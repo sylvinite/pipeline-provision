@@ -105,3 +105,6 @@
               line='export PATH={{ anaconda_path }}/bin:$PATH'
               backup=no
 
+- name: Deploy uppnex_datadeliver script
+  copy: src="files/uppnex_datadeliver" dest="{{ uppnex_datadeliver_root }}/uppnex_datadeliver" mode="u=rwx,g=rwx,o=rx"
+
