@@ -6,7 +6,9 @@ export CHARON_API_TOKEN={{ charon_api_token }}
 
 export DSM_CONFIG={{ tsm_config_file }}
 
-export PATH={{ uppnex_datadeliver_root }}:$PATH
+{% if site == "upps" %}
+export PATH={{ sw_path }}:$PATH
+{% endif %}
 
 # Common settings shared for both sites
 source {{ ngi_pipeline_conf }}/{{ bash_env_script }}
