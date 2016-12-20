@@ -9,7 +9,7 @@
 arteria_siswrap_repo: https://github.com/arteria-project/arteria-siswrap.git
 arteria_siswrap_version: v1.1.0
 
-arteria_install_path: "{{ root_path }}/sw/arteria"
+arteria_install_path: "{{ sw_path }}/arteria"
 
 # These values will be appended with production and staging specific
 # paths in the tasks.

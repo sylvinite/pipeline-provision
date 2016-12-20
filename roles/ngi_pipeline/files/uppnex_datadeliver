@@ -1,0 +1,119 @@
+#!/bin/bash
+
+#Version 7
+
+set -o nounset
+
+declare -i rc=0
+
+declare -r DIR="/pica/sw/links/proj"
+
+user=$(id -u)
+
+function print_usage  () {
+    echo "$0 expects two or three arguments:"
+    echo "1: a directory to be copied,"
+    echo "2: a project with INBOX to copy to."
+    echo "3, optional, a file with md5sums of the files to copy"
+    exit 1
+  }
+
+if [ $# -gt 3 -o $# -lt 2 ];then
+    print_usage
+    exit 1
+fi
+
+
+declare -r SOURCE="${1%/}"
+declare -r TARGET="$DIR/$2/INBOX/."
+
+
+if [ ! -d $1 ];then
+    echo "$1 not a directory."
+    echo
+    print_usage
+    exit 1
+fi
+
+if [ ! -d $DIR/$2 -a "$(echo $2|tr -d [0-9])" != "b" ];then
+    echo "$2 not a UPPNEX project?"
+    echo
+    print_usage
+    exit 1
+fi
+
+
+touch "/pica/sw/uppmax/var/inboxfix/schedule/$2"
+
+#Check owner of $1
+#owner=$(stat -c %u $1)
+
+#if [ "$user" != "$owner" ];then
+#    echo "Not owner of $1, will not copy."
+#    exit 1
+#fi
+
+#Check for $SOURCE.md5 file
+
+
+if [ $# -eq 3 ];then  
+    if [ -f $3 ];then
+	md5check="yes"
+	MD5SUM=$(pwd)/$3
+	MD5SUM_DIR=$(dirname $3)
+    else
+	echo "No file $3. Expecting a file called $3 with md5sums"
+	exit 1
+    fi
+else
+    if [ ! -f ${SOURCE}/${SOURCE}.md5 ];then
+	md5check="no"
+	echo "No md5 sum file given and no file called ${SOURCE}/${SOURCE}.md5, will not check md5 sums."
+    else
+	md5check="yes"
+	MD5SUM=$(pwd)/${SOURCE}/$SOURCE.md5
+	MD5SUM_DIR=${SOURCE}
+    fi
+fi
+
+dir2_perm=$(stat -c %a $DIR/$2/)
+
+#Check permissions of $2
+if [ $dir2_perm -ne 2775 ] && [ $dir2_perm -ne 3775 ] && [ $dir2_perm -ne 2771 ] && [ $dir2_perm -ne 3771 ];then
+    echo "Error, wrong permissions on $DIR/$2, should be 3775, 2775, 3771 or 2771, is $dir2_perm."
+    exit 1
+fi
+#Check permissions of $2/INBOX
+if [ $(stat -c %a $DIR/$2/INBOX) -ne 2773 ];then
+    echo "Error, wrong permissions on $DIR/$2/INBOX, should be 2773, is $(stat -c %a $DIR/$2/INBOX)."
+    exit 1
+fi
+
+logger -i "Started copying $(pwd)/$SOURCE to $TARGET"
+
+#Now make the directory structure
+find "$SOURCE" -type d -exec mkdir -p "$TARGET"/{} \;
+#and rsync the files
+rsync -rvt --progress "$SOURCE" "$TARGET"
+
+if [ "$md5check" == "yes" ];then
+    (
+	if [ -d $TARGET/$MD5SUM_DIR ];then
+	    cd $TARGET/$MD5SUM_DIR
+	    echo "Checking md5 sums in $(pwd)"
+	    /usr/bin/md5sum -c $MD5SUM 
+	else
+	    echo "No directory $TARGET/$MD5SUM_DIR?!"
+	    exit 1
+	fi
+    )
+fi
+
+#change group permissions
+find "$TARGET"/"$SOURCE" -exec chmod g+w,o-rwx {} \;
+
+touch "/pica/sw/uppmax/var/inboxfix/schedule/$2"
+
+logger -i "Finished copying $(pwd)/$SOURCE to $TARGET"
+
+exit 0

@@ -1,10 +1,7 @@
 ---
-# For now, values here should be updated accordingly when user develops locally. 
+sw_path: "{{ root_path }}/sw/"
 
-# root_path should be changed to suitable value when e.g. deploying locally
-# for a developer
-#root_path: /lupus/ngi/
-anaconda_path: "{{ root_path }}/sw/anaconda"
+anaconda_path: "{{ sw_path }}/anaconda"
 ansible_path: "/lupus/ngi/irma3/ansible-env/" 
 default_env: "/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sw/uppmax/bin"
 anaconda_env:
@@ -17,10 +14,10 @@ bash_env_upps_script: sourceme_upps.sh
 bash_env_sthlm_script: sourceme_sthlm.sh
 
 ngi_pipeline_repo: https://github.com/sylvinite/ngi_pipeline.git
-ngi_pipeline_dest: "{{ root_path }}/sw/ngi_pipeline"
+ngi_pipeline_dest: "{{ sw_path }}/ngi_pipeline"
 ngi_pipeline_version: fcc4b733f7cf9c177bbcde9f18650c17d4c40155
 NGI_venv_name: "NGI"
-ngi_pipeline_venv: "{{ root_path }}/sw/anaconda/envs/{{ NGI_venv_name }}"
+ngi_pipeline_venv: "{{ sw_path }}/anaconda/envs/{{ NGI_venv_name }}"
 
 ngi_pipeline_conf: "{{ root_path }}/conf/"
 ngi_resources: "{{ root_path }}/resources/"
@@ -42,7 +39,7 @@ ngi_pipeline_db_sthlm: "{{ ngi_pipeline_sthlm_path }}/db/records_db_sthlm.sql"
 piper_module_version: 1.5.0
 gatk_bundle_b37: "/sw/data/uppnex/piper_references/2016-04-07/gatk_bundle/2.8/b37/"
 
-ngi_rnaseq_dest: "{{ root_path }}/sw/ngi-rnaseq"
+ngi_rnaseq_dest: "{{ sw_path }}/ngi-rnaseq"
 
 gatk_key: pontus.larsson_medsci.uu.se.key
 
