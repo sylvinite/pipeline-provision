@@ -1,6 +1,6 @@
 --- 
 
-tarzan_dest: "{{ root_path }}/sw/tarzan/"
+tarzan_dest: "{{ sw_path }}/tarzan/"
 tarzan_conf: "{{ ngi_pipeline_conf }}/tarzan/"
 
 ## Paths for all sw to download and later build 
