@@ -36,6 +36,7 @@
     - { role: arteria-siswrap-ws, tags: arteria-siswrap }
     - { role: ngi-rnaseq, tags: ngi-rnaseq }
     - { role: nougat, tags: nougat }
+    - { role: standalone_scripts, tags: standalone_scripts }
 
   environment: "{{ anaconda_env }}"
 
