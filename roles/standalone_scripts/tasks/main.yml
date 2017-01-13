@@ -1,0 +1,7 @@
+#Kind of meager recipe, but will most likely grow from dependencies
+
+- name: Fetch standalone_scripts from GitHub
+  git: repo="{{ ss_repo }}"
+       dest="{{ ss_dest }}"
+       version="{{ ss_version }}"
+       force=yes
