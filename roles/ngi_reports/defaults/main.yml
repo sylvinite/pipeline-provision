@@ -8,4 +8,4 @@ ngi_reports_log_upps: "{{ ngi_pipeline_upps_path }}/{{ ngi_reports_log }}"
 
 ngi_visual_repo: https://github.com/NationalGenomicsInfrastructure/ngi_visualizations.git 
 ngi_visual_dest: "{{ sw_path }}//ngi_visualization"
-ngi_visual_version: f827f154653185d5cc9439fa61fefee362971d32
+ngi_visual_version: 1bdc2d51d8588ec3067ada873adadb0aa661251d
