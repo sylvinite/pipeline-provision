@@ -43,10 +43,16 @@ deliver:
             - <REPORTPATH>/delivery/reports/<PROJECTID>_aggregate_report.csv
             - <STAGINGPATH>/00-Reports
             - no_digest: True
+{% if "upps" == site %}
+            - required: True
+{% endif %}
         -
             - <REPORTPATH>/delivery/reports/<SAMPLEID>_ign_sample_report.html
             - <STAGINGPATH>/<SAMPLEID>/00-Reports
             - no_digest_cache: True
+{% if "upps" == site %}
+            - required: True
+{% endif %}
         - 
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.*.snpEff.summary.*
             - <STAGINGPATH>/<SAMPLEID>/00-Reports
