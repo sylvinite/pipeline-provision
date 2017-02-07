@@ -58,3 +58,8 @@
               line='1 1 * * 1 {{ cassandra_dest }}/{{ cassandra_version }}/bin/nodetool -h localhost -p 7199 snapshot kong'
               backup=no
 
+- name: dump cassandra schema once a week 
+  lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
+              line='0 1 * * 1 {{ cassandra_dest }}/{{ cassandra_version }}/bin/cqlsh -e "DESC KEYSPACE kong" > {{ cassandra_db_dest }}/kong_schema-`date +%Y%m%d`.cql'
+              backup=no
+
