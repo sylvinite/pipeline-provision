@@ -52,3 +52,9 @@
   lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
               line='38 * * * *      source $HOME/.bash_profile && kong start -c {{ tarzan_conf }}/webproxy.yml'
               backup=no
+
+- name: snapshot cassandra once a week, so that normal backups can be taken of a sany copy of files (kb sizes)  
+  lineinfile: dest="{{ ngi_pipeline_conf }}/crontab_upps"
+              line='1 1 * * 1 {{ cassandra_dest }}/{{ cassandra_version }}/bin/nodetool -h localhost -p 7199 snapshot kong'
+              backup=no
+
