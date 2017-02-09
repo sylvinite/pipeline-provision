@@ -8,8 +8,8 @@
 - name: Copy NGI-RNAseq config
   template: src="{{ ngi_rnaseq_dest }}/conf/uppmax.config" dest="{{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config"
   with_items:
-  - { site: "sthlm", proj: "{{ ngi_pipeline_sthlm_delivery }}" }
-  - { site: "upps", proj: "{{ ngi_pipeline_upps_delivery }}" }
+  - { site: "sthlm" }
+  - { site: "upps"  }
 
 - name: Apply NGI specific config changes
   lineinfile: dest="{{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config"
