@@ -60,15 +60,12 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/01-QC
             - required: True
         -
-            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.eval
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam*.eval
             - <STAGINGPATH>/<SAMPLEID>/01-QC
             - required: True
         - 
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/<SAMPLEID>.gt_concordance
             - <STAGINGPATH>/<SAMPLEID>/01-QC
-        - 
-            - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
-            - <STAGINGPATH>/05-Genotyping
         -
             - {{ ngi_site_softlinks }}/bam2fastq.sh
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
@@ -99,3 +96,6 @@ deliver:
         - 
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.annotated.vcf.gz.tbi
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
+        -
+            - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
+            - <STAGINGPATH>/05-Genotyping
