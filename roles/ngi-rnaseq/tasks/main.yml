@@ -6,10 +6,20 @@
        force=yes
 
 - name: Copy NGI-RNAseq config
-  template: src="ngi-rnaseq.config.j2" dest="{{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config"
+  template: src="{{ ngi_rnaseq_dest }}/conf/uppmax.config" dest="{{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config"
   with_items:
-  - { site: "sthlm", proj: "{{ ngi_pipeline_sthlm_delivery }}" }
-  - { site: "upps", proj: "{{ ngi_pipeline_upps_delivery }}" }
+  - { site: "sthlm" }
+  - { site: "upps"  }
+
+- name: Apply NGI specific config changes
+  lineinfile: dest="{{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config"
+              line="{{ item.line }}"
+              backup=no
+  with_items:
+  - { site: "sthlm", line: "params.$multiqc.module = ''" }
+  - { site: "sthlm", line: "params.project = 'ngi2016001'" }
+  - { site: "upps", line: "params.$multiqc.module = ''" }
+  - { site: "upps", line: "params.project = 'ngi2016003'" }
 
 - name: Add Nextflow module vars to sourceme
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
@@ -20,3 +30,11 @@
   - { envvar: "export NXF_TEMP=${SNIC_TMP:-$NXF_HOME/tmp}"}
   - { envvar: "export NXF_WORK=$NXF_HOME/work"}
   - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-$NXF_HOME/tmp}"}
+
+- name: Set alias
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
+              line="alias rnaseq='nextflow {{ ngi_rnaseq_dest }}/main.nf -c {{ ngi_pipeline_conf }}/ngi-rnaseq_{{ item.site }}.config'"
+              backup=no
+  with_items:
+  - { site: "sthlm", script: "{{ bash_env_sthlm_script }}" }
+  - { site: "upps", script: "{{ bash_env_upps_script }}" }
