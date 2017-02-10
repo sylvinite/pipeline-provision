@@ -1,4 +1,4 @@
 ---
 ss_repo: "https://github.com/SciLifeLab/standalone_scripts.git"
 ss_dest: "{{ sw_path }}/standalone_scripts"
-ss_version: 787dd25fed6692550630f3c1db404f47f5bacb16
+ss_version: 3ba06e7ef86cb07932fc142bc63635ab08eba9ad

@@ -7,17 +7,17 @@ deliver:
     datapath: <ROOTPATH>/DATA/<PROJECTID>
     stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
     deliverypath: "{{ item.proj_path }}/<UPPNEXID>/INBOX/<PROJECTID>"
-    report_aggregate: "ngi_reports ign_aggregate_report -n {{ site_full }}"
-    report_sample: "ngi_reports ign_sample_report -n {{ site_full }}"
     reportpath: <ANALYSISPATH>/piper_ngi
-{% if "upps" == site %}
-    copy_reports_to_reports_outbox: True
-    reports_outbox: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/incoming/reports/" 
-{% endif %}
     logpath: <REPORTPATH>/logs
     deliverystatuspath: <REPORTPATH>/08_misc
     operator: "{{ recipient_mail }}"
     hash_algorithm: md5
+{% if "upps" == site %}
+    report_aggregate: "ngi_reports ign_aggregate_report -n {{ site_full }}"
+    report_sample: "ngi_reports ign_sample_report -n {{ site_full }}"
+    copy_reports_to_reports_outbox: True
+    reports_outbox: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/incoming/reports/" 
+{% endif %}
     files_to_deliver:
 #Adds Sisyphus files to Uppsala deliveries
 {% if "upps" == site %}
@@ -43,10 +43,16 @@ deliver:
             - <REPORTPATH>/delivery/reports/<PROJECTID>_aggregate_report.csv
             - <STAGINGPATH>/00-Reports
             - no_digest: True
+{% if "upps" == site %}
+            - required: True
+{% endif %}
         -
             - <REPORTPATH>/delivery/reports/<SAMPLEID>_ign_sample_report.html
             - <STAGINGPATH>/<SAMPLEID>/00-Reports
             - no_digest_cache: True
+{% if "upps" == site %}
+            - required: True
+{% endif %}
         - 
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.*.snpEff.summary.*
             - <STAGINGPATH>/<SAMPLEID>/00-Reports
@@ -60,15 +66,12 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/01-QC
             - required: True
         -
-            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.eval
+            - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam*.eval
             - <STAGINGPATH>/<SAMPLEID>/01-QC
             - required: True
         - 
             - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/<SAMPLEID>.gt_concordance
             - <STAGINGPATH>/<SAMPLEID>/01-QC
-        - 
-            - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
-            - <STAGINGPATH>/05-Genotyping
         -
             - {{ ngi_site_softlinks }}/bam2fastq.sh
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
@@ -99,3 +102,6 @@ deliver:
         - 
             - <ANALYSISPATH>/piper_ngi/07_variant_calls/<SAMPLEID>.clean.dedup.recal.bam.*.annotated.vcf.gz.tbi
             - <STAGINGPATH>/<SAMPLEID>/04-VCF
+        -
+            - <ANALYSISPATH>/piper_ngi/03_genotype_concordance/*.vcf*
+            - <STAGINGPATH>/05-Genotyping

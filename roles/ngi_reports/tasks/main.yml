@@ -16,11 +16,6 @@
   args:
     chdir: "{{ ngi_reports_dest }}"
 
-- name: Add ngi_reports scripts to $PATH via sourceme
-  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line='export PATH={{ ngi_reports_dest }}/scripts:$PATH'
-              backup=no
-
 - name: Install pandocfilters submodule
   shell: "{{ ngi_pipeline_venv }}/bin/pip install ."
   args:
@@ -32,7 +27,7 @@
   - { site: "upps" }
   - { site: "sthlm" }
 
-- name: Add ngi_reports to $PATH via sourceme_{{ item.site }}
+- name: Export NGI_REPORTS_CONFIG via sourceme_{{ item.site }}
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.env_script }}"
               line='export NGI_REPORTS_CONFIG={{ ngi_pipeline_conf }}/ngi_reports_{{ item.site }}.conf'
               backup=no
