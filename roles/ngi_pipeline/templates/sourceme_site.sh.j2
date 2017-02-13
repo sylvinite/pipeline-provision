@@ -9,8 +9,6 @@ export DSM_CONFIG={{ tsm_config_file }}
 {% if site == "upps" %}
 export PATH={{ sw_path }}:$PATH
 {% endif %}
-
-module load bioinfo-tools Nextflow
 # Common settings shared for both sites
 source {{ ngi_pipeline_conf }}/{{ bash_env_script }}
 

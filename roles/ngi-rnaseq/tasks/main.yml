@@ -25,11 +25,19 @@
   lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
               line="{{ item.envvar }}"
   with_items:
-  - { envvar: "export NXF_HOME=$HOME/.nextflow" }
+  - { envvar: "export NXF_HOME={{ ngi_rnaseq_dest }}/nextflow" }
   - { envvar: "export NXF_OPTS='-Xms1g -Xmx4g'"}
-  - { envvar: "export NXF_TEMP=${SNIC_TMP:-$NXF_HOME/tmp}"}
-  - { envvar: "export NXF_WORK=$NXF_HOME/work"}
-  - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-$NXF_HOME/tmp}"}
+  - { envvar: "export NXF_TEMP=${SNIC_TMP:-$NXF_HOME}"}
+  - { envvar: "export NXF_WORK=${SNIC_TMP:-$NXF_HOME}"}
+  - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-$NXF_HOME}"}
+  - { envvar: "export NXF_LAUNCHER=${SNIC_TMP:-$NXF_HOME}"}
+
+- name: Create nextflow working directories
+  file: path="{{ ngi_rnaseq_dest }}/{{ item.subdir }}" mode=g+rwXs
+  with_items:
+  - { subdir: "/nextflow/" }}
+  - { subdir: "/nextflow/work" }}
+  - { subdir: "/nextflow/tmp" }}
 
 - name: Set alias
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
