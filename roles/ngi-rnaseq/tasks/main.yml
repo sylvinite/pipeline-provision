@@ -1,4 +1,6 @@
 ---
+- include: dependencies.yml
+
 - name: Fetch NGI-RNAseq from GitHub
   git: repo="{{ ngi_rnaseq_repo }}"
        dest="{{ ngi_rnaseq_dest }}"
@@ -20,21 +22,6 @@
   - { site: "sthlm", line: "params.project = 'ngi2016003'" }
   - { site: "upps", line: "params.$multiqc.module = ''" }
   - { site: "upps", line: "params.project = 'ngi2016001'" }
-
-- name: Add Nextflow module vars to sourceme
-  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line="{{ item.envvar }}"
-  with_items:
-  - { envvar: "export NXF_OPTS='-Xms1g -Xmx4g'"}
-  - { envvar: "export NXF_TEMP=${SNIC_TMP:-{{ ngi_rnaseq_dest }}/nextflow"}
-  - { envvar: "export NXF_WORK=${SNIC_TMP:-{{ ngi_rnaseq_dest }}/nextflow"}
-  - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-{{ ngi_rnaseq_dest }}/nextflow"}
-  - { envvar: "export NXF_LAUNCHER=${SNIC_TMP:-{{ ngi_rnaseq_dest }}/nextflow"}
-
-- name: Create nextflow working directories
-  file: path="{{ ngi_rnaseq_dest }}/{{ item.subdir }}" mode=g+rwXs
-  with_items:
-  - { subdir: "/nextflow/" }}
 
 - name: Set alias
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ item.script }}"
