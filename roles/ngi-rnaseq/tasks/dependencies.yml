@@ -1,0 +1,41 @@
+---
+
+# The steps within the comments can be effectively replaced by 'module load Nextflow'
+# Currently the module has problems being automatically initialized
+###
+
+- name: Create NextFlow directory
+  file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
+
+- name: Download NextFlow 
+  get_url: url="http://get.nextflow.io" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
+
+- name: Install NextFlow
+  shell: "./nextflow"
+  environment:
+    NXF_HOME: "{{ nextflow_dest }}"
+    NXF_LAUNCHER: "{{ nextflow_dest }}"
+    PATH: "{{ root_path }}/sw/java/jdk1.7.0_25/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "/sw/apps/build/slurm-drmaa/default/lib:/sw/apps/build/slurm-drmaa/default/lib:"
+  args:
+    chdir: "{{ nextflow_dest }}"
+
+- name: Add NextFlow to $PATH
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
+              line="export PATH={{ root_path }}/sw/nextflow:$PATH"
+              backup=no
+
+###
+
+# Change target to {{ ngi_rnaseq_dest }} when using module system
+- name: Add Nextflow module vars to sourceme
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line="{{ item.envvar }}"
+              backup=no
+  with_items:
+  - { envvar: "export NXF_OPTS='-Xms1g -Xmx4g'"}
+  - { envvar: "export NXF_TEMP=${SNIC_TMP:-{{ nextflow_dest }}"}
+  - { envvar: "export NXF_WORK=${SNIC_TMP:-{{ nextflow_dest }}"}
+  - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-{{ nextflow_dest }}"}
+  - { envvar: "export NXF_LAUNCHER=${SNIC_TMP:-{{ nextflow_dest }}"}
+
