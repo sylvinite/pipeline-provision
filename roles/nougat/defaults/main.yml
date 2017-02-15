@@ -8,4 +8,4 @@ frc_align_version: "5b3f53e01cb539c857fd4230ec9410d76220fe22"
 
 nougat_repo: "https://github.com/SciLifeLab/NouGAT.git"
 nougat_dest: "{{ sw_path }}/NouGAT"
-nougat_version: "d190015f4aa96b2a217f9ea27b78509df5ad4f1f"
+nougat_version: "9164f6956b2308716f9ee05831f742efe9d83656"
