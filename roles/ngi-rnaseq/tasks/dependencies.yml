@@ -7,14 +7,17 @@
 - name: Create NextFlow directory
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
+- name: Create NextFlow work directory
+  file: path="{{ nextflow_dest }}/workfiles" state=directory mode=g+rwXs group="ngi"
+
 - name: Download NextFlow 
   get_url: url="http://get.nextflow.io" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
 
 - name: Install NextFlow
   shell: "./nextflow"
   environment:
-    NXF_HOME: "{{ nextflow_dest }}"
-    NXF_LAUNCHER: "{{ nextflow_dest }}"
+    NXF_HOME: "{{ nextflow_dest }}/workfiles"
+    NXF_LAUNCHER: "{{ nextflow_dest }}/workfiles"
     PATH: "{{ root_path }}/sw/java/jdk1.7.0_25/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "/sw/apps/build/slurm-drmaa/default/lib:/sw/apps/build/slurm-drmaa/default/lib:"
   args:
@@ -34,9 +37,9 @@
               backup=no
   with_items:
   - { envvar: "export NXF_OPTS='-Xms1g -Xmx4g'"}
-  - { envvar: "export NXF_HOME={{ nextflow_dest }}"
-  - { envvar: "export NXF_TEMP=${SNIC_TMP:-{{ nextflow_dest }}"}
-  - { envvar: "export NXF_WORK=${SNIC_TMP:-{{ nextflow_dest }}"}
-  - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-{{ nextflow_dest }}"}
-  - { envvar: "export NXF_LAUNCHER=${SNIC_TMP:-{{ nextflow_dest }}"}
+  - { envvar: "export NXF_HOME={{ nextflow_dest }}/workfiles"
+  - { envvar: "export NXF_TEMP=${SNIC_TMP:-{{ nextflow_dest }}/workfiles"}
+  - { envvar: "export NXF_WORK=${SNIC_TMP:-{{ nextflow_dest }}/workfiles"}
+  - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-{{ nextflow_dest }}/workfiles"}
+  - { envvar: "export NXF_LAUNCHER=${SNIC_TMP:-{{ nextflow_dest }}/workfiles"}
 
