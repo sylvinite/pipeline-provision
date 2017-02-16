@@ -16,6 +16,7 @@
 - name: Install NextFlow
   shell: "./nextflow"
   environment:
+    SNIC_TMP: "/scratch"
     NXF_HOME: "{{ nextflow_dest }}/workfiles"
     NXF_LAUNCHER: "{{ nextflow_dest }}/workfiles"
     PATH: "{{ root_path }}/sw/java/jdk1.7.0_25/bin:{{ ansible_env.PATH }}"
@@ -23,11 +24,14 @@
   args:
     chdir: "{{ nextflow_dest }}"
 
+- name: Grab Nextflow version number
+  shell: "ls {{ nextflow_dest }}/workfiles/framework/ | tail -1"
+  register: nextflow_ver
+
 - name: Add NextFlow to $PATH
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_script }}"
               line="export PATH={{ root_path }}/sw/nextflow:$PATH"
               backup=no
-
 ###
 
 # Change target to {{ ngi_rnaseq_dest }} when using module system
@@ -37,7 +41,8 @@
               backup=no
   with_items:
   - { envvar: "export NXF_OPTS='-Xms1g -Xmx4g'"}
-  - { envvar: "export NXF_HOME={{ nextflow_dest }}/workfiles"
+  - { envvar: "export NXF_VER={{ nextflow_ver.stdout }}"}
+  - { envvar: "export NXF_HOME={{ nextflow_dest }}/workfiles"}
   - { envvar: "export NXF_TEMP=${SNIC_TMP:-{{ nextflow_dest }}/workfiles"}
   - { envvar: "export NXF_WORK=${SNIC_TMP:-{{ nextflow_dest }}/workfiles"}
   - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-{{ nextflow_dest }}/workfiles"}
