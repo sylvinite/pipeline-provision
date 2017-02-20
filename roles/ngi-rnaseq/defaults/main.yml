@@ -1,4 +1,4 @@
 ---
 nextflow_dest: "{{ sw_path }}/nextflow"
 ngi_rnaseq_repo: "https://github.com/SciLifeLab/NGI-RNAseq.git"
-ngi_rnaseq_version: 94a7768d728b0e4d24d1b3a5b318dcd7efd798b5
+ngi_rnaseq_version: ea1f5e7fa8de7e5bbcc8194cb38f790e0e50c9cb
