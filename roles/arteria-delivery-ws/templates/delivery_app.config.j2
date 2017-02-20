@@ -1,0 +1,13 @@
+# Default configuration file for delivery service
+
+---
+
+db_connection_string: 'sqlite:///my.db'
+#runfolder_directory: tests/resources/runfolders
+#general_project_directory: tests/resources/projects
+#staging_directory: /tmp/
+runfolder_directory: {{ runfolder_path }}
+general_project_directory: {{ project_path }}
+staging_directory: {{ staging_path }}
+port: {{ arteria_delivery_port }}
+

@@ -1,0 +1,52 @@
+---
+
+# Production values
+- set_fact: 
+    arteria_delivery_log: "{{ arteria_delivery_log }}/production"
+    runfolder_path: "{{ runfolder_path }}"
+    project_path: "{{ project_path }}"
+    staging_path: "{{ staging_path }}"
+    arteria_delivery_port: "{{ arteria_delivery_port_prod }}"
+  when: deployment_environment == "production"
+
+# Staging values
+# FIXME: Better paths for staging vs production has to be set in the future. 
+- set_fact: 
+    arteria_delivery_log: "{{ arteria_delivery_log }}/staging"
+    runfolder_path: "{{ runfolder_path }}"
+    project_path: "{{ project_path }}"
+    staging_path: "{{ staging_path }}"
+    arteria_delivery_port: "{{ arteria_delivery_port_stage }}"
+  when: deployment_environment in [ "staging", "devel" ]
+
+- include: install.yml
+
+- name: ensure arteria-delivery conf dir exists
+  file:
+    state: directory
+    path: "{{ arteria_delivery_config_root }}"
+    mode: g+rwXs
+
+- name: deploying arteria-delivery app config
+  template:
+    src: delivery_app.config.j2
+    dest: "{{ arteria_delivery_config_root }}/app.config"
+
+- name: deploying arteria-delivery logger config
+  template:
+    src: delivery_logger.config.j2
+    dest: "{{ arteria_delivery_config_root }}/logger.config"
+
+- name: deploying arteria-delivery alembic config
+  template: 
+    src: delivery_alembic.ini.j2
+    dest: "{{ arteria_delivery_config_root }}/alembic.ini"
+
+- name: modify uppsala's supervisord conf to autostart arteria-delivery-ws
+  ini_file: 
+    dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
+    section="program:arteria-delivery-ws-{{ deployment_environment }}"
+    option=autorestart
+    value=true
+    backup=no
+
