@@ -2,12 +2,12 @@
 
 ---
 
-db_connection_string: 'sqlite:///my.db'
-#runfolder_directory: tests/resources/runfolders
-#general_project_directory: tests/resources/projects
-#staging_directory: /tmp/
+# "sqlite:" should be followed by three slashes; 
+# but set to two here due to formating of db_path
+# variable. 
+db_connection_string: 'sqlite://{{ db_path }}'
 runfolder_directory: {{ runfolder_path }}
 general_project_directory: {{ project_path }}
 staging_directory: {{ staging_path }}
 port: {{ arteria_delivery_port }}
-
+alembic_path: {{ alembic_path }}
