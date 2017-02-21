@@ -30,9 +30,12 @@ arteria_delivery_log: "/proj/{{ ngi_pipeline_upps_delivery }}/private/log/arteri
 
 
 # FIXME: these paths needs to be correct for production vs staging
-runfolder_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming/staging/"
-project_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming/staging/projects/"
-staging_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming/staging/staged/"
+runfolder_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming/staging"
+project_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming/staging/projects"
+staging_path: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming/staging/staged"
+db_path_stage: "{{ ngi_pipeline_upps_path }}/db/arteria/staging" 
+db_path_prod: "{{ ngi_pipeline_upps_path }}/db/arteria"
+alembic_path: "{{ arteria_delivery_sources_path }}/alembic/"
 
 arteria_delivery_port_prod: 10440
 arteria_delivery_port_stage: 10441

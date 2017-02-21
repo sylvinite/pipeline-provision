@@ -7,6 +7,7 @@
     project_path: "{{ project_path }}"
     staging_path: "{{ staging_path }}"
     arteria_delivery_port: "{{ arteria_delivery_port_prod }}"
+    db_path: "{{ db_path_prod }}/arteria-delivery.db"
   when: deployment_environment == "production"
 
 # Staging values
@@ -17,6 +18,7 @@
     project_path: "{{ project_path }}"
     staging_path: "{{ staging_path }}"
     arteria_delivery_port: "{{ arteria_delivery_port_stage }}"
+    db_path: "{{ db_path_stage }}/arteria-delivery.db"
   when: deployment_environment in [ "staging", "devel" ]
 
 - include: install.yml
@@ -36,11 +38,6 @@
   template:
     src: delivery_logger.config.j2
     dest: "{{ arteria_delivery_config_root }}/logger.config"
-
-- name: deploying arteria-delivery alembic config
-  template: 
-    src: delivery_alembic.ini.j2
-    dest: "{{ arteria_delivery_config_root }}/alembic.ini"
 
 - name: modify uppsala's supervisord conf to start arteria-delivery-ws 
   ini_file: 
