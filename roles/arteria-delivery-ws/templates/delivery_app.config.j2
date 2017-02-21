@@ -2,10 +2,7 @@
 
 ---
 
-# "sqlite:" should be followed by three slashes; 
-# but set to two here due to formating of db_path
-# variable. 
-db_connection_string: 'sqlite://{{ db_path }}'
+db_connection_string: 'sqlite:///{{ db_path }}'
 runfolder_directory: {{ runfolder_path }}
 general_project_directory: {{ project_path }}
 staging_directory: {{ staging_path }}
