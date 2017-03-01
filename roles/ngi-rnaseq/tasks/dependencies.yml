@@ -7,8 +7,11 @@
 - name: Create NextFlow directory
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
-- name: Create NextFlow work directory
-  file: path="{{ nextflow_dest }}/workfiles" state=directory mode=g+rwXs group="ngi"
+- name: Create NextFlow installation subdirectories
+  file: path="{{ nextflow_dest }}/{{ item.directory }}" state=directory mode=g+rwXs group="ngi"
+  with_items:
+  - { directory: "workfiles" }
+  - { directory: "r_packages" }
 
 - name: Download NextFlow 
   get_url: url="http://get.nextflow.io" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"
@@ -44,7 +47,18 @@
   - { envvar: "export NXF_VER={{ nextflow_ver.stdout }}"}
   - { envvar: "export NXF_HOME={{ nextflow_dest }}/workfiles"}
   - { envvar: "export NXF_TEMP=${SNIC_TMP:-{{ nextflow_dest }}/workfiles}"}
-  - { envvar: "export NXF_WORK=${SNIC_TMP:-{{ nextflow_dest }}/workfiles}"}
+  - { envvar: "export NXF_WORK={{ nextflow_dest }}/workfiles"}
   - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-{{ nextflow_dest }}/workfiles}"}
   - { envvar: "export NXF_LAUNCHER=${SNIC_TMP:-{{ nextflow_dest }}/workfiles}"}
 
+- name: Copy R dependencies script
+  copy:
+    src: "files/install_R_dependencies.r"
+    dest: "{{ nextflow_dest }}/r_packages"
+ 
+- name: Run R script to install dependencies
+  command: "Rscript install_R_dependencies.r"
+  environment:
+    R_LIBS_USER: "{{ nextflow_dest }}/r_packages"
+  args:
+    chdir: "{{ nextflow_dest }}/r_packages"
