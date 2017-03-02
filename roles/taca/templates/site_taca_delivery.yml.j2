@@ -25,6 +25,11 @@ deliver:
             - <ANALYSISPATH>/qc_sisyphus/reports
             - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
 {% endif %}
+{% if "sthlm" == site %}
+        -
+            - <ANALYSISPATH>/reports/*
+            - <STAGINGPATH>/00-Reports
+{% endif %}
 #Adds FASTQ files to Lupus (aka irma) deliveries
 {% if "/proj/" == item.proj_path %}
         -
