@@ -17,3 +17,8 @@ deliver:
             - <DATAPATH>/<SAMPLEID>/*/*
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
+{% if "sthlm" == site %}
+        -
+            - <ANALYSISPATH>/reports/*
+            - <STAGINGPATH>/00-Reports
+{% endif %}
