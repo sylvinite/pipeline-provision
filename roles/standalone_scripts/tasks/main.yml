@@ -3,7 +3,6 @@
 - name: Fetch standalone_scripts from GitHub
   git: repo="{{ ss_repo }}"
        dest="{{ ss_dest }}"
-       version="{{ ss_version }}"
        force=yes
 
 # Since the standalone repo is more free-form than others
