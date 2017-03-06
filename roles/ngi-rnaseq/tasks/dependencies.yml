@@ -19,11 +19,9 @@
 - name: Install NextFlow
   shell: "./nextflow"
   environment:
-    SNIC_TMP: "/scratch"
+    NXF_LAUNCHER: "/scratch"
     NXF_HOME: "{{ nextflow_dest }}/workfiles"
-    NXF_LAUNCHER: "{{ nextflow_dest }}/workfiles"
-    PATH: "{{ root_path }}/sw/java/jdk1.7.0_25/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "/sw/apps/build/slurm-drmaa/default/lib:/sw/apps/build/slurm-drmaa/default/lib:"
+    NXF_WORK: "{{ nextflow_dest }}/workfiles"
   args:
     chdir: "{{ nextflow_dest }}"
 
@@ -43,12 +41,14 @@
               line="{{ item.envvar }}"
               backup=no
   with_items:
+  - { envvar: "export SNIC_TMP=/scratch"}
   - { envvar: "export NXF_OPTS='-Xms1g -Xmx4g'"}
   - { envvar: "export NXF_VER={{ nextflow_ver.stdout }}"}
   - { envvar: "export NXF_HOME={{ nextflow_dest }}/workfiles"}
-  - { envvar: "export NXF_TEMP=${SNIC_TMP:-{{ nextflow_dest }}/workfiles}"}
   - { envvar: "export NXF_WORK={{ nextflow_dest }}/workfiles"}
+  - { envvar: "export NXF_TEMP=${SNIC_TMP:-{{ nextflow_dest }}/workfiles}"}
   - { envvar: "export NXF_LAUNCHBASE=${SNIC_TMP:-{{ nextflow_dest }}/workfiles}"}
+# Defines where the classpath file ends up
   - { envvar: "export NXF_LAUNCHER=${SNIC_TMP:-{{ nextflow_dest }}/workfiles}"}
 
 - name: Copy R dependencies script
