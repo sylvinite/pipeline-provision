@@ -8,7 +8,7 @@
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
 - name: Create NextFlow installation subdirectories
-  file: path="{{ nextflow_dest }}/{{ item.directory }}" state=directory mode=g+rwXs group="ngi"
+  file: path="{{ nextflow_dest }}/{{ item.directory }}" state=directory mode=g+rwXs
   with_items:
   - { directory: "workfiles" }
   - { directory: "r_packages" }
