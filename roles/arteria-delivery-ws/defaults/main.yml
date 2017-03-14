@@ -12,16 +12,7 @@ arteria_delivery_repo: https://github.com/johandahlberg/arteria-delivery.git
 arteria_delivery_version: make_jobs_async
 
 arteria_install_path: "{{ sw_path }}/arteria"
-
-
-#ugc_delivery_env_path: "{{ sw_path }}/anaconda/envs/ugc_delivery_script/"
-#ugc_delivery_env_name: "ugc_delivery_script"
 conda_bin: "{{ sw_path }}/anaconda/bin/conda"
-
-#delivery_repo: "http://github.com/molmed/delivery.git"
-#delivery_src: "{{ sw_path }}/ugc_delivery_src"
-#delivery_version: "master"
-
 
 # These values will be appended with production and staging specific
 # paths in the tasks.
@@ -53,4 +44,4 @@ alembic_path: "{{ arteria_delivery_sources_path }}/alembic/"
 arteria_delivery_port_prod: 10440
 arteria_delivery_port_stage: 10441
 
-virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"
+#virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"
