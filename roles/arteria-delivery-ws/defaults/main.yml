@@ -6,10 +6,13 @@
 # by overriding the arteria_delivery_version on the command line. 
 #
 # This will set corresponding paths and use the appropriate port. 
-arteria_delivery_repo: https://github.com/arteria-project/arteria-delivery.git
-arteria_delivery_version: master
+#arteria_delivery_repo: https://github.com/arteria-project/arteria-delivery.git
+#arteria_delivery_version: master
+arteria_delivery_repo: https://github.com/johandahlberg/arteria-delivery.git
+arteria_delivery_version: make_jobs_async
 
 arteria_install_path: "{{ sw_path }}/arteria"
+conda_bin: "{{ sw_path }}/anaconda/bin/conda"
 
 # These values will be appended with production and staging specific
 # paths in the tasks.
@@ -21,7 +24,8 @@ arteria_install_path: "{{ sw_path }}/arteria"
 # And hard coded log paths because we do not want the log files 
 # to disappear when the wildwest directory is cleaned out with every 
 # staging sync. 
-arteria_delivery_env_root: "{{ arteria_install_path }}/delivery_venv"
+#arteria_delivery_env_root: "{{ arteria_install_path }}/delivery_venv"
+arteria_delivery_env_root: "{{ sw_path }}/anaconda/envs/arteria-delivery"
 arteria_delivery_sources_path: "{{ arteria_install_path }}/delivery_src"
 arteria_delivery_config_root: "{{ ngi_pipeline_conf }}/arteria/delivery"
 arteria_delivery_app_config: "{{ arteria_delivery_config_root }}/app.config"
@@ -40,4 +44,4 @@ alembic_path: "{{ arteria_delivery_sources_path }}/alembic/"
 arteria_delivery_port_prod: 10440
 arteria_delivery_port_stage: 10441
 
-virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"
+#virtual_env_command: "/usr/bin/python /lupus/ngi/irma3/virtualenv-15.0.0/virtualenv.py"

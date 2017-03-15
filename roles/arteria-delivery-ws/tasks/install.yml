@@ -1,4 +1,8 @@
 ---
+- name: create virtual python env for arteria-delivery 
+  shell: "{{ conda_bin }} create --name arteria-delivery python=3.5"
+  args: 
+    creates: "{{ arteria_delivery_env_root }}"
 
 - name: get arteria-delivery from git
   git:
@@ -11,9 +15,9 @@
       requirements: "{{ arteria_delivery_sources_path }}/requirements/dev"
       chdir: "{{ arteria_delivery_sources_path }}"
       virtualenv: "{{ arteria_delivery_env_root }}"
-      virtualenv_command: "{{ virtual_env_command }}"
+#      virtualenv_command: "{{ virtual_env_command }}"
       state: present
-      executable: "{{ arteria_delivery_env_root }}/bin/pip"
+#      executable: "{{ arteria_delivery_env_root }}/bin/pip"
       extra_args: "-U"
 
 - name: install arteria-delivery
@@ -21,8 +25,8 @@
       name: .
       chdir: "{{ arteria_delivery_sources_path }}"
       virtualenv: "{{ arteria_delivery_env_root }}"
-      virtualenv_command: "{{ virtual_env_command }}"
+#      virtualenv_command: "{{ virtual_env_command }}"
       state: present
-      executable: "{{ arteria_delivery_env_root }}/bin/pip"
+#      executable: "{{ arteria_delivery_env_root }}/bin/pip"
       extra_args: "-U"
 
