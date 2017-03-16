@@ -1,6 +1,6 @@
 ---
 - name: create virtual python env for arteria-delivery 
-  shell: "{{ conda_bin }} create --name arteria-delivery python=3.5"
+  shell: "{{ conda_bin }} create --name arteria-delivery python=3.6"
   args: 
     creates: "{{ arteria_delivery_env_root }}"
 
