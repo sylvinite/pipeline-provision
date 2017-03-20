@@ -15,8 +15,8 @@ bash /tmp/bootstrap.sh
 It is recommended that the user adds the following two lines (or something similar) into `~/.bashrc`: 
 
 ```
-alias irmaenv='source /lupus/ngi/irma3/bashrc && cd /lupus/ngi/irma3'
-alias ansibleenv='source /lupus/ngi/irma3/ansible-env/bin/activate && cd /lupus/ngi/irma3'
+alias irmaenv='source /lupus/ngi/irma3/bashrc'
+alias ansibleenv='source /lupus/ngi/irma3/ansible-env/bin/activate'
 ```
 
 ## User prerequisites before developing or deploying 
@@ -26,6 +26,8 @@ Before a user starts developing new Ansible playbooks/roles or deploy them, the 
 This can be accomplished by *manually* running the two bash aliases defined above: `irmaenv` followed by `ansibleenv`.  
 
 Note that the order is important, and that they should not be run automatically at login, because that will cause an infinite loop that will lock out the user from `irma3`. 
+
+Also note that the `NouGAT` role sometimes has problems running, and may require you to load the `boost` module prior to usage.
 
 ## Deployment of the NGI pipeline
 
@@ -55,7 +57,7 @@ To accomplish this run the following commands:
    cd /lupus/ngi/irma3/deploy
    git fetch --tags 
    git checkout tags/vX.Y
-   ansible-playbook -e deployment_environment=production
+   ansible-playbook install.yml -e deployment_environment=production
    python sync.py production 
 ```
 
@@ -79,8 +81,8 @@ Do the following once the feature has been approved:
     cd /lupus/ngi/irma3/deploy
     git checkout master 
     git pull 
-    ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=FOO
-    python sync staging
+    ansible-playbook install.yml -e deployment_environment=staging -e deployment_version=<YYMMDD>.<commit_short>
+    python sync.py staging
 ```
 
 where `FOO` is a unique staging version you pick. This will install your run under `/lupus/ngi/staging/FOO` and symlink `/lupus/ngi/staging/latest` to it, for easier access. 
