@@ -84,15 +84,28 @@ qc:
         subsample_reads: 200000
         threads: 1
 
-paths: # Hard code paths here if you are that kind of a person
-    binaries:
-        #bowtie2:
-        #fastqc:
-        #fastq_screen:
-    references:
+gt_concordance:
+    #Why not backwards e.g. incoming/Genotype_data ?
+    XL_FILES_PATH: {{ proj_root }}/{{ ngi_pipeline_slurm_project }}/genotype_data/incoming
+    XL_FILES_ARCHIVED:  {{ proj_root }}/{{ ngi_pipeline_slurm_project }}/genotype_data/archived
+    #Module load + $GATK_HOME or given path??
+    GATK_PATH: /sw/apps/bioinfo/GATK/3.5.0//GenomeAnalysisTK.jar
+    #Why not supported genomes ref?
+    GATK_REF_FILE: {{ gatk_bundle_b37 }}/human_g1k_v37.fasta
+    GATK_VAR_FILE: {{ gatk_bundle_b37 }}/dbsnp_138.b37.vcf
+    #Going into ngi_pipeline??
+    INTERVAL_FILE: {{ proj_root }}/{{ ngi_pipeline_slurm_project }}/genotype_data/static/snps.interval_list
+    SNPS_FILE: {{ proj_root }}/{{ ngi_pipeline_slurm_project }}/genotype_data/static/maf_snps.txt
 
 logging: 
     log_file: "{{ ngi_pipeline_log }}" 
 
 mail:
     recipient: {{ recipient_mail }}
+
+paths: # Hard code paths here if you are that kind of a person
+    binaries:
+        #bowtie2:
+        #fastqc:
+        #fastq_screen:
+    references:
