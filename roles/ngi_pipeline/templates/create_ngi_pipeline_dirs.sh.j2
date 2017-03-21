@@ -24,6 +24,11 @@ mkdir -p {{ proj_root }}/$1/private/db
 mkdir -p {{ proj_root }}/$1/nobackup/NGI/softlinks
 mkdir -p {{ proj_root }}/$1/nobackup/NGI/DENOVO_BP
 mkdir -p {{ proj_root }}/$1/private/log/supervisord
+#If case since folders are excessive for uppsala
+if [ $1 == "ngi2016003" ]
+mkdir -p {{ proj_root }}/$1/genotype_data/incoming
+mkdir -p {{ proj_root }}/$1/genotype_data/archive
+fi
 ln -s /lupus/ngi/production/latest/sw/ngi_pipeline/DELIVERY.README.txt {{ proj_root }}/$1/nobackup/NGI/softlinks/DELIVERY.README.txt
 ln -s /lupus/ngi/production/latest/sw/ngi_pipeline/scripts/applyRecalibration.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/applyRecalibration.sh
 ln -s /lupus/ngi/production/latest/sw/ngi_pipeline/scripts/bam2fastq.sh {{ proj_root }}/$1/nobackup/NGI/softlinks/bam2fastq.sh
