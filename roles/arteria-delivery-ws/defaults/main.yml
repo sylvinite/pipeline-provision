@@ -6,10 +6,8 @@
 # by overriding the arteria_delivery_version on the command line. 
 #
 # This will set corresponding paths and use the appropriate port. 
-#arteria_delivery_repo: https://github.com/arteria-project/arteria-delivery.git
-#arteria_delivery_version: master
-arteria_delivery_repo: https://github.com/johandahlberg/arteria-delivery.git
-arteria_delivery_version: make_jobs_async
+arteria_delivery_repo: https://github.com/arteria-project/arteria-delivery.git
+arteria_delivery_version: v1.0.0-rc1
 
 arteria_install_path: "{{ sw_path }}/arteria"
 conda_bin: "{{ sw_path }}/anaconda/bin/conda"
