@@ -37,8 +37,8 @@ runfolder_path_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/incoming"
 project_path_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/DELIVERY"
 staging_path_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/nobackup/NGI/DELIVERY/arteria-staged"
 
-db_path_stage: "/proj/{{ ngi_pipeline_upps_delivery }}/private/log/db/arteria/staging" 
-db_path_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/private/log/db/arteria"
+db_path_stage: "/proj/{{ ngi_pipeline_upps_delivery }}/private/db/arteria/staging" 
+db_path_prod: "/proj/{{ ngi_pipeline_upps_delivery }}/private/db/arteria"
 alembic_path: "{{ arteria_delivery_sources_path }}/alembic/"
 
 arteria_delivery_port_prod: 10440
