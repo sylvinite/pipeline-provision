@@ -16,6 +16,45 @@
     chdir: "{{ frc_align_dest }}/build"
     creates: "{{ frc_align_dest }}/LICENSE"  
 
+- name: Fetch KmerGenie
+  get_url:
+    url: "{{ kmer_source }}/{{ kmer_version }}.tar.gz"
+    dest: "/scratch/{{ kmer_version }}.tar.gz"
+
+- name: Unpack KmerGenie
+  unarchive:
+    src: "/scratch/{{ kmer_version }}.tar.gz"
+    dest: "/scratch/"
+    copy: no
+    mode: g+rwxs
+
+- name: Create KmerGenie installation directory
+  command: mv "/scratch/{{ kmer_version }}" "{{ kmer_dest }}"
+  args:
+    creates: "{{ kmer_dest }}"
+    removes: "/scratch/{{ kmer_version }}"
+
+- name: Install Kmergenie
+  shell: "make"
+  args:
+    chdir: "{{ kmer_dest }}"
+
+- name: Fix KmerGenie permission issue
+  file:
+    path: "{{ kmer_dest }}/kmergenie"
+    state: touch
+    mode: "u+rwx"
+
+- name: Add KmerGenie to $PATH
+  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
+              line='export PATH={{ kmer_dest }}:$PATH'
+              backup=no
+
+#- name: Install Kmergenie
+#  shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
+#  args:
+#    chdir: "{{ kmer_dest }}/{{ kmer_version }}"
+
 #TODO: Omitted for now due to complications. Removed completely in a later version (if decided ofc ;) ) 
 #- name: Make qaTools
 #  shell: "make -f {{ qatools_dest }}/Makefile SAMTOOLS=/sw/apps/bioinfo/samtools/0.1.19/src/"
