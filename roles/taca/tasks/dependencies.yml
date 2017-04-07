@@ -4,7 +4,7 @@
     copy: src="files/{{ snic_sthlm_creds }}" dest="{{ ngi_pipeline_conf }}/{{ snic_sthlm_creds }}"
 
 - name: Add SUPR credentials envvar to sourceme 
-    lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}
+    lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
                 line="export SNIC_API_STOCKHOLM={{ ngi_pipeline_conf }}/{{ snic_sthlm_creds }}"
                 backup=no
 
