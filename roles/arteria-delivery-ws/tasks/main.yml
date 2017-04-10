@@ -43,7 +43,7 @@
     dest="{{ ngi_pipeline_conf }}/supervisord_upps.conf"
     section="program:arteria-delivery-ws-{{ deployment_environment }}"
     option=command
-    value="export PATH={{ arteria_delivery_env_root }}/bin:$PATH && source activate arteria-delivery && delivery-ws --configroot={{ arteria_delivery_config_root }} --port={{ arteria_delivery_port }}"
+    value="bash -c 'source activate arteria-delivery && exec delivery-ws --configroot={{ arteria_delivery_config_root }} --port={{ arteria_delivery_port }}'"
     backup=no
 
 - name: modify uppsala's supervisord conf to autostart arteria-delivery-ws
