@@ -13,11 +13,15 @@ fn_ignore_paths:
     - '*/piper_ngi/03_genotype_concordance/*'
     - '*/piper_ngi/04_merged_alignments/*'
 
-#True for production, False for Staging
-{% if deployment_environment == "production" and item.site == "sthlm" %}
+{% if item.site == "sthlm" and deployment_environment in ["production", "staging"]%}
 push_statusdb: True
 save_remote: True
-remote_sshkey: {{ item.keypath }}  # Optional
+remote_sshkey: {{ item.keypath }}
+  {% if deployment_environment == "production" %}
 remote_port: '5912'             # Optional
 remote_destination: 'genomics.www@tools.scilifelab.se:/var/local/mqc_reports/'
+  {% elif deployment_environment == "staging" %}
+remote_port: '22'             # Optional
+remote_destination: 'genomics.www@tools-dev.scilifelab.se:/var/local/mqc_reports/'
+  {% endif %}
 {% endif %}
