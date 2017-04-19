@@ -13,7 +13,7 @@ fn_ignore_paths:
     - '*/piper_ngi/03_genotype_concordance/*'
     - '*/piper_ngi/04_merged_alignments/*'
 
-{% if item.site == "sthlm" %}
+{% if item.site == "sthlm" and deployment_environment in ["production", "staging"]%}
 push_statusdb: True
 save_remote: True
 remote_sshkey: {{ item.keypath }}
