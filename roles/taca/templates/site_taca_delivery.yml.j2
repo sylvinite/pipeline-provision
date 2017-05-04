@@ -6,32 +6,34 @@ deliver:
     analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
     datapath: <ROOTPATH>/DATA/<PROJECTID>
     stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
-    deliverypath: "{{ item.proj_path }}/<UPPNEXID>/INBOX/<PROJECTID>"
     reportpath: <ANALYSISPATH>/piper_ngi
     logpath: <REPORTPATH>/logs
     deliverystatuspath: <REPORTPATH>/08_misc
     operator: "{{ recipient_mail }}"
     hash_algorithm: md5
 {% if "upps" == site %}
+    deliverypath: "{{ item.proj_path }}/<UPPNEXID>/INBOX/<PROJECTID>"
     report_aggregate: "ngi_reports ign_aggregate_report -n {{ site_full }}"
     report_sample: "ngi_reports ign_sample_report -n {{ site_full }}"
     copy_reports_to_reports_outbox: True
     reports_outbox: "{{ proj_root }}/{{ ngi_pipeline_site_delivery }}/incoming/reports/" 
+{% else %}
+    deliverypath: "{{ item.proj_path }}/<UPPNEXID>/INBOX/<PROJECTNAME>-<PROJECTID>"
 {% endif %}
     files_to_deliver:
-#Adds Sisyphus files to Uppsala deliveries
 {% if "upps" == site %}
+#Adds Sisyphus files to Uppsala deliveries
         -
             - <ANALYSISPATH>/qc_sisyphus/reports
             - <STAGINGPATH>/00-Reports/SequenceQC/Sisyphus
-{% endif %}
-{% if "sthlm" == site %}
+{% elif "sthlm" == site %}
         -
             - <ANALYSISPATH>/reports/*
             - <STAGINGPATH>/00-Reports
 {% endif %}
 #Adds FASTQ files to Lupus (aka irma) deliveries
 {% if "/proj/" == item.proj_path %}
+#Adds FASTQ files to Lupus (aka irma) deliveries
         -
             - <DATAPATH>/<SAMPLEID>/*/*
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
