@@ -7,7 +7,7 @@
 #
 # This will set corresponding paths and use the appropriate port. 
 arteria_delivery_repo: https://github.com/arteria-project/arteria-delivery.git
-arteria_delivery_version: v1.0.1
+arteria_delivery_version: 75e1b3aa321c50425231aa659460c5d98204fb82
 
 arteria_install_path: "{{ sw_path }}/arteria"
 conda_bin: "{{ sw_path }}/anaconda/bin/conda"
@@ -44,3 +44,4 @@ alembic_path: "{{ arteria_delivery_sources_path }}/alembic/"
 arteria_delivery_port_prod: 10440
 arteria_delivery_port_stage: 10441
 
+mover_path: "/usr/local/mover/1.0.0/"
