@@ -104,11 +104,12 @@ ansible-playbook install.yml -e deployment_environment=staging -e deployment_ver
 python sync.py staging
 ```
 
-if you want to stage test a specific commit hash of `arteria-checksum`, and the default version of `arteria-siswrap`. When launching the staging services it is recommended to do this inside `screen`, although there are some bundled `supervisord` configs as well. So login to irma1, start a screen session with `screen -S arteria-staging`, and then launch the following two commands in two separate windows: 
+if you want to stage test a specific commit hash of `arteria-checksum`, and the default version of `arteria-siswrap`. When launching the staging services it is recommended to do this inside `screen`, although there are some bundled `supervisord` configs as well. So login to irma1, start a screen session with `screen -S arteria-staging`, and then launch the following commands in separate screen windows: 
 
 ```
 /lupus/ngi/staging/arteria-staging-FOO/sw/arteria/siswrap_venv/bin/siswrap-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/siswrap/ --port=10431 --debug
 /lupus/ngi/staging/arteria-staging-FOO/sw/arteria/checksum_venv/bin/checksum-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/checksum/ --port=10421 --debug
+source activate arteria-delivery && exec delivery-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/delivery --port=10441 --debug
 ```
 
 #### Nota bene
