@@ -109,7 +109,7 @@ if you want to stage test a specific commit hash of `arteria-checksum`, and the 
 ```
 /lupus/ngi/staging/arteria-staging-FOO/sw/arteria/siswrap_venv/bin/siswrap-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/siswrap/ --port=10431 --debug
 /lupus/ngi/staging/arteria-staging-FOO/sw/arteria/checksum_venv/bin/checksum-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/checksum/ --port=10421 --debug
-source activate arteria-delivery && exec delivery-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/delivery --port=10441 --debug
+/lupus/ngi/staging/arteria-staging-FOO/sw/anaconda/envs/arteria-delivery/bin/python /lupus/ngi/staging/arteria-staging-FOO/sw/anaconda/envs/arteria-delivery/bin/delivery-ws --configroot=/lupus/ngi/staging/arteria-staging-FOO/conf/arteria/delivery/ --port=10441 --debug
 ```
 
 #### Nota bene
