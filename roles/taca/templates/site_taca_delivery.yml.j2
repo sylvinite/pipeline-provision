@@ -39,6 +39,9 @@ deliver:
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
 {% endif %}
+        -
+            - {{ ngi_site_softlinks }}/ACKNOWLEDGEMENTS.txt
+            - <STAGINGPATH>
         -   
             - {{ ngi_site_softlinks }}/DELIVERY.README.txt
             - <STAGINGPATH>
