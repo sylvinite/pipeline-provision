@@ -24,11 +24,12 @@ deliver:
             - <DATAPATH>/<SAMPLEID>/*/*
             - <STAGINGPATH>/<SAMPLEID>/02-FASTQ
             - required: True
+        - 
+           - <ANALYSISPATH>/NGIrnaseq_ngi/results
+           - <STAGINGPATH>/01-Results
+           - required: True
 {% if "sthlm" == site %}
         -
             - <ANALYSISPATH>/reports/*
             - <STAGINGPATH>/00-Reports
-        - 
-           - <ANALYSISPATH>/NGIrnaseq_ngi/results
-           - <STAGINGPATH>/01-Results
 {% endif %}
