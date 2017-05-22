@@ -54,3 +54,8 @@
   - { proj_path: "{{ proj_root }}", name: "lupus" }
   - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
 
+- name: Deploy RNABP stockholm configs
+  template: src="site_rna_delivery.yml.j2" dest="{{ ngi_pipeline_conf }}/TACA/{{ site }}_{{ item.name }}_rna_delivery.yml"
+  with_items:
+  - { proj_path: "{{ proj_root }}", name: "lupus" }
+  - { proj_path: "{{ milou_delivery_root }}", name: "taca" }
