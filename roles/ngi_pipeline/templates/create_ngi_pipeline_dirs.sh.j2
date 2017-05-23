@@ -15,7 +15,7 @@ if [ $# -ne 1 ]; then
 fi
 
 # Removes old softlinks directory, thus forcing md5 recalculation
-if [ -d "{{ proj_root }}/$1/nobackup/NGI/softlinks" ]
+if [ -d "{{ proj_root }}/$1/nobackup/NGI/softlinks" ]; then
 rm -r {{ proj_root }}/$1/nobackup/NGI/softlinks
 fi
 
@@ -24,7 +24,7 @@ mkdir -p {{ proj_root }}/$1/private/db
 mkdir -p {{ proj_root }}/$1/nobackup/NGI/softlinks
 mkdir -p {{ proj_root }}/$1/private/log/supervisord
 #If case since folders are excessive for uppsala
-if [ $1 == "ngi2016003" ]
+if [ $1 == "ngi2016003" ]; then
 mkdir -p {{ proj_root }}/$1/genotype_data/incoming
 mkdir -p {{ proj_root }}/$1/genotype_data/archive
 fi

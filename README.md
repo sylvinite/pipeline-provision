@@ -118,11 +118,11 @@ Remember that you will probably have to restart services manually after a new pr
 
 ### Manual initiations on irma1
 
-Run `crontab /lupus/ngi/conf/crontab_<site>` once per user to initialize the first instance of cron for the user. As mentioned above, this has to be done for each new production release. 
+Run `crontab /lupus/ngi/<instance>/<version>/conf/crontab_<site>` once per user to initialize the first instance of cron for the user. As mentioned above, this has to be done for each new production release. 
 
-Run `/lupus/ngi/resources/create_ngi_pipeline_dirs.sh <project_name>` once per project (i.e. ngi2016003) to create the log, db and softlink directories for NGI pipeline (and generate the softlinks).
+Run `/lupus/ngi/<instance>/<version>/resources/create_ngi_pipeline_dirs.sh <project_name>` once per project (i.e. ngi2016003) to create the log, db and softlink directories for NGI pipeline (and generate the softlinks).
 
-Add `source /lupus/ngi/production/latest/conf/sourcme_<site>.sh && source activate NGI`, where `site` can be `upps` or `sthlm`, to each functional account's bash init file `~/.bashrc`. 
+Add `source /lupus/ngi/<instance>/<version>/conf/sourcme_<site>.sh && source activate NGI`, where `site` can be `upps` or `sthlm`, to each functional account's bash init file `~/.bashrc`. 
 
 ### Quick integrity verification
 
