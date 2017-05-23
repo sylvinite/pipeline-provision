@@ -6,11 +6,8 @@ deliver:
     analysispath: <ROOTPATH>/ANALYSIS/<PROJECTID>
     datapath: <ROOTPATH>/DATA/<PROJECTID>
     stagingpath: <ROOTPATH>/DELIVERY/<PROJECTID>
-{% if "sthlm" == site %}
+    stagingpathhard: <ROOTPATH>/DELIVERY_HARD/<PROJECTID> 
     deliverypath: "{{ item.proj_path }}/<UPPNEXID>/INBOX/<PROJECTNAME>-<PROJECTID>"
-{% else %}
-    deliverypath: "{{ item.proj_path }}/<UPPNEXID>/INBOX/<PROJECTID>"
-{% endif %}
     reportpath: <ANALYSISPATH>/piper_ngi
     logpath: <REPORTPATH>/logs
     deliverystatuspath: <REPORTPATH>/08_misc
@@ -28,8 +25,6 @@ deliver:
            - <ANALYSISPATH>/NGIrnaseq_ngi/results
            - <STAGINGPATH>/01-Results
            - required: True
-{% if "sthlm" == site %}
         -
             - <ANALYSISPATH>/reports/*
             - <STAGINGPATH>/00-Reports
-{% endif %}

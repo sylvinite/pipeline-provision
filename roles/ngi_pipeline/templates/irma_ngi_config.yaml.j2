@@ -90,9 +90,8 @@ gt_concordance:
     GATK_PATH: /sw/apps/bioinfo/GATK/3.5.0//GenomeAnalysisTK.jar
     GATK_REF_FILE: {{ gatk_bundle_b37 }}/human_g1k_v37.fasta
     GATK_VAR_FILE: {{ gatk_bundle_b37 }}/dbsnp_138.b37.vcf
-    #Going into ngi_pipeline in the future
-    INTERVAL_FILE: {{ proj_root }}/{{ ngi_pipeline_slurm_project }}/genotype_data/static/snps.interval_list
-    SNPS_FILE: {{ proj_root }}/{{ ngi_pipeline_slurm_project }}/genotype_data/static/maf_snps.txt
+    INTERVAL_FILE: {{ ngi_pipeline_dest }}/static/snps.interval_list
+    SNPS_FILE: {{ ngi_pipeline_dest }}/static/maf_snps.txt
 
 logging: 
     log_file: "{{ ngi_pipeline_log }}" 
