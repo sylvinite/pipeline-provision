@@ -1,6 +1,7 @@
 # Deployment playbooks for NGI-Pipeline and related software (Piper, TACA, Tarzan, etc.) 
 
-The NGI pipeline is deployed on Irma using Ansible playbooks. Ansible playbooks are scripts written for easily adaptable automated deployment. The Ansible playbooks are stored here.
+This repository concerns the creation and maintenance of the NGI python environment; which is a collection of software and solutions utilized by NGI Production on the currently available HPC. The solutions in question are unique for NGI Production and require updates to such a degree that deploying them within the facility is preferred.
+The NGI environment is currently deployed on Irma using Ansible playbooks. Ansible playbooks are scripts written for easily adaptable automated deployment. The Ansible playbooks are stored here.
 
 ## Bootstrap the Ansible environment
 
@@ -31,7 +32,9 @@ Also note that the `NouGAT` role sometimes has problems running, and may require
 
 ## Simple environment integrity verification
 
-Run `source /lupus/ngi/conf/sourceme_<SITE>.sh` where `<SITE>` is `upps` to initialize `funk_004` variables, and `sthlm` to initialize `funk_006` variables.
+Once the ansible-playbook has successfully been executed, log onto the target machine.
+
+Run `source /lupus/ngi/conf/sourceme_<SITE>.sh` where `<SITE>` is `upps` to initialize `funk_004` variables, or `sthlm` to initialize `funk_006` variables.
 
 Run `source activate NGI` to start the environment.
 
@@ -111,8 +114,8 @@ Remember that you will probably have to restart services manually after a new pr
 
 A typical deployment of a production environment to Irma consists of two steps
 
-- running through the Ansible playbook for a production release, which will install all the software under `/lupus/ngi/production/<version>` (and create a symlink `/lupus/ngi/production/latest` pointing to it)
-- syncing everything under `/lupus/ngi/production` to the cluster
+- Running through the Ansible playbook for a production release, which will install all the software under `/lupus/ngi/production/<version>` (and create a symlink `/lupus/ngi/production/latest` pointing to it)
+- Syncing everything under `/lupus/ngi/production` to the cluster
 
 To accomplish this run the following commands:
 
