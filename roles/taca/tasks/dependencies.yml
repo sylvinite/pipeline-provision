@@ -13,7 +13,7 @@
 
 - name: Add Orderportal credentials envvar to sourceme
   lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
-              line="export ORDER_PORTAL="{{ ngi_pipeline_conf }}/{{ orderportal_creds }}"
+              line="export ORDER_PORTAL={{ ngi_pipeline_conf }}/{{ orderportal_creds }}"
               backup=no
 
 - name: Fetch statusdb from GitHub
