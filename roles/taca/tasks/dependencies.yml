@@ -8,6 +8,11 @@
               line="export SNIC_API_STOCKHOLM={{ ngi_pipeline_conf }}/{{ snic_sthlm_creds }}"
               backup=no
 
+- name: Add Orderportal credentials envvar to sourceme
+  lineinfile: dest="{{ ngi_pipeline_conf }}/{{ bash_env_sthlm_script }}"
+              line="export ORDER_PORTAL="files/{{ orderportal_creds }}"
+              backup=no
+
 - name: Fetch statusdb from GitHub
   git: repo="{{ statusdb_repo }}"
        dest="{{ statusdb_dest }}"
