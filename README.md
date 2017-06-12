@@ -1,6 +1,7 @@
 # Deployment playbooks for NGI-Pipeline and related software (Piper, TACA, Tarzan, etc.) 
 
-The NGI pipeline is deployed on Irma using Ansible playbooks. Ansible playbooks are scripts written for easily adaptable automated deployment. The Ansible playbooks are stored here.
+This repository concerns the creation and maintenance of the NGI python environment; which is a collection of software and solutions utilized by NGI Production on the currently available HPC. The solutions in question are unique for NGI Production and require updates to such a degree that deploying them within the facility is preferred.
+The NGI environment is currently deployed on Irma using Ansible playbooks. Ansible playbooks are scripts written for easily adaptable automated deployment. The Ansible playbooks are stored here.
 
 ## Bootstrap the Ansible environment
 
@@ -29,6 +30,18 @@ Note that the order is important, and that they should not be run automatically 
 
 Also note that the `NouGAT` role sometimes has problems running, and may require you to load the `boost` module prior to usage.
 
+## Simple environment integrity verification
+
+Once the ansible-playbook has successfully been executed, log onto the target machine.
+
+Run `source /lupus/ngi/conf/sourceme_<SITE>.sh` where `<SITE>` is `upps` to initialize `funk_004` variables, or `sthlm` to initialize `funk_006` variables.
+
+Run `source activate NGI` to start the environment.
+
+`python NGI_pipeline_test.py create --fastq1 <R1.fastq.gz> --fastq2 <R2.fastq.gz> --FC 1` creates a simulated flowcell.
+
+Run `ngi_pipeline_start.py` with the commands `organize flowcell`, `analyze project` and `qc project` to organize, analyze and qc the generated data respectively.
+
 ## Deployment of the NGI pipeline
 
 ### Requirements
@@ -42,28 +55,9 @@ The following files need to be present on irma3 in order to successfully deploy 
 
 - A valid `statusdb_creds_{stage,prod}.yml` access file placed under `/lupus/ngi/irma3/deploy/files`. Necessary layout is described at https://github.com/SciLifeLab/statusdb
 
+- A valid `orderportal_credentials.yml` access file placed under `/lupus/ngi/irma3/deploy/files`.
+
 - Valid SSL certificates for the web proxy under `/lupus/ngi/irma3/deploy/files` (see `roles/tarzan/README.md` for details) 
-
-### Typical production deployments
-
-A typical deployment of a production environment to Irma consists of two steps
-
-- running through the Ansible playbook for a production release, which will install all the software under `/lupus/ngi/production/<version>` (and create a symlink `/lupus/ngi/production/latest` pointing to it)
-- syncing everything under `/lupus/ngi/production` to the cluster 
-
-To accomplish this run the following commands: 
-
-```
-   cd /lupus/ngi/irma3/deploy
-   git fetch --tags 
-   git checkout tags/vX.Y
-   ansible-playbook install.yml -e deployment_environment=production
-   python sync.py production 
-```
-
-This will install and sync over the Irma environment version `vX.Y`. 
-
-To see all available production releases go to https://github.com/NationalGenomicsInfrastructure/irma-provision/releases
 
 ### Typical development and staging deployments
 
@@ -116,7 +110,28 @@ if you want to stage test a specific commit hash of `arteria-checksum`, and the 
 
 Remember that you will probably have to restart services manually after a new production release have been rolled out. First re-load the crontab as the func user on `irma1` with a `crontab /lupus/ngi/production/latest/conf/crontab_SITE`. Then, depending on what software your func user is running, continue with manually shutting down the old versions and re-start the new versions of the software. 
 
-### Manual initiations on irma1
+### Typical production deployments
+
+A typical deployment of a production environment to Irma consists of two steps
+
+- Running through the Ansible playbook for a production release, which will install all the software under `/lupus/ngi/production/<version>` (and create a symlink `/lupus/ngi/production/latest` pointing to it)
+- Syncing everything under `/lupus/ngi/production` to the cluster
+
+To accomplish this run the following commands:
+
+```
+   cd /lupus/ngi/irma3/deploy
+   git fetch --tags
+   git checkout tags/vX.Y
+   ansible-playbook install.yml -e deployment_environment=production
+   python sync.py production
+```
+
+This will install and sync over the Irma environment version `vX.Y`.
+
+To see all available production releases go to https://github.com/NationalGenomicsInfrastructure/irma-provision/releases
+
+## Manual initializations on irma1
 
 Run `crontab /lupus/ngi/<instance>/<version>/conf/crontab_<site>` once per user to initialize the first instance of cron for the user. As mentioned above, this has to be done for each new production release. 
 
@@ -124,17 +139,7 @@ Run `/lupus/ngi/<instance>/<version>/resources/create_ngi_pipeline_dirs.sh <proj
 
 Add `source /lupus/ngi/<instance>/<version>/conf/sourcme_<site>.sh && source activate NGI`, where `site` can be `upps` or `sthlm`, to each functional account's bash init file `~/.bashrc`. 
 
-### Quick integrity verification
-
-Run `source /lupus/ngi/conf/sourceme_<SITE>.sh` where `<SITE>` is `upps` to initialize `funk_004` variables, and `sthlm` to initialize `funk_006` variables.
-
-Run `source activate NGI` to start the environment.
-
-`python NGI_pipeline_test.py create --fastq1 <R1.fastq.gz> --fastq2 <R2.fastq.gz> --FC 1` creates a simulated flowcell.
-
-Run `ngi_pipeline_start.py` with the commands `organize flowcell`, `analyze project` and `qc project` to organize, analyze and qc the generated data respectively.
-
-### Other worthwhile information
+## Other worthwhile information
 
 Deploying requires the deployer to be in both the `ngi-sw` and the `ngi` groups. Everything under `/lupus/ngi/` is owned by `ngi-sw`.
 

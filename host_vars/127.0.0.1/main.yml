@@ -43,6 +43,7 @@ ngi_rnaseq_dest: "{{ sw_path }}/ngi-rnaseq"
 
 gatk_key: pontus.larsson_medsci.uu.se.key
 snic_sthlm_creds: snic_credentials_sthlm.yaml
+orderportal_creds: orderportal_credentials.yaml
 
 recipient_mail_sthlm: ngi_pipeline_operators@scilifelab.se
 recipient_mail_upps: medsci-molmed-bioinfo@googlegroups.com 

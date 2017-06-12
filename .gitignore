@@ -2,6 +2,7 @@
 *.retry
 pontus.larsson_medsci.uu.se.key
 charon_credentials.yml
+orderportal_credentials.yml
 statusdb_creds_prod.yml
 statusdb_creds_stage.yml
 tarzan_cert.pem
