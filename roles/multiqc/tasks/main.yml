@@ -23,11 +23,6 @@
   args:
     chdir: "{{ multiqc_ngi_dest }}"
 
-- name: Add statusDB envvar to sourceme
-  lineinfile: dest={{ ngi_pipeline_conf }}/{{ bash_env_script }}
-              line="export STATUS_DB_CONFIG={{ ngi_pipeline_conf }}/{{ statusdb_creds }}"
-              backup=no
-
 - name: Deploy multiqc configs
   template: src="multiqc_config.yml.j2" dest="{{ ngi_pipeline_conf }}/multiqc_{{ item.site }}_config.yml"
   with_items: 
