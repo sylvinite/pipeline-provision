@@ -92,8 +92,6 @@
     - name: set statusdb config file for production
       set_fact:
         statusdb_creds: statusdb_creds_prod.yml
-    - name: Copy statusDB config file for production
-      copy: src="files/{{ statusdb_creds }}" dest="{{ ngi_pipeline_conf }}/{{ statusdb_creds }}"
     when: deployment_environment == "production"
 
   - block:
@@ -105,7 +103,5 @@
     - name: set statusdb config file for 
       set_fact:
         statusdb_creds: statusdb_creds_stage.yml
-    - name: Copy statusDB config file for production
-      copy: src="files/{{ statusdb_creds }}" dest="{{ ngi_pipeline_conf }}/{{ statusdb_creds }}"
     when: deployment_environment in [ "staging", "devel" ]
 
