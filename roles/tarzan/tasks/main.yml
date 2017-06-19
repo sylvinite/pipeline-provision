@@ -63,3 +63,5 @@
               line='0 1 * * 1 export PATH=/usr/bin/:$PATH && {{ cassandra_dest }}/{{ cassandra_version }}/bin/cqlsh -e "DESC KEYSPACE kong" > {{ cassandra_db_dest }}/kong_schema-`date +%Y%m%d`.cql'
               backup=no
 
+- name: deploy script for easier stoping of kong services
+  template: "stop_kong.sh.j2" dest="{{ ngi_resources }}/stop_kong.sh" mode=g+rwx

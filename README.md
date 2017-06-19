@@ -108,7 +108,7 @@ if you want to stage test a specific commit hash of `arteria-checksum`, and the 
 
 #### Nota bene
 
-Remember that you will probably have to restart services manually after a new production release have been rolled out. First re-load the crontab as the func user on `irma1` with a `crontab /lupus/ngi/production/latest/conf/crontab_SITE`. Then, depending on what software your func user is running, continue with manually shutting down the old versions and re-start the new versions of the software. 
+Remember that you will probably have to restart services manually after a new production release have been rolled out. First re-load the crontab as the func user on `irma1` with a `crontab /lupus/ngi/production/latest/conf/crontab_SITE`. Then, depending on what software your func user is running, continue with manually shutting down the old versions and re-start the new versions of the software. In the case of Uppsala one should then do a `/lupus/ngi/production/latest/resources/stop_kong.sh` followed by starting `supervisord` and `kong` (see the crontab).  
 
 ### Typical production deployments
 
