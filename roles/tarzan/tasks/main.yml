@@ -64,4 +64,4 @@
               backup=no
 
 - name: deploy script for easier stoping of kong services
-  template: "stop_kong.sh.j2" dest="{{ ngi_resources }}/stop_kong.sh" mode=g+rwx
+  template: src="stop_kong.sh.j2" dest="{{ ngi_resources }}/stop_kong.sh" mode=g+rwx
