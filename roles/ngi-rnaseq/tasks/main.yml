@@ -27,7 +27,7 @@
   environment:
     R_LIBS_USER: "{{ ngi_rnaseq_dest }}/r_packages"
   args:
-    chdir: "{{ nextflow_dest }}/r_packages"
+    chdir: "{{ ngi_rnaseq_dest }}/r_packages"
 
 
 - name: Set alias
