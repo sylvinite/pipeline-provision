@@ -22,12 +22,13 @@
     url: "{{ kmer_source }}/{{ kmer_version }}.tar.gz"
     dest: "/scratch/{{ kmer_version }}.tar.gz"
 
+#Added permission to make it easily removed.
 - name: Unpack KmerGenie
   unarchive:
     src: "/scratch/{{ kmer_version }}.tar.gz"
     dest: "/scratch/"
     copy: no
-    mode: g+rwxs
+    mode: 0755
 
 - name: Create KmerGenie installation directory
   command: mv "/scratch/{{ kmer_version }}" "{{ kmer_dest }}"
@@ -51,16 +52,22 @@
               line='export PATH={{ kmer_dest }}:$PATH'
               backup=no
 
-- name: create nougat singularity
+- name: Create nougat singularity folder
   file: name={{ nougat_singularity_dest }} state=directory mode=g+s
 
-- name: Download Sigularity image
+- name: Download nougat singularity images
   command: singularity pull "{{ item }}"
   args:
     chdir: "{{ nougat_singularity_dest }}"
   with_items:
     - "{{ nougat_frc_image }}"
     - "{{ nougat_qa_image }}"
+
+- name: Create image-run scripts
+  template: src="Singularity_runtime_script.j2" dest="{{ nougat_singularity_dest }}/{{ item.name }}"
+  with_items:
+  - { name: "FRC" , image: "{{ nougat_frc_image }}" }
+  - { name: "qaCompute", image: "{{ nougat_qa_image }}" }
 
 #- name: Install Kmergenie
 #  shell: "{{ ngi_pipeline_venv }}/bin/pip install -e ."
