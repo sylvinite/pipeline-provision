@@ -7,11 +7,8 @@
 - name: Create NextFlow directory
   file: path="{{ nextflow_dest }}" state=directory mode=g+rwXs
 
-- name: Create NextFlow installation subdirectories
-  file: path="{{ nextflow_dest }}/{{ item.directory }}" state=directory mode=g+rwXs
-  with_items:
-  - { directory: "workfiles" }
-  - { directory: "r_packages" }
+- name: Create NextFlow installation subdirectory
+  file: path="{{ nextflow_dest }}/workfiles" state=directory mode=g+rwXs
 
 - name: Download NextFlow 
   get_url: url="http://get.nextflow.io" dest="{{ nextflow_dest }}/nextflow" mode="u+rwx,g=rwx"

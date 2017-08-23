@@ -15,6 +15,6 @@ frc_align_repo: "https://github.com/vezzi/FRC_align.git"
 frc_align_dest: "{{ sw_path }}/FRCAlign"
 frc_align_version: "5b3f53e01cb539c857fd4230ec9410d76220fe22"
 
-nougat_repo: "https://github.com/SciLifeLab/NouGAT.git"
+nougat_repo: "https://github.com/remiolsen/NouGAT.git"
 nougat_dest: "{{ sw_path }}/NouGAT"
-nougat_version: "6c1040b8ad123e99ead9b7d068b0659669c7bc01"
+nougat_version: "2af8e21b63da75179c1fdaa9aa7b8d72cb69c9e0"
