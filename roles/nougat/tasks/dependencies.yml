@@ -72,5 +72,5 @@
   - { name: "qaCompute", image: "{{ nougat_qa_image }}" }
 
 - name: Copy Nougat paths configuration
-  template: src="NouGAT_paths.conf.j2" dest="{{ ngi_pipeline_conf }}/NouGAT_paths.conf"
+  template: src="NouGAT_paths.yaml.j2" dest="{{ ngi_pipeline_conf }}/NouGAT_paths.yaml"
 
