@@ -35,7 +35,7 @@
   command: mv "/scratch/{{ kmer_version }}" "{{ kmer_dest }}"
   args:
     creates: "{{ kmer_dest }}"
-    removes: "/scratch/{{ kmer_version }}"
+    removes: "/scratch/{{ kmer_version }}.tar.gz"
 
 - name: Install Kmergenie
   shell: "make"
